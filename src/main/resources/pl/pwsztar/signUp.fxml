@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="200.0" layoutY="14.0" text="Ekran Rejestracji">
+         <font>
+            <Font size="42.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstName" layoutX="276.0" layoutY="113.0" promptText="Imię" />
+      <TextField fx:id="secondName" layoutX="276.0" layoutY="150.0" promptText="Nazwisko" />
+      <TextField fx:id="email" layoutX="276.0" layoutY="188.0" promptText="e-mail" />
+      <Button fx:id="signIn" layoutX="299.0" layoutY="328.0" mnemonicParsing="false" text="Zarejestruj mnie" />
+      <Button fx:id="goToSignIn" layoutX="323.0" layoutY="448.0" mnemonicParsing="false" text="Powrót" />
+      <PasswordField fx:id="password" layoutX="276.0" layoutY="238.0" promptText="hasło" />
+      <PasswordField fx:id="passwordRepeat" layoutX="276.0" layoutY="281.0" promptText="powtórz jasło" />
+   </children>
+</AnchorPane>

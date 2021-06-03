@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.SignInController">
    <children>
       <Label layoutX="135.0" layoutY="13.0" text="Ekran powitalny/logowania" textAlignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="314.0" layoutY="421.0" mnemonicParsing="false" text="Rejestracja" />
-      <Button layoutX="313.0" layoutY="284.0" mnemonicParsing="false" text="Logowanie" />
-      <TextField layoutX="276.0" layoutY="167.0" promptText="Login czy coś" />
-      <PasswordField layoutX="276.0" layoutY="225.0" promptText="Jakieś hasło" />
+      <Button layoutX="314.0" layoutY="421.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" />
+      <Button layoutX="313.0" layoutY="284.0" mnemonicParsing="false" onAction="#SignIn" text="Logowanie" />
+      <TextField fx:id="login" layoutX="276.0" layoutY="167.0" promptText="Login czy coś" />
+      <PasswordField fx:id="password" layoutX="276.0" layoutY="225.0" promptText="Jakieś hasło" />
    </children>
 </AnchorPane>
