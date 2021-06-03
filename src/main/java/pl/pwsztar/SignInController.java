@@ -11,7 +11,8 @@ public class SignInController {
     public TextField login;
     public PasswordField password;
 
-    public void SignIn() {
+    public void SignIn() throws IOException {
+        App.setRoot("accountManage");
     }
 
     public void goToSignUp() throws IOException {
