@@ -22,4 +22,8 @@ public class SignUpController {
     public void goToSignIn() throws IOException {
         App.setRoot("signIn");
     }
+
+    public void goToRegisterVerification() throws IOException {
+        App.setRoot("registerVerification");
+    }
 }
