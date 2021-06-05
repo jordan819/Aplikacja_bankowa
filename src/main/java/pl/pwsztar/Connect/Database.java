@@ -23,19 +23,16 @@ public class Database {
     }
 
     private void connect() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Class.forName("org.postgresql.Driver");
-                    connection = DriverManager.getConnection(url, user, pass);
-                    status = true;
+        Thread thread = new Thread(() -> {
+            try {
+                Class.forName("org.postgresql.Driver");
+                connection = DriverManager.getConnection(url, user, pass);
+                status = true;
 
-                } catch (Exception e) {
-                    status = false;
-                    System.out.print(e.getMessage());
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                status = false;
+                System.out.print(e.getMessage());
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -43,7 +40,7 @@ public class Database {
             thread.join();
         } catch (Exception e) {
             e.printStackTrace();
-            this.status = false;
+            status = false;
         }
     }
 
@@ -116,50 +113,42 @@ public class Database {
         return columns;
     }
 
-    public static boolean addCustomer(Customer customer) {
+    public static void addCustomer(Customer customer) {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String query = "INSERT INTO bank.customers (first_name, last_name, email, password, " +
-                        "id_account, verification_code, is_verified) VALUES ('" +
-                        customer.getFirstName() + "', '" +
-                        customer.getLastName() + "', '" +
-                        customer.getEmail() + "', '" +
-                        customer.getPassword() + "', '" +
-                        customer.getIdAccount() + "', '" +
-                        customer.getVerificationCode() + "', " +
-                        customer.isVerified() + ");";
-                try {
-                    connection.createStatement().execute(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            String query = "INSERT INTO bank.customers (first_name, last_name, email, password, " +
+                    "id_account, verification_code, is_verified) VALUES ('" +
+                    customer.getFirstName() + "', '" +
+                    customer.getLastName() + "', '" +
+                    customer.getEmail() + "', '" +
+                    customer.getPassword() + "', '" +
+                    customer.getIdAccount() + "', '" +
+                    customer.getVerificationCode() + "', " +
+                    customer.isVerified() + ");";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         thread.start();
         try {
             thread.join();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
     public static void verifyCustomer(CustomerDto customer) {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String query = "UPDATE bank.customers " +
-                        "SET is_verified = " + true +
-                        " WHERE id_customer = " + customer.getIdCustomer() + ";";
-                try {
-                    connection.createStatement().execute(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.customers " +
+                    "SET is_verified = " + true +
+                    " WHERE id_customer = " + customer.getIdCustomer() + ";";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -172,17 +161,14 @@ public class Database {
 
     public static void setAccountNo(String email, String accountNo) {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String query = "UPDATE bank.customers " +
-                        "SET id_account = '" + accountNo +
-                        "' WHERE email = '" + email + "';";
-                try {
-                    connection.createStatement().execute(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.customers " +
+                    "SET id_account = '" + accountNo +
+                    "' WHERE email = '" + email + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -195,18 +181,15 @@ public class Database {
 
     public static void addAccount(String accountNo, String customerId) {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String query = "INSERT INTO bank.accounts (id_account, id_customer, balance) VALUES ('" +
-                        accountNo + "', " +
-                        customerId + ", " +
-                        0 + ");";
-                try {
-                    connection.createStatement().execute(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            String query = "INSERT INTO bank.accounts (id_account, id_customer, balance) VALUES ('" +
+                    accountNo + "', " +
+                    customerId + ", " +
+                    0 + ");";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -219,17 +202,14 @@ public class Database {
 
     public static void updateAccountBalance(String accountNo, String value) {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String query = "UPDATE bank.accounts " +
-                        "SET balance = balance + " + value +
-                        " WHERE id_account = '" + accountNo + "';";
-                try {
-                    connection.createStatement().execute(query);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.accounts " +
+                    "SET balance = balance + " + value +
+                    " WHERE id_account = '" + accountNo + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         thread.start();
