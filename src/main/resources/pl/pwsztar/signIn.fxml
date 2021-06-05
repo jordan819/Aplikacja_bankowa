@@ -18,5 +18,6 @@
       <Button layoutX="313.0" layoutY="284.0" mnemonicParsing="false" onAction="#SignIn" text="Logowanie" />
       <TextField fx:id="login" layoutX="276.0" layoutY="167.0" promptText="Login czy coś" />
       <PasswordField fx:id="password" layoutX="276.0" layoutY="225.0" promptText="Jakieś hasło" />
+      <Button layoutX="510.0" layoutY="421.0" mnemonicParsing="false" text="Weryfikacja konta" onAction="#goToVerification"/>
    </children>
 </AnchorPane>
