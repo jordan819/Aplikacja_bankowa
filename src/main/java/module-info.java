@@ -5,6 +5,7 @@ module pl.pwsztar {
     requires org.postgresql.jdbc;
     requires java.desktop;
     requires java.mail;
+    requires org.apache.commons.lang3;
 
     opens pl.pwsztar to javafx.fxml;
     exports pl.pwsztar;

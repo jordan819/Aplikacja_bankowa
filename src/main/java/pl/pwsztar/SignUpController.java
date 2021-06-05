@@ -1,6 +1,5 @@
 package pl.pwsztar;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -9,6 +8,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.robot.Robot;
+import org.apache.commons.lang3.RandomStringUtils;
 import pl.pwsztar.Connect.SendEmailTLS;
 
 import java.io.IOException;
@@ -36,34 +36,23 @@ public class SignUpController {
 
     public void signUp() throws IOException {
 
-        boolean isValid = validateInput();
-
-        if(isValid) {
-            App.setRoot("registerVerification");
-        }
-
-    }
-
-    private boolean validateInput() {
         if ( isInputBlank() ) {
             errorDisplay.setVisible(true);
             errorDisplay.setText("Uzupełnij wszystkie pola!");
-            return false;
         } else if ( emailsDifferent() ) {
             errorDisplay.setVisible(true);
             errorDisplay.setText("Adresy email nie mogą się różnić!");
-            return false;
         } else if ( emailIncorrect() ) {
             errorDisplay.setVisible(true);
             errorDisplay.setText("Adres email niepoprawny!");
-            return false;
         } else if ( passwordsDifferent() ) {
             errorDisplay.setVisible(true);
             errorDisplay.setText("Hasła nie mogą się różnić!");
-            return false;
+        } else {
+            System.out.println("Kod: " + generateVerificationCode());
+            App.setRoot("registerVerification");
         }
 
-        return true;
     }
 
     private boolean isInputBlank() {
@@ -102,5 +91,13 @@ public class SignUpController {
 
     private boolean passwordsDifferent() {
         return !password.getText().equals(passwordRepeat.getText());
+    }
+
+    private String generateVerificationCode() {
+
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String code = RandomStringUtils.random( 16, characters );
+
+        return code;
     }
 }
