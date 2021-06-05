@@ -20,20 +20,13 @@ import java.util.Properties;
 public class SendEmailTLS {
 
     private static String addressee;
-    private static String subject;
+    private static final String subject = "Kod weryfikacyjny";
     private static String text;
 
-    /**
-     * Konstruktor przyjmujacy wszystkie dane potrzebne do wyslania wiadomosci.
-     *
-     * @param addressee adresat wiadomosci
-     * @param subject temat wiadomosci
-     * @param text tresc wiadomosci
-     */
-    public SendEmailTLS(String addressee, String subject, String text) {
+
+    public SendEmailTLS(String addressee, String code) {
         setAddressee(addressee);
-        setSubject(subject);
-        setText(text);
+        setText(code);
 
         send();
     }
@@ -42,25 +35,22 @@ public class SendEmailTLS {
         SendEmailTLS.addressee = addressee;
     }
 
-    private static void setSubject(String subject) {
-        SendEmailTLS.subject = subject;
-    }
-
-    private static void setText(String text) {
-        SendEmailTLS.text = text;
+    private static void setText(String code) {
+        SendEmailTLS.text = "Witaj, tu Twój bank.\n\n" +
+                "Oto Twój kod weryfikacyjny: " + code;
     }
 
     private static void send(){
         System.out.println("Wysyłanie wiadomości na adres " + addressee + "...");
 
-        final String sender = "patryk.zaucha00@gmail.com";
-        final String password = "tfqdiuwyudbcltjv";
+        final String sender = "twoj.kochany.bank@gmail.com";
+        final String password = "ujzkgjdamtqpfzqa";
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
         prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+        prop.put("mail.smtp.starttls.enable", "true");
 
         Session session = Session.getInstance(prop,
                 new javax.mail.Authenticator() {
@@ -103,8 +93,8 @@ public class SendEmailTLS {
     public static boolean isEmailAddressValid(String email) {
         boolean result = true;
         try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
+            InternetAddress InternetAddress = new InternetAddress(email);
+            InternetAddress.validate();
         } catch (AddressException | NullPointerException ex ) {
             result = false;
         }

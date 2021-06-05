@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Paint;
 import javafx.scene.robot.Robot;
 import org.apache.commons.lang3.RandomStringUtils;
 import pl.pwsztar.Connect.SendEmailTLS;
@@ -36,20 +37,22 @@ public class SignUpController {
 
     public void signUp() throws IOException {
 
+        errorDisplay.setVisible(true);
+        errorDisplay.setTextFill(Paint.valueOf("red"));
+
         if ( isInputBlank() ) {
-            errorDisplay.setVisible(true);
             errorDisplay.setText("Uzupełnij wszystkie pola!");
         } else if ( emailsDifferent() ) {
-            errorDisplay.setVisible(true);
             errorDisplay.setText("Adresy email nie mogą się różnić!");
         } else if ( emailIncorrect() ) {
-            errorDisplay.setVisible(true);
             errorDisplay.setText("Adres email niepoprawny!");
         } else if ( passwordsDifferent() ) {
-            errorDisplay.setVisible(true);
             errorDisplay.setText("Hasła nie mogą się różnić!");
         } else {
-            System.out.println("Kod: " + generateVerificationCode());
+            errorDisplay.setTextFill(Paint.valueOf("green"));
+            String code = generateVerificationCode();
+            errorDisplay.setText("Przetwarzamy Twoje dane...\n Prosimy o cierpliwość.");
+            new SendEmailTLS(email.getText(), code);
             App.setRoot("registerVerification");
         }
 
