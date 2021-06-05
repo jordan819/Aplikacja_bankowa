@@ -1,5 +1,6 @@
 package pl.pwsztar;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -14,16 +15,35 @@ public class SignUpController {
     public PasswordField password;
     public PasswordField passwordRepeat;
     public TextField emailRepeat;
-
-    public void signUp() {
-
-    }
+    public Label errorDisplay;
 
     public void goToSignIn() throws IOException {
         App.setRoot("signIn");
     }
 
-    public void goToRegisterVerification() throws IOException {
-        App.setRoot("registerVerification");
+    public void signUp() throws IOException {
+
+        boolean isValid = validateInput();
+
+        if(isValid) {
+            App.setRoot("registerVerification");
+        }
+
+    }
+
+    private boolean validateInput() {
+        if (isInputBlank()) {
+            errorDisplay.setVisible(true);
+            errorDisplay.setText("Uzupełnij wszystkie pola!");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isInputBlank() {
+        return firstName.getText().isBlank() || secondName.getText().isBlank()
+                || email.getText().isBlank() || password.getText().isBlank()
+                || passwordRepeat.getText().isBlank() || emailRepeat.getText().isBlank();
     }
 }

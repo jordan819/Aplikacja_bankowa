@@ -135,14 +135,21 @@ public class Database {
 
      */
 
-    /*
-    public static boolean addCustomer(CustomerData customer) {
+
+    public static boolean addCustomer(Customer customer) {
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String query = "INSERT INTO yummy.users ()" +
-                        "VALUES ('" + fullName + "', '" + nick + "', '" + email + "', '" + password + "');";
+                String query = "INSERT INTO bank.customers (first_name, last_name, email, password, " +
+                        "id_account, verification_code, is_verified) VALUES ('" +
+                        customer.getFirstName() + "', '" +
+                        customer.getLastName() + "', '" +
+                        customer.getEmail() + "', '" +
+                        customer.getPassword() + "', '" +
+                        customer.getIdAccount() + "', '" +
+                        customer.getVerificationCode() + "', " +
+                        customer.isVerified() + ");";
                 try {
                     connection.createStatement().execute(query);
                 } catch (SQLException e) {
@@ -160,6 +167,6 @@ public class Database {
         }
     }
 
-     */
+
 
 }

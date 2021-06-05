@@ -1,8 +1,7 @@
 package pl.pwsztar.Connect;
 
-public class CustomerData {
+public class Customer {
 
-    private final String idCustomer;
     private final String firstName;
     private final String lastName;
     private final String email;
@@ -12,9 +11,8 @@ public class CustomerData {
     private boolean isVerified;
 
 
-    public CustomerData(String idCustomer, String firstName, String lastName, String email,
+    public Customer(String firstName, String lastName, String email,
                         String password, String idAccount, String verificationCode, boolean isVerified) {
-        this.idCustomer = idCustomer;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -22,10 +20,6 @@ public class CustomerData {
         this.idAccount = idAccount;
         this.verificationCode = verificationCode;
         this.isVerified = isVerified;
-    }
-
-    public String getIdCustomer() {
-        return idCustomer;
     }
 
     public String getFirstName() {
@@ -59,4 +53,5 @@ public class CustomerData {
     public void setVerified(boolean verified) {
         isVerified = verified;
     }
+
 }

@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.pwsztar.Connect.Customer;
+import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
@@ -20,6 +22,14 @@ public class App extends Application {
         scene = new Scene(loadFXML("signIn"), 700, 500);
         stage.setScene(scene);
         stage.show();
+
+        /*
+        Customer customer = new Customer("Patryk", "Zaucha", "mail@mail.pl",
+                "1234", "123456789", "XYZ", false);
+        new Database();
+        Database.addCustomer(customer);
+         */
+
     }
 
     static void setRoot(String fxml) throws IOException {

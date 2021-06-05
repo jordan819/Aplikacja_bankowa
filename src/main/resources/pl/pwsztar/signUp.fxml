@@ -18,9 +18,10 @@
       <TextField fx:id="secondName" layoutX="276.0" layoutY="150.0" promptText="Nazwisko" />
       <TextField fx:id="email" layoutX="276.0" layoutY="188.0" promptText="e-mail" />
       <TextField fx:id="emailRepeat" layoutX="276.0" layoutY="225.0" promptText="powtórz e-mail" />
-      <Button layoutX="299.0" layoutY="361.0" mnemonicParsing="false" onAction="#goToRegisterVerification" text="Zarejestruj mnie" />
-      <Button layoutX="323.0" layoutY="448.0" mnemonicParsing="false" onAction="#goToSignIn" text="Powrót" />
+      <Button layoutX="299.0" layoutY="361.0" mnemonicParsing="false" onAction="#signUp" text="Zarejestruj mnie" />
+      <Button layoutX="323.0" layoutY="406.0" mnemonicParsing="false" onAction="#goToSignIn" text="Powrót" />
       <PasswordField fx:id="password" layoutX="276.0" layoutY="271.0" promptText="hasło" />
       <PasswordField fx:id="passwordRepeat" layoutX="276.0" layoutY="314.0" promptText="powtórz hasło" />
+      <Label fx:id="errorDisplay" alignment="CENTER" layoutX="101.0" layoutY="439.0" prefHeight="46.0" prefWidth="501.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" />
    </children>
 </AnchorPane>
