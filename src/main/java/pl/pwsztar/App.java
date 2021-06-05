@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
@@ -16,6 +17,8 @@ public class App extends Application {
 
     //numer rozliczeniowy banku, wykorzystywany do utworzenia numeru konta klienta
     public static final String BANK_NO = "1234";
+
+    static CustomerDto loggedCustomer;
 
     private static Scene scene;
 

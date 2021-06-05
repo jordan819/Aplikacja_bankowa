@@ -14,10 +14,11 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="314.0" layoutY="421.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" />
+      <Button layoutX="313.0" layoutY="355.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" />
       <Button layoutX="313.0" layoutY="284.0" mnemonicParsing="false" onAction="#SignIn" text="Logowanie" />
       <TextField fx:id="login" layoutX="276.0" layoutY="167.0" promptText="Login czy coś" />
       <PasswordField fx:id="password" layoutX="276.0" layoutY="225.0" promptText="Jakieś hasło" />
-      <Button layoutX="510.0" layoutY="421.0" mnemonicParsing="false" text="Weryfikacja konta" onAction="#goToVerification"/>
+      <Button layoutX="510.0" layoutY="355.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="36.0" layoutY="422.0" prefHeight="53.0" prefWidth="630.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>
