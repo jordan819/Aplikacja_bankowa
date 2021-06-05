@@ -73,6 +73,7 @@ public class RegisterVerificationController {
             if (customer.getEmail().equals(email)) {
                 if (customer.getVerificationCode().equals(verificationCode)) {
                     Database.verifyCustomer(customer);
+                    Database.updateAccountBalance(customer.getIdAccount(), "1000");
                     return true;
                 } else
                     return false;

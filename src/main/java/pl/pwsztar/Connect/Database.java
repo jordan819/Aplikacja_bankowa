@@ -217,4 +217,27 @@ public class Database {
         }
     }
 
+    public static void updateAccountBalance(String accountNo, String value) {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String query = "UPDATE bank.accounts " +
+                        "SET balance = balance + " + value +
+                        " WHERE id_account = '" + accountNo + "';";
+                try {
+                    connection.createStatement().execute(query);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
