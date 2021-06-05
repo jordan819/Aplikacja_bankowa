@@ -152,9 +152,32 @@ public class Database {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String query = "UPDATE bank.customers\n" +
-                        "SET is_verified = " + true + "\n" +
+                String query = "UPDATE bank.customers" +
+                        "SET is_verified = " + true +
                         "WHERE id_customer = " + customer.getIdCustomer() + ";";
+                try {
+                    connection.createStatement().execute(query);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setAccountNo(String email, String accountNo) {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String query = "UPDATE bank.customers " +
+                        "SET id_account = '" + accountNo +
+                        "' WHERE email = '" + email + "';";
                 try {
                     connection.createStatement().execute(query);
                 } catch (SQLException e) {

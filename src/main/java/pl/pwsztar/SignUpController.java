@@ -11,13 +11,15 @@ import javafx.scene.paint.Paint;
 import javafx.scene.robot.Robot;
 import org.apache.commons.lang3.RandomStringUtils;
 import pl.pwsztar.Connect.Customer;
+import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 import pl.pwsztar.Connect.SendEmailTLS;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 public class SignUpController {
-
 
     public TextField firstName;
     public TextField lastName;
@@ -114,5 +116,39 @@ public class SignUpController {
         Customer customer = new Customer(firstName.getText(), lastName.getText(), email.getText(),
                 password.getText(), "123456789", code, false);
         Database.addCustomer(customer);
+
+        String accountNo = generateAccountNo();
+        Database.setAccountNo(customer.getEmail(), accountNo);
+    }
+
+    private String generateAccountNo() {
+        String customerId = null;
+
+        try {
+            List<CustomerDto> customers = Database.fetchCustomers();
+
+            if (customers == null)
+                return  null;
+
+            for (CustomerDto customer: customers) {
+                if ( customer.getEmail().equals(email.getText()) ) {
+                    customerId = customer.getIdCustomer();
+                    break;
+                }
+            }
+
+            if (customerId == null)
+                return  null;
+
+            int checksumAsInteger = Integer.parseInt(customerId) * Integer.parseInt(App.BANK_NO) % 100;
+            String checksum = String.valueOf(checksumAsInteger);
+
+            return checksum + App.BANK_NO + customerId;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }
