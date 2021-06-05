@@ -23,13 +23,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-        /*
-        Customer customer = new Customer("Patryk", "Zaucha", "mail@mail.pl",
-                "1234", "123456789", "XYZ", false);
         new Database();
-        Database.addCustomer(customer);
-         */
-
     }
 
     static void setRoot(String fxml) throws IOException {

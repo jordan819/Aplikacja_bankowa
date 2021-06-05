@@ -10,6 +10,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.robot.Robot;
 import org.apache.commons.lang3.RandomStringUtils;
+import pl.pwsztar.Connect.Customer;
+import pl.pwsztar.Connect.Database;
 import pl.pwsztar.Connect.SendEmailTLS;
 
 import java.io.IOException;
@@ -18,12 +20,14 @@ public class SignUpController {
 
 
     public TextField firstName;
-    public TextField secondName;
+    public TextField lastName;
     public TextField email;
     public PasswordField password;
     public PasswordField passwordRepeat;
     public TextField emailRepeat;
     public Label errorDisplay;
+
+    private String code;
 
     @FXML
     private void initialize() {
@@ -51,7 +55,9 @@ public class SignUpController {
         } else {
             errorDisplay.setTextFill(Paint.valueOf("green"));
             String code = generateVerificationCode();
+            //FIXME ten komunikat się nie wyświetla, apka się zawiesza
             errorDisplay.setText("Przetwarzamy Twoje dane...\n Prosimy o cierpliwość.");
+            addUser();
             new SendEmailTLS(email.getText(), code);
             App.setRoot("registerVerification");
         }
@@ -59,14 +65,14 @@ public class SignUpController {
     }
 
     private boolean isInputBlank() {
-        return firstName.getText().isBlank() || secondName.getText().isBlank()
+        return firstName.getText().isBlank() || lastName.getText().isBlank()
                 || email.getText().isBlank() || password.getText().isBlank()
                 || passwordRepeat.getText().isBlank() || emailRepeat.getText().isBlank();
     }
 
     private void disableAllSpaceBar() {
         disableSpaceBar(firstName);
-        disableSpaceBar(secondName);
+        disableSpaceBar(lastName);
         disableSpaceBar(email);
         disableSpaceBar(password);
         disableSpaceBar(passwordRepeat);
@@ -99,8 +105,14 @@ public class SignUpController {
     private String generateVerificationCode() {
 
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String code = RandomStringUtils.random( 16, characters );
+        code = RandomStringUtils.random( 16, characters );
 
         return code;
+    }
+
+    private void addUser() {
+        Customer customer = new Customer(firstName.getText(), lastName.getText(), email.getText(),
+                password.getText(), "123456789", code, false);
+        Database.addCustomer(customer);
     }
 }

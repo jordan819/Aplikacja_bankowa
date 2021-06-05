@@ -11,7 +11,7 @@ public class Database {
     private final String user = "2021_zaucha_patryk";
     private final String pass = "1234";
     private String url = "jdbc:postgresql://%s:%d/%s";
-    public boolean status;
+    public static boolean status;
 
     public Database() {
         String host = "195.150.230.210";
@@ -46,46 +46,31 @@ public class Database {
             this.status = false;
         }
     }
-/*
-    public List<CustomerData> fetchCustomers() throws SQLException {
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    usersData = getTableContent("users");
+    public static List<CustomerDto> fetchCustomers() throws SQLException {
 
-                } catch (Exception e) {
-                    status = false;
-                    System.out.print(e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
         try {
-            thread.join();
+            List<String[]> fetchedCustomers = getTableContent("customers");
+            List<CustomerDto> customers = new ArrayList<>();
+            CustomerDto customer;
+            for (String[] row: fetchedCustomers) {
+                customer = new CustomerDto(row[0], row[1], row[2], row[3], row[4],
+                        row[5], row[6], Boolean.getBoolean(row[7]));
+                customers.add(customer);
+            }
+            return customers;
+
         } catch (Exception e) {
+            status = false;
+            System.out.print(e.getMessage());
             e.printStackTrace();
-            this.status = false;
         }
 
-        List<CustomerData> customers = new ArrayList<>();
-        CustomerData customer = null;
-
-        for (String[] row: usersData) {
-            //customer = new CustomerData(Integer.parseInt(row[0]), row[1], row[2], row[3], row[4]);
-            customers.add(customer);
-        }
-
-        return customers;
-
+        return null;
     }
 
- */
 
-    /*
-    public List<String[]> getTableContent(String tableName) throws SQLException {
+    public static List<String[]> getTableContent(String tableName) throws SQLException {
         DatabaseMetaData md = connection.getMetaData();
         ResultSet rs = md.getColumns(null, "%", tableName, null);
 
@@ -118,10 +103,8 @@ public class Database {
         return data;
     }
 
-     */
 
-    /*
-    public List<String> getColumnNames(String tableName) throws SQLException {
+    public static List<String> getColumnNames(String tableName) throws SQLException {
 
         DatabaseMetaData md = connection.getMetaData();
         ResultSet rs = md.getColumns(null, null, tableName, "%");
@@ -132,9 +115,6 @@ public class Database {
 
         return columns;
     }
-
-     */
-
 
     public static boolean addCustomer(Customer customer) {
 
@@ -167,6 +147,27 @@ public class Database {
         }
     }
 
+    public static void verifyCustomer(CustomerDto customer) {
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String query = "UPDATE bank.customers\n" +
+                        "SET is_verified = " + true + "\n" +
+                        "WHERE id_customer = " + customer.getIdCustomer() + ";";
+                try {
+                    connection.createStatement().execute(query);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

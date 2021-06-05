@@ -1,5 +1,7 @@
 package pl.pwsztar;
 
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -17,5 +19,9 @@ public class SignInController {
 
     public void goToSignUp() throws IOException {
         App.setRoot("signUp");
+    }
+
+    public void goToVerification() throws IOException {
+        App.setRoot("registerVerification");
     }
 }
