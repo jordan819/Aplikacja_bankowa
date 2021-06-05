@@ -152,9 +152,9 @@ public class Database {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String query = "UPDATE bank.customers" +
+                String query = "UPDATE bank.customers " +
                         "SET is_verified = " + true +
-                        "WHERE id_customer = " + customer.getIdCustomer() + ";";
+                        " WHERE id_customer = " + customer.getIdCustomer() + ";";
                 try {
                     connection.createStatement().execute(query);
                 } catch (SQLException e) {
@@ -178,6 +178,30 @@ public class Database {
                 String query = "UPDATE bank.customers " +
                         "SET id_account = '" + accountNo +
                         "' WHERE email = '" + email + "';";
+                try {
+                    connection.createStatement().execute(query);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addAccount(String accountNo, String customerId) {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String query = "INSERT INTO bank.accounts (id_account, id_customer, balance) VALUES ('" +
+                        accountNo + "', " +
+                        customerId + ", " +
+                        0 + ");";
                 try {
                     connection.createStatement().execute(query);
                 } catch (SQLException e) {

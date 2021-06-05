@@ -121,6 +121,10 @@ public class SignUpController {
         Database.setAccountNo(customer.getEmail(), accountNo);
     }
 
+    private void addAccount(String accountNo, String customerId) {
+        Database.addAccount(accountNo, customerId);
+    }
+
     private String generateAccountNo() {
         String customerId = null;
 
@@ -143,7 +147,11 @@ public class SignUpController {
             int checksumAsInteger = Integer.parseInt(customerId) * Integer.parseInt(App.BANK_NO) % 100;
             String checksum = String.valueOf(checksumAsInteger);
 
-            return checksum + App.BANK_NO + customerId;
+            String accountNo = checksum + App.BANK_NO + customerId;
+
+            addAccount(accountNo, customerId);
+
+            return accountNo;
 
         } catch (SQLException e) {
             e.printStackTrace();
