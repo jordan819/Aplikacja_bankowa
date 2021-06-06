@@ -46,13 +46,18 @@ public class Database {
 
     public static List<CustomerDto> fetchCustomers() throws SQLException {
 
+        boolean isVerified;
+
         try {
             List<String[]> fetchedCustomers = getTableContent("customers");
             List<CustomerDto> customers = new ArrayList<>();
             CustomerDto customer;
             for (String[] row: fetchedCustomers) {
+
+                isVerified = row[7].equals("t");
+
                 customer = new CustomerDto(row[0], row[1], row[2], row[3], row[4],
-                        row[5], row[6], Boolean.getBoolean(row[7]));
+                        row[5], row[6], isVerified);
                 customers.add(customer);
             }
             return customers;

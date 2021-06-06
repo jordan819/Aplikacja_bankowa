@@ -46,7 +46,7 @@ public class SignInController {
 
                 for (CustomerDto customer : customers) {
                     if (customer.getIdAccount().equals(login.getText())) {
-                        if (customer.getPassword().equals(password.getText())) {
+                        if (customer.getPassword().equals(password.getText()) && customer.isVerified()) {
                             App.loggedCustomer = customer;
                             App.setRoot("accountManage");
                         } else
@@ -55,6 +55,8 @@ public class SignInController {
                             return;
                     }
                 }
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Dane niepoprawne!");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
