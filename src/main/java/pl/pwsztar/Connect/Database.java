@@ -241,4 +241,25 @@ public class Database {
         return null;
     }
 
+    public static void updateAccountCurrency(String accountNo, String currency, double value) {
+
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.accounts " +
+                    "SET balance = " + value + ", currency = '" + currency +
+                    "' WHERE id_account = '" + accountNo + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
