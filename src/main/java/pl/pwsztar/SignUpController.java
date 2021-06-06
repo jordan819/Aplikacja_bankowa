@@ -54,7 +54,8 @@ public class SignUpController {
             errorDisplay.setText("Adres email niepoprawny!");
         } else if ( passwordsDifferent() ) {
             errorDisplay.setText("Hasła nie mogą się różnić!");
-        } else {
+        } else if (isEmailUnique()){
+
             errorDisplay.setTextFill(Paint.valueOf("green"));
             String code = generateVerificationCode();
             //FIXME ten komunikat się nie wyświetla, apka się zawiesza
@@ -62,6 +63,8 @@ public class SignUpController {
             addUser();
             new SendEmailTLS(email.getText(), code);
             App.setRoot("registerVerification");
+        } else {
+            errorDisplay.setText("Na taki adres email zostało już utworzone konto!");
         }
 
     }
@@ -158,5 +161,19 @@ public class SignUpController {
             return null;
         }
 
+    }
+
+    private boolean isEmailUnique() {
+        try {
+            List<CustomerDto> customers = Database.fetchCustomers();
+            for (CustomerDto customer: customers) {
+                if (customer.getEmail().equals(email.getText()))
+                    return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
