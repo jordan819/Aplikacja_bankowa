@@ -220,4 +220,25 @@ public class Database {
         }
     }
 
+    public static List<Account> fetchAccounts() throws SQLException {
+
+        try {
+            List<String[]> fetchedAccounts = getTableContent("accounts");
+            List<Account> accounts = new ArrayList<>();
+            Account account;
+            for (String[] row: fetchedAccounts) {
+                account = new Account(row[0], row[1], Double.parseDouble(row[2]), row[3]);
+                accounts.add(account);
+            }
+            return accounts;
+
+        } catch (Exception e) {
+            status = false;
+            System.out.print(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
