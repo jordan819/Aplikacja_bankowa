@@ -187,10 +187,10 @@ public class Database {
     public static void addAccount(String accountNo, String customerId) {
 
         Thread thread = new Thread(() -> {
-            String query = "INSERT INTO bank.accounts (id_account, id_customer, balance) VALUES ('" +
+            String query = "INSERT INTO bank.accounts (id_account, id_customer, balance, currency) VALUES ('" +
                     accountNo + "', " +
                     customerId + ", " +
-                    0 + ");";
+                    0 + ", 'PLN'" +  ");";
             try {
                 connection.createStatement().execute(query);
             } catch (SQLException e) {
@@ -223,6 +223,48 @@ public class Database {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Account> fetchAccounts() throws SQLException {
+
+        try {
+            List<String[]> fetchedAccounts = getTableContent("accounts");
+            List<Account> accounts = new ArrayList<>();
+            Account account;
+            for (String[] row: fetchedAccounts) {
+                account = new Account(row[0], row[1], Double.parseDouble(row[2]), row[3]);
+                accounts.add(account);
+            }
+            return accounts;
+
+        } catch (Exception e) {
+            status = false;
+            System.out.print(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void updateAccountCurrency(String accountNo, String currency, double value) {
+
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.accounts " +
+                    "SET balance = " + value + ", currency = '" + currency +
+                    "' WHERE id_account = '" + accountNo + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

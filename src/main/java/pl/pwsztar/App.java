@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.pwsztar.Connect.Account;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
@@ -19,6 +20,7 @@ public class App extends Application {
     public static final String BANK_NO = "1234";
 
     static CustomerDto loggedCustomer;
+    static Account loggedCustomerAccount;
 
     private static Scene scene;
 
@@ -29,6 +31,7 @@ public class App extends Application {
         stage.show();
 
         new Database();
+
     }
 
     static void setRoot(String fxml) throws IOException {

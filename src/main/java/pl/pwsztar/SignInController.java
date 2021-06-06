@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Paint;
 import javafx.scene.robot.Robot;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
