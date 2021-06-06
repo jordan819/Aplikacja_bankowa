@@ -182,10 +182,10 @@ public class Database {
     public static void addAccount(String accountNo, String customerId) {
 
         Thread thread = new Thread(() -> {
-            String query = "INSERT INTO bank.accounts (id_account, id_customer, balance) VALUES ('" +
+            String query = "INSERT INTO bank.accounts (id_account, id_customer, balance, currency) VALUES ('" +
                     accountNo + "', " +
                     customerId + ", " +
-                    0 + ");";
+                    0 + ", 'PLN'" +  ");";
             try {
                 connection.createStatement().execute(query);
             } catch (SQLException e) {
