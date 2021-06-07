@@ -16,12 +16,18 @@ public class AccountManageController {
     public Label balanceDisplay;
 
     @FXML
-    private void initialize() {
-        App.loggedCustomerAccount = setAccount(App.loggedCustomer);
-        assert App.loggedCustomerAccount != null;
-        String balance = String.format("%.2f ", App.loggedCustomerAccount.getBalance());
-        balance += App.loggedCustomerAccount.getCurrency();
-        balanceDisplay.setText(balance);
+    private void initialize() throws IOException {
+
+        try {
+            App.loggedCustomerAccount = setAccount(App.loggedCustomer);
+
+            String balance = String.format("%.2f ", App.loggedCustomerAccount.getBalance());
+            balance += App.loggedCustomerAccount.getCurrency();
+            balanceDisplay.setText(balance);
+        } catch (AccountNotFoundException e) {
+            e.printStackTrace();
+            App.setRoot("signIn");
+        }
     }
 
     public void goToCurrencyConversion() throws IOException {
@@ -52,17 +58,13 @@ public class AccountManageController {
         App.setRoot("payLoan");
     }
 
-    private Account setAccount(CustomerDto customer) {
-        try {
-            List<Account> accounts = Database.fetchAccounts();
-            for (Account account: accounts) {
-                if (account.getAccountId().equals(customer.getIdAccount())) {
-                    return account;
-                }
+    private Account setAccount(CustomerDto customer) throws AccountNotFoundException{
+        List<Account> accounts = Database.fetchAccounts();
+        for (Account account: accounts) {
+            if (account.getAccountId().equals(customer.getIdAccount())) {
+                return account;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null;
+        throw new AccountNotFoundException();
     }
 }

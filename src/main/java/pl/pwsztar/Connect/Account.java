@@ -1,6 +1,7 @@
 package pl.pwsztar.Connect;
 
-import java.sql.SQLException;
+import pl.pwsztar.AccountNotFoundException;
+
 import java.util.List;
 
 public class Account {
@@ -10,20 +11,16 @@ public class Account {
     private double balance;
     private String currency;
 
-    public Account(String accountId) {
-        try {
-            List<Account> accounts = Database.fetchAccounts();
-            for (Account account: accounts) {
-                if (account.getAccountId().equals(accountId)) {
-                    this.accountId = accountId;
-                    this.customerId = account.getCustomerId();
-                    this.balance = account.getBalance();
-                    this.currency = account.getCurrency();
-                    break;
-                }
+    public Account(String accountId) throws AccountNotFoundException{
+        List<Account> accounts = Database.fetchAccounts();
+        for (Account account: accounts) {
+            if (account.getAccountId().equals(accountId)) {
+                this.accountId = accountId;
+                this.customerId = account.getCustomerId();
+                this.balance = account.getBalance();
+                this.currency = account.getCurrency();
+                break;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
