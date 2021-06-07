@@ -311,4 +311,25 @@ public class Database {
 
     }
 
+    public static void createLoanInformation(String accountNo, double loanValue) throws AccountNotFoundException {
+        new Account(accountNo);
+        Date date = new Date(System.currentTimeMillis());
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.accounts " +
+                    "SET loan_date = '" + date + "', loan = " + loanValue +
+                    " WHERE id_account = '" + accountNo + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

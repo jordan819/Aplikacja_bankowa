@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Account {
 
-    private String accountId;
-    private String customerId;
-    private double balance;
-    private String currency;
+    private final String accountId;
+    private final String customerId;
+    private final double balance;
+    private final String currency;
 
     public Account(String accountId) throws AccountNotFoundException{
         List<Account> accounts = Database.fetchAccounts();
@@ -19,9 +19,10 @@ public class Account {
                 this.customerId = account.getCustomerId();
                 this.balance = account.getBalance();
                 this.currency = account.getCurrency();
-                break;
+                return;
             }
         }
+        throw new AccountNotFoundException();
     }
 
     protected Account(String accountId, String customerId, double balance, String currency) {

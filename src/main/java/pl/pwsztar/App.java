@@ -10,6 +10,8 @@ import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
 
 /**
  * JavaFX App
