@@ -2,7 +2,6 @@ package pl.pwsztar.Connect;
 
 import pl.pwsztar.AccountNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -275,7 +274,21 @@ public class Database {
             List<Account> accounts = new ArrayList<>();
             Account account;
             for (String[] row: fetchedAccounts) {
-                account = new Account(row[0], row[1], Double.parseDouble(row[2]), row[3]);
+
+                Double loan;
+                if (row[4] == null)
+                    loan = null;
+                else
+                    loan = Double.parseDouble(row[4]);
+
+                Date date;
+                if(row[5] == null)
+                    date = null;
+                else
+                    date = Date.valueOf(row[5]);
+
+                account = new Account(row[0], row[1], Double.parseDouble(row[2]), row[3],
+                        loan, date);
                 accounts.add(account);
             }
 
