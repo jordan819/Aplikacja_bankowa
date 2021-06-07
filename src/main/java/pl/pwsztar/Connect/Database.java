@@ -1,5 +1,8 @@
 package pl.pwsztar.Connect;
 
+import pl.pwsztar.AccountNotFoundException;
+
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,7 +228,47 @@ public class Database {
         }
     }
 
-    public static List<Account> fetchAccounts() throws SQLException {
+
+    public static void updateAccountBalance(String accountNo, String value, String currency) throws AccountNotFoundException {
+
+        List<Account> accounts = fetchAccounts();
+        //Account targetAccount;
+        String targetCurrency = null;
+
+        for (Account account: accounts) {
+            if (account.getAccountId().equals(accountNo)) {
+                //targetAccount = account;
+                targetCurrency = account.getCurrency();
+                break;
+            }
+        }
+
+        if (targetCurrency == null)
+            throw new AccountNotFoundException();
+
+        value = String.valueOf(Money.exchange(Double.parseDouble(value), currency, targetCurrency));
+
+
+        String finalValue = value;
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.accounts " +
+                    "SET balance = balance + " + finalValue +
+                    " WHERE id_account = '" + accountNo + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Account> fetchAccounts() throws AccountNotFoundException {
 
         try {
             List<String[]> fetchedAccounts = getTableContent("accounts");
@@ -235,15 +278,16 @@ public class Database {
                 account = new Account(row[0], row[1], Double.parseDouble(row[2]), row[3]);
                 accounts.add(account);
             }
+
             return accounts;
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             status = false;
             System.out.print(e.getMessage());
             e.printStackTrace();
         }
 
-        return null;
+        throw new AccountNotFoundException();
     }
 
     public static void updateAccountCurrency(String accountNo, String currency, double value) {

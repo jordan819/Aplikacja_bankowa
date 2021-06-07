@@ -32,7 +32,10 @@ public class PayInController {
             if (!newValue.matches("\\d*")) {
                 otherInput.setText(newValue.replaceAll("[^\\d]", ""));
             }
-            otherButton.disableProperty().set(!(Integer.parseInt(otherInput.getText())%10==0));
+            if (!otherInput.getText().equals("") && newValue.charAt(0) == '0')
+                otherInput.setText(newValue.substring(1));
+            if (!otherInput.getText().equals(""))
+                otherButton.disableProperty().set(!(Integer.parseInt(otherInput.getText())%10==0));
         });
 
     }
