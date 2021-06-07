@@ -352,4 +352,28 @@ public class Database {
         }
     }
 
+    public static void updateLoanInformation(String accountId, Double amount) throws AccountNotFoundException {
+        Account account = new Account(accountId);
+        Thread thread = new Thread(() -> {
+            String newValue;
+            if (account.getLoan().equals(amount))
+                newValue = null;
+            else
+                newValue = amount.toString();
+            String query = "UPDATE bank.accounts " +
+                    "SET loan = loan - " + newValue +
+                    " WHERE id_account = '" + accountId + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
