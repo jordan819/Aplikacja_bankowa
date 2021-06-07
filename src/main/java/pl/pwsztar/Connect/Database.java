@@ -303,12 +303,19 @@ public class Database {
         throw new AccountNotFoundException();
     }
 
-    public static void updateAccountCurrency(String accountNo, String currency, double value) {
+    public static void updateAccountCurrency(String accountNo, String currency, double value) throws AccountNotFoundException {
 
+        Account account = new Account(accountNo);
+        Double actualLoan = account.getLoan();
+        Double newLoan = null;
+        if (actualLoan != null)
+            newLoan = Money.exchange(actualLoan, account.getCurrency(), currency);
+
+        Double finalNewLoan = newLoan;
         Thread thread = new Thread(() -> {
             String query = "UPDATE bank.accounts " +
-                    "SET balance = " + value + ", currency = '" + currency +
-                    "' WHERE id_account = '" + accountNo + "';";
+                    "SET balance = " + value + ", currency = '" + currency + "', loan = " + finalNewLoan +
+                    " WHERE id_account = '" + accountNo + "';";
             try {
                 connection.createStatement().execute(query);
             } catch (SQLException e) {

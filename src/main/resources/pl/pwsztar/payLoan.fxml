@@ -13,5 +13,6 @@
          </font>
       </Label>
       <Button layoutX="323.0" layoutY="428.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Label fx:id="loanDisplay" alignment="CENTER" layoutX="263.0" layoutY="82.0" prefHeight="52.0" prefWidth="174.0" text="Do spłacenia pozostało:" textAlignment="CENTER" />
    </children>
 </AnchorPane>
