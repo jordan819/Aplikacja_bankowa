@@ -23,8 +23,13 @@ public class RegisterVerificationController {
     List<CustomerDto> customers;
 
     @FXML
-    private void initialize() throws SQLException {
-        customers = Database.fetchCustomers();
+    private void initialize() throws IOException {
+        try {
+            customers = Database.fetchCustomers();
+        } catch (SQLException e){
+            e.printStackTrace();
+            App.setRoot("signIn");
+        }
     }
 
     public void goBack() throws IOException {
