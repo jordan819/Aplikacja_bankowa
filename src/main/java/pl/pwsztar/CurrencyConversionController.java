@@ -44,7 +44,12 @@ public class CurrencyConversionController {
     }
 
     public void convert() throws IOException {
-        Database.updateAccountCurrency(App.loggedCustomerAccount.getAccountId(), currencyAfter, balanceAfter);
+        try {
+            Database.updateAccountCurrency(App.loggedCustomerAccount.getAccountId(), currencyAfter, balanceAfter);
+        } catch (AccountNotFoundException e) {
+            e.printStackTrace();
+            goToAccountManage();
+        }
         goToAccountManage();
     }
 }

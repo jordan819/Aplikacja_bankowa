@@ -61,7 +61,13 @@ public class AccountManageController {
     }
 
     public void goToPayLoan() throws IOException {
-        App.setRoot("payLoan");
+        if(App.loggedCustomerAccount.getLoan() != null)
+            App.setRoot("payLoan");
+        else {
+            infoDisplay.setVisible(true);
+            infoDisplay.setTextFill(Paint.valueOf("green"));
+            infoDisplay.setText("Aktualnie nie masz żadnej pożyczki!");
+        }
     }
 
     private Account setAccount(CustomerDto customer) throws AccountNotFoundException{

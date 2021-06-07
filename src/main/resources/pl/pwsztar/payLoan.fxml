@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -12,6 +13,10 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="428.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Button layoutX="323.0" layoutY="398.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Label fx:id="loanDisplay" alignment="CENTER" layoutX="263.0" layoutY="82.0" prefHeight="52.0" prefWidth="174.0" text="Do spłacenia pozostało:" textAlignment="CENTER" />
+      <Button fx:id="payInBtn" disable="true" layoutX="325.0" layoutY="264.0" mnemonicParsing="false" onAction="#payIn" text="Wpłać" />
+      <TextField fx:id="amount" layoutX="276.0" layoutY="213.0" promptText="Kwota" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="126.0" layoutY="435.0" prefHeight="43.0" prefWidth="448.0" text="Label" textAlignment="CENTER" visible="false" />
    </children>
 </AnchorPane>
