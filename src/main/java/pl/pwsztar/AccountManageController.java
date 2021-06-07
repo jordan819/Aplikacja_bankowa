@@ -1,19 +1,19 @@
 package pl.pwsztar;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import pl.pwsztar.Connect.Account;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public class AccountManageController {
 
     public Label balanceDisplay;
+    public Label infoDisplay;
 
     @FXML
     private void initialize() throws IOException {
@@ -51,7 +51,13 @@ public class AccountManageController {
     }
 
     public void goToTakeLoan() throws IOException {
-        App.setRoot("takeLoan");
+        if(App.loggedCustomerAccount.getLoan() == null)
+            App.setRoot("takeLoan");
+        else {
+            infoDisplay.setVisible(true);
+            infoDisplay.setTextFill(Paint.valueOf("red"));
+            infoDisplay.setText("Niestety, najpierw musisz spłacić poprzednią pożyczkę!");
+        }
     }
 
     public void goToPayLoan() throws IOException {

@@ -2,14 +2,18 @@ package pl.pwsztar.Connect;
 
 import pl.pwsztar.AccountNotFoundException;
 
+import java.sql.Date;
 import java.util.List;
 
 public class Account {
 
-    private String accountId;
-    private String customerId;
-    private double balance;
-    private String currency;
+    private final String accountId;
+    private final String customerId;
+    private final double balance;
+    private final String currency;
+    private final Double loan;
+    private final Date loanDate;
+
 
     public Account(String accountId) throws AccountNotFoundException{
         List<Account> accounts = Database.fetchAccounts();
@@ -19,16 +23,21 @@ public class Account {
                 this.customerId = account.getCustomerId();
                 this.balance = account.getBalance();
                 this.currency = account.getCurrency();
-                break;
+                this.loan = account.getLoan();
+                this.loanDate = account.getLoanDate();
+                return;
             }
         }
+        throw new AccountNotFoundException();
     }
 
-    protected Account(String accountId, String customerId, double balance, String currency) {
+    protected Account(String accountId, String customerId, double balance, String currency, Double loan, Date loanDate) {
         this.accountId = accountId;
         this.customerId = customerId;
         this.balance = balance;
         this.currency = currency;
+        this.loan = loan;
+        this.loanDate = loanDate;
     }
 
     public String getAccountId() {
@@ -45,5 +54,13 @@ public class Account {
 
     public String getCurrency() {
         return currency;
+    }
+
+    public Double getLoan() {
+        return loan;
+    }
+
+    public Date getLoanDate() {
+        return loanDate;
     }
 }

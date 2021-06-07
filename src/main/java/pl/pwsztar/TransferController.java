@@ -34,6 +34,8 @@ public class TransferController {
                     amount.setText(newValue.replaceAll("[^[\\d.]]", ""));
                 }
             }
+            if (!amount.getText().equals("") && newValue.charAt(0) == '0')
+                amount.setText(newValue.substring(1));
             if (amount.getLength() > 3) {
                 if (amount.getText().charAt(amount.getLength() - 4) == '.') {
                     amount.setText(oldValue);
