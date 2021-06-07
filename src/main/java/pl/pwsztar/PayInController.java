@@ -62,6 +62,7 @@ public class PayInController {
     }
 
     public void payInOther() {
+        payIn(otherInput.getText());
     }
 
     private void payIn(String value) {
