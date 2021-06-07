@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -12,6 +13,46 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="436.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Button layoutX="323.0" layoutY="461.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Button fx:id="btn10" layoutX="205.0" layoutY="106.0" mnemonicParsing="false" onAction="#payIn10" prefHeight="59.0" prefWidth="97.0" text="10">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn20" layoutX="205.0" layoutY="186.0" mnemonicParsing="false" onAction="#payIn20" prefHeight="59.0" prefWidth="97.0" text="20">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn50" layoutX="205.0" layoutY="268.0" mnemonicParsing="false" onAction="#payIn50" prefHeight="59.0" prefWidth="97.0" text="50">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn100" layoutX="398.0" layoutY="106.0" mnemonicParsing="false" onAction="#payIn100" prefHeight="59.0" prefWidth="97.0" text="100">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn200" layoutX="398.0" layoutY="186.0" mnemonicParsing="false" onAction="#payIn200" prefHeight="59.0" prefWidth="97.0" text="200">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn500" layoutX="398.0" layoutY="268.0" mnemonicParsing="false" onAction="#payIn500" prefHeight="59.0" prefWidth="97.0" text="500">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="otherInput" alignment="CENTER" layoutX="276.0" layoutY="341.0" prefHeight="43.0" prefWidth="149.0" promptText="Wprowadź kwotę">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button fx:id="otherButton" disable="true" layoutX="302.0" layoutY="390.0" mnemonicParsing="false" onAction="#payInOther" prefHeight="59.0" prefWidth="97.0" text="Inna kwota">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
