@@ -355,13 +355,14 @@ public class Database {
     public static void updateLoanInformation(String accountId, Double amount) throws AccountNotFoundException {
         Account account = new Account(accountId);
         Thread thread = new Thread(() -> {
-            String newValue;
+            String query;
             if (account.getLoan().equals(amount))
-                newValue = null;
+                query = "UPDATE bank.accounts " +
+                        "SET loan = null " + ", loan_date = null" +
+                        " WHERE id_account = '" + accountId + "';";
             else
-                newValue = amount.toString();
-            String query = "UPDATE bank.accounts " +
-                    "SET loan = loan - " + newValue +
+            query = "UPDATE bank.accounts " +
+                    "SET loan = loan - " + amount +
                     " WHERE id_account = '" + accountId + "';";
             try {
                 connection.createStatement().execute(query);

@@ -15,7 +15,7 @@
          </font>
       </Label>
       <Button layoutX="313.0" layoutY="355.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" />
-      <Button layoutX="313.0" layoutY="284.0" mnemonicParsing="false" onAction="#SignIn" text="Logowanie" />
+      <Button fx:id="signInBtn" disable="true" layoutX="313.0" layoutY="284.0" mnemonicParsing="false" onAction="#SignIn" text="Logowanie" />
       <TextField fx:id="login" layoutX="276.0" layoutY="167.0" promptText="Numer konta" />
       <PasswordField fx:id="password" layoutX="276.0" layoutY="225.0" promptText="Hasło" />
       <Button layoutX="510.0" layoutY="355.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />

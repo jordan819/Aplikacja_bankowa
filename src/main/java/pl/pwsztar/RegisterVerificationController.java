@@ -36,7 +36,7 @@ public class RegisterVerificationController {
         App.setRoot("SignIn");
     }
 
-    public void verifyAccount() throws IOException {
+    public void verifyAccount() {
 
         infoDisplay.setVisible(true);
         infoDisplay.setTextFill(Paint.valueOf("red"));

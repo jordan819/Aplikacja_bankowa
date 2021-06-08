@@ -48,7 +48,9 @@ public class TakeLoanController {
         lengthChoice.getSelectionModel().selectFirst();
 
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() > oldValue.length()) {
+            if (newValue.length() > 15)
+                amount.setText(oldValue);
+            else if (newValue.length() > oldValue.length()) {
                 if (newValue.charAt(newValue.length() - 1) == '.') {
                     if (oldValue.contains("."))
                         amount.setText(oldValue);

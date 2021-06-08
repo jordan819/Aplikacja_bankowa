@@ -21,7 +21,9 @@ public class PayLoanController {
         loanDisplay.setText("Do spłacenia pozostało:\n" + App.loggedCustomerAccount.getLoan() + " " + App.loggedCustomerAccount.getCurrency());
 
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() > oldValue.length()) {
+            if (newValue.length() > 15)
+                amount.setText(oldValue);
+            else if (newValue.length() > oldValue.length()) {
                 if (newValue.charAt(newValue.length() - 1) == '.') {
                     if (oldValue.contains("."))
                         amount.setText(oldValue);

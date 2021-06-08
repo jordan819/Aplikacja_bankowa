@@ -1,10 +1,7 @@
 package pl.pwsztar;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.robot.Robot;
@@ -21,10 +18,27 @@ public class SignInController {
     public TextField login;
     public PasswordField password;
     public Label infoDisplay;
+    public Button signInBtn;
 
     @FXML
     private void initialize() {
-        disableAllSpaceBar();
+        login.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 15)
+                login.setText(oldValue);
+            else if (!newValue.matches("[\\d]*")) {
+                    login.setText(newValue.replaceAll("[^[\\d]]", ""));
+                }
+
+            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+
+        });
+
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 28)
+                password.setText(oldValue);
+
+            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+        });
     }
 
     public void SignIn() throws IOException {

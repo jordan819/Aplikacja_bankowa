@@ -29,7 +29,9 @@ public class PayInController {
         btn500.setText("500 " + currency);
 
         otherInput.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
+            if (newValue.length() > 15)
+                otherInput.setText(oldValue);
+            else if (!newValue.matches("\\d*")) {
                 otherInput.setText(newValue.replaceAll("[^\\d]", ""));
             }
             if (!otherInput.getText().equals("") && newValue.charAt(0) == '0')
