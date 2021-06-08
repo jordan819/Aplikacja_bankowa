@@ -383,4 +383,23 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public static void deactivateAccount(String accountId) {
+        Thread thread = new Thread(() -> {
+            String query = "UPDATE bank.customers " +
+                    "SET verification_code = null, is_verified = false " +
+                    "WHERE id_account = '" + accountId + "';";
+            try {
+                connection.createStatement().execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
