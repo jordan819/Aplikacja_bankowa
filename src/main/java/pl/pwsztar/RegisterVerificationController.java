@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
-import pl.pwsztar.Connect.Account;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 import pl.pwsztar.Connect.SendEmailTLS;
@@ -81,13 +80,15 @@ public class RegisterVerificationController {
     private boolean validateCode() {
         for (CustomerDto customer: customers) {
             if (customer.getEmail().equals(email)) {
-                if (customer.getVerificationCode().equals(verificationCode)) {
-                    Database.verifyCustomer(customer);
-                    Database.updateAccountBalance(customer.getIdAccount(), "1000");
-                    customerDto = customer;
-                    return true;
-                } else
+                if (!customer.isVerified()) {
+                    if (customer.getVerificationCode().equals(verificationCode)) {
+                        Database.verifyCustomer(customer);
+                        Database.updateAccountBalance(customer.getIdAccount(), "1000");
+                        customerDto = customer;
+                        return true;
+                    }
                     return false;
+                }
             }
         }
         return false;
