@@ -19,7 +19,7 @@
     -fx-text-fill: #2196f3 ;
     -fx-border-color: #2196f3;
     -fx-border-radius: 22;
-    -fx-border-width: 3;
+    
 }
 
 .button:pressed{
@@ -30,7 +30,7 @@
     -fx-text-fill: #2196f3 ;
     -fx-border-color: #2196f3;
     -fx-border-radius: 22;
-    -fx-border-width: 3;
-    -fx-rotate:10;
+
+
 }
 
