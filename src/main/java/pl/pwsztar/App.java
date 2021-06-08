@@ -10,8 +10,6 @@ import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.Calendar;
 
 /**
  * JavaFX App
