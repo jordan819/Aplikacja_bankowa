@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.SignInController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.SignInController">
    <children>
-      <Label layoutX="136.0" layoutY="56.0" text="Ekran powitalny/logowania" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="179.0" layoutY="56.0" text="Witaj w naszym banku!" textAlignment="CENTER" AnchorPane.bottomAnchor="390.4" AnchorPane.leftAnchor="167.6" AnchorPane.rightAnchor="167.6" AnchorPane.topAnchor="56.0">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Button layoutX="313.0" layoutY="355.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" />
-      <Button fx:id="signInBtn" disable="true" layoutX="313.0" layoutY="284.0" mnemonicParsing="false" onAction="#SignIn" text="Logowanie" />
-      <TextField fx:id="login" layoutX="276.0" layoutY="167.0" promptText="Numer konta" />
-      <PasswordField fx:id="password" layoutX="276.0" layoutY="225.0" promptText="Hasło" />
-      <Button layoutX="510.0" layoutY="355.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />
+      <Button layoutX="302.0" layoutY="352.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" AnchorPane.rightAnchor="301.2" />
+      <Button fx:id="signInBtn" disable="true" layoutX="287.0" layoutY="272.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="54.0" prefWidth="126.0" text="Logowanie" AnchorPane.leftAnchor="287.0" />
+      <TextField fx:id="login" layoutX="276.0" layoutY="149.0" promptText="Numer konta" AnchorPane.leftAnchor="275.2" AnchorPane.rightAnchor="275.2" />
+      <PasswordField fx:id="password" layoutX="275.0" layoutY="213.0" promptText="Hasło" AnchorPane.leftAnchor="275.2" AnchorPane.rightAnchor="275.2" />
+      <Button layoutX="277.0" layoutY="412.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />
       <Label fx:id="infoDisplay" alignment="CENTER" layoutX="36.0" layoutY="422.0" prefHeight="53.0" prefWidth="630.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>
