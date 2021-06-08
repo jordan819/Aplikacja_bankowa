@@ -4,6 +4,7 @@ import pl.pwsztar.AccountNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Database {
@@ -331,9 +332,14 @@ public class Database {
 
     }
 
-    public static void createLoanInformation(String accountNo, double loanValue) throws AccountNotFoundException {
+    public static void createLoanInformation(String accountNo, double loanValue, int duration) throws AccountNotFoundException {
         new Account(accountNo);
-        Date date = new Date(System.currentTimeMillis());
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, duration);
+        long dateAsMilliseconds = c.getTimeInMillis();
+        Date date = new Date(dateAsMilliseconds);
+
         Thread thread = new Thread(() -> {
             String query = "UPDATE bank.accounts " +
                     "SET loan_date = '" + date + "', loan = " + loanValue +
@@ -355,13 +361,14 @@ public class Database {
     public static void updateLoanInformation(String accountId, Double amount) throws AccountNotFoundException {
         Account account = new Account(accountId);
         Thread thread = new Thread(() -> {
-            String newValue;
+            String query;
             if (account.getLoan().equals(amount))
-                newValue = null;
+                query = "UPDATE bank.accounts " +
+                        "SET loan = null " + ", loan_date = null" +
+                        " WHERE id_account = '" + accountId + "';";
             else
-                newValue = amount.toString();
-            String query = "UPDATE bank.accounts " +
-                    "SET loan = loan - " + newValue +
+            query = "UPDATE bank.accounts " +
+                    "SET loan = loan - " + amount +
                     " WHERE id_account = '" + accountId + "';";
             try {
                 connection.createStatement().execute(query);

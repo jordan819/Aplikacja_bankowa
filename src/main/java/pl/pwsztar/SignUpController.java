@@ -5,10 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
-import javafx.scene.robot.Robot;
 import org.apache.commons.lang3.RandomStringUtils;
 import pl.pwsztar.Connect.Customer;
 import pl.pwsztar.Connect.CustomerDto;
@@ -52,16 +49,17 @@ public class SignUpController {
             errorDisplay.setText("Adresy email nie mogą się różnić!");
         } else if ( emailIncorrect() ) {
             errorDisplay.setText("Adres email niepoprawny!");
-        } else if ( passwordsDifferent() ) {
+        } else if ( password.getText().length() < 8 ) {
+            errorDisplay.setText("Hasło musi składać się z conajmniej 8 znaków!");
+        } else if( passwordsDifferent() ) {
             errorDisplay.setText("Hasła nie mogą się różnić!");
-        } else if (isEmailUnique()){
-
+        } else if ( isEmailUnique() ){
             errorDisplay.setTextFill(Paint.valueOf("green"));
             String code = generateVerificationCode();
-            //FIXME ten komunikat się nie wyświetla, apka się zawiesza
             errorDisplay.setText("Przetwarzamy Twoje dane...\n Prosimy o cierpliwość.");
             addUser();
-            new SendEmailTLS(email.getText(), code);
+            String content = "Witaj, tu Twój bank.\n\nOto Twój kod weryfikacyjny: " + code;
+            SendEmailTLS.send(email.getText(), "Kod weryfikacyjny", content);
             App.setRoot("registerVerification");
         } else {
             errorDisplay.setText("Na taki adres email zostało już utworzone konto!");
@@ -86,12 +84,13 @@ public class SignUpController {
     }
 
     private void disableSpaceBar(TextInputControl input) {
-        input.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                Robot r = new Robot();
-                r.keyPress(KeyCode.BACK_SPACE);
-                r.keyRelease(KeyCode.BACK_SPACE);
+        input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 32)
+                input.setText(oldValue);
+            else {
+                input.setText(newValue.replaceAll(" ", ""));
             }
+
         });
     }
 

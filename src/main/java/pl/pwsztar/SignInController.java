@@ -1,13 +1,7 @@
 package pl.pwsztar;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.robot.Robot;
+import javafx.scene.control.*;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
@@ -21,10 +15,27 @@ public class SignInController {
     public TextField login;
     public PasswordField password;
     public Label infoDisplay;
+    public Button signInBtn;
 
     @FXML
     private void initialize() {
-        disableAllSpaceBar();
+        login.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 15)
+                login.setText(oldValue);
+            else if (!newValue.matches("[\\d]*")) {
+                    login.setText(newValue.replaceAll("[^[\\d]]", ""));
+                }
+
+            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+
+        });
+
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 28)
+                password.setText(oldValue);
+
+            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+        });
     }
 
     public void SignIn() throws IOException {
@@ -68,21 +79,6 @@ public class SignInController {
 
     public void goToVerification() throws IOException {
         App.setRoot("registerVerification");
-    }
-
-    private void disableAllSpaceBar() {
-        disableSpaceBar(login);
-        disableSpaceBar(password);
-    }
-
-    private void disableSpaceBar(TextInputControl input) {
-        input.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                Robot r = new Robot();
-                r.keyPress(KeyCode.BACK_SPACE);
-                r.keyRelease(KeyCode.BACK_SPACE);
-            }
-        });
     }
 
     private boolean isInputBlank() {

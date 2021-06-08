@@ -9,7 +9,7 @@ public class CustomerDto {
     private final String password;
     private final String idAccount;
     private final String verificationCode;
-    private boolean isVerified;
+    private final boolean isVerified;
 
 
     public CustomerDto(String idCustomer, String firstName, String lastName, String email,
@@ -54,10 +54,6 @@ public class CustomerDto {
 
     public boolean isVerified() {
         return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
     }
 
 }

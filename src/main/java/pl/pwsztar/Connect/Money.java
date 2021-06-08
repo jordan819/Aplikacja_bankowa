@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class Money {
+public abstract class Money {
 
     public static double exchange(double amount, String fromCurrency, String toCurrency) {
         double exchangeRate = getExchangeRate(fromCurrency, toCurrency);

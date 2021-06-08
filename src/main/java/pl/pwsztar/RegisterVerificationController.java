@@ -21,6 +21,7 @@ public class RegisterVerificationController {
     private String verificationCode;
 
     List<CustomerDto> customers;
+    CustomerDto customerDto;
 
     @FXML
     private void initialize() throws IOException {
@@ -36,7 +37,7 @@ public class RegisterVerificationController {
         App.setRoot("SignIn");
     }
 
-    public void verifyAccount() throws IOException {
+    public void verifyAccount() {
 
         infoDisplay.setVisible(true);
         infoDisplay.setTextFill(Paint.valueOf("red"));
@@ -52,14 +53,17 @@ public class RegisterVerificationController {
             infoDisplay.setText("Przetwarzamy Twoje dane...\nProsimy o cierpliwość.");
 
             if ( validateCode() ) {
-                infoDisplay.setText("Konto zostało aktywowane.\nMożesz się zalogować.");
-                System.out.println("Konto zostało aktywowane");
+                infoDisplay.setText("Konto zostało aktywowane.\nWysłany został email z dalszymi instrukcjami.");
+
+                String content = "Weryfikacja Twojego konta przebiegła pomyślnie. " +
+                        "Do zalogowania się wykorzystasz utworzone hasło, " +
+                        "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
+
+                SendEmailTLS.send(email, "Weryfikacja zakończona", content);
             } else {
                 infoDisplay.setTextFill(Paint.valueOf("red"));
                 infoDisplay.setText("Nie udało się aktywować konta.\nSpróbuj ponownie później.");
-                System.out.println("Nie udało się aktywować konta");
             }
-
 
         }
 
@@ -76,12 +80,15 @@ public class RegisterVerificationController {
     private boolean validateCode() {
         for (CustomerDto customer: customers) {
             if (customer.getEmail().equals(email)) {
-                if (customer.getVerificationCode().equals(verificationCode)) {
-                    Database.verifyCustomer(customer);
-                    Database.updateAccountBalance(customer.getIdAccount(), "1000");
-                    return true;
-                } else
+                if (!customer.isVerified()) {
+                    if (customer.getVerificationCode().equals(verificationCode)) {
+                        Database.verifyCustomer(customer);
+                        Database.updateAccountBalance(customer.getIdAccount(), "1000");
+                        customerDto = customer;
+                        return true;
+                    }
                     return false;
+                }
             }
         }
         return false;
