@@ -18,7 +18,8 @@ public class PayLoanController {
 
     @FXML
     private void initialize() {
-        loanDisplay.setText("Do spłacenia pozostało:\n" + App.loggedCustomerAccount.getLoan() + " " + App.loggedCustomerAccount.getCurrency());
+        String info = String.format("Do spłacenia pozostało:\n%.2f %s", App.loggedCustomerAccount.getLoan(), App.loggedCustomerAccount.getCurrency());
+        loanDisplay.setText(info);
 
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 15)
