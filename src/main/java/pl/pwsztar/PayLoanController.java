@@ -11,9 +11,16 @@ import java.io.IOException;
 
 public class PayLoanController {
 
-    public Label loanDisplay;
+    @FXML
+    private Label loanDisplay;
+
+    @FXML
     public Label infoDisplay;
+
+    @FXML
     public TextField amount;
+
+    @FXML
     public Button payInBtn;
 
     @FXML

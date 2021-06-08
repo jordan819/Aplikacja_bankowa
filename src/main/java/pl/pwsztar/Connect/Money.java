@@ -34,7 +34,6 @@ public abstract class Money {
 
     }
 
-    //umożliwia pobranie kursu dowolnej waluty na PLN
     private static double fetchExchangeRate(String currency) {
         String sURL = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency + "/?format=json";
         double exchangeRate = -1.0;
@@ -43,7 +42,7 @@ public abstract class Money {
             URLConnection request = url.openConnection();
             request.connect();
 
-            // Convert to a JSON object to print data
+
             JsonParser jp = new JsonParser(); //from gson
             JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
             JsonObject jsonObject = root.getAsJsonObject(); //May be an array, may be an object.

@@ -51,7 +51,7 @@ public class PayInController {
     }
 
     public void payIn50() {
-        payIn("10");
+        payIn("50");
     }
 
     public void payIn100() {
