@@ -8,7 +8,7 @@ public class Customer {
     private final String password;
     private final String idAccount;
     private final String verificationCode;
-    private boolean isVerified;
+    private final boolean isVerified;
 
 
     public Customer(String firstName, String lastName, String email,
@@ -48,10 +48,6 @@ public class Customer {
 
     public boolean isVerified() {
         return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
     }
 
 }

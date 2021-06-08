@@ -53,11 +53,9 @@ public class RegisterVerificationController {
 
             if ( validateCode() ) {
                 infoDisplay.setText("Konto zostało aktywowane.\nMożesz się zalogować.");
-                System.out.println("Konto zostało aktywowane");
             } else {
                 infoDisplay.setTextFill(Paint.valueOf("red"));
                 infoDisplay.setText("Nie udało się aktywować konta.\nSpróbuj ponownie później.");
-                System.out.println("Nie udało się aktywować konta");
             }
 
 

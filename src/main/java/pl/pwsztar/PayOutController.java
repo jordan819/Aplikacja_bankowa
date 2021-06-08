@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class PayOutController {
 

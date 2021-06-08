@@ -17,30 +17,9 @@ import java.util.Properties;
  *     Klasa posiada publiczna metode, pozwalajaca sprawdzic poprawnosc dowolnego adresu email.
  * </p>
  */
-public class SendEmailTLS {
+public abstract class SendEmailTLS {
 
-    private static String addressee;
-    private static final String subject = "Kod weryfikacyjny";
-    private static String text;
-
-
-    public SendEmailTLS(String addressee, String code) {
-        setAddressee(addressee);
-        setText(code);
-
-        send();
-    }
-
-    private static void setAddressee(String addressee) {
-        SendEmailTLS.addressee = addressee;
-    }
-
-    private static void setText(String code) {
-        SendEmailTLS.text = "Witaj, tu Twój bank.\n\n" +
-                "Oto Twój kod weryfikacyjny: " + code;
-    }
-
-    private static void send(){
+    public static void send(String addressee, String subject, String text){
         System.out.println("Wysyłanie wiadomości na adres " + addressee + "...");
 
         final String sender = "twoj.kochany.bank@gmail.com";

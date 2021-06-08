@@ -2,9 +2,6 @@ package pl.pwsztar;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.robot.Robot;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
@@ -82,21 +79,6 @@ public class SignInController {
 
     public void goToVerification() throws IOException {
         App.setRoot("registerVerification");
-    }
-
-    private void disableAllSpaceBar() {
-        disableSpaceBar(login);
-        disableSpaceBar(password);
-    }
-
-    private void disableSpaceBar(TextInputControl input) {
-        input.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                Robot r = new Robot();
-                r.keyPress(KeyCode.BACK_SPACE);
-                r.keyRelease(KeyCode.BACK_SPACE);
-            }
-        });
     }
 
     private boolean isInputBlank() {
