@@ -21,6 +21,7 @@ public class TakeLoanController {
 
     double calculatedInterest;
     double multiplier;
+    int duration;
 
     @FXML
     private void initialize() {
@@ -30,15 +31,19 @@ public class TakeLoanController {
 
             switch (number2.intValue()) {
                 case 0:
-                    multiplier = 0.1;
+                    duration = 3;
+                    multiplier = 0.10;
                     break;
                 case 1:
+                    duration = 6;
                     multiplier = 0.15;
                     break;
                 case 2:
+                    duration = 12;
                     multiplier = 0.20;
                     break;
                 case 3:
+                    duration = 24;
                     multiplier = 0.40;
                     break;
             }
@@ -96,7 +101,7 @@ public class TakeLoanController {
 
             try {
                 Database.createLoanInformation(App.loggedCustomerAccount.getAccountId(),
-                        Double.parseDouble(amount.getText()) + calculatedInterest);
+                        Double.parseDouble(amount.getText()) + calculatedInterest, duration);
                 Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), amount.getText());
             } catch (AccountNotFoundException e) {
                 e.printStackTrace();

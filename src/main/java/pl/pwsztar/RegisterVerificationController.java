@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
+import pl.pwsztar.Connect.Account;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 import pl.pwsztar.Connect.SendEmailTLS;
@@ -21,6 +22,7 @@ public class RegisterVerificationController {
     private String verificationCode;
 
     List<CustomerDto> customers;
+    CustomerDto customerDto;
 
     @FXML
     private void initialize() throws IOException {
@@ -52,12 +54,17 @@ public class RegisterVerificationController {
             infoDisplay.setText("Przetwarzamy Twoje dane...\nProsimy o cierpliwość.");
 
             if ( validateCode() ) {
-                infoDisplay.setText("Konto zostało aktywowane.\nMożesz się zalogować.");
+                infoDisplay.setText("Konto zostało aktywowane.\nWysłany został email z dalszymi instrukcjami.");
+
+                String content = "Weryfikacja Twojego konta przebiegła pomyślnie. " +
+                        "Do zalogowania się wykorzystasz utworzone hasło, " +
+                        "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
+
+                SendEmailTLS.send(email, "Weryfikacja zakończona", content);
             } else {
                 infoDisplay.setTextFill(Paint.valueOf("red"));
                 infoDisplay.setText("Nie udało się aktywować konta.\nSpróbuj ponownie później.");
             }
-
 
         }
 
@@ -77,6 +84,7 @@ public class RegisterVerificationController {
                 if (customer.getVerificationCode().equals(verificationCode)) {
                     Database.verifyCustomer(customer);
                     Database.updateAccountBalance(customer.getIdAccount(), "1000");
+                    customerDto = customer;
                     return true;
                 } else
                     return false;
