@@ -15,6 +15,8 @@ import pl.pwsztar.Connect.SendEmailTLS;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SignUpController {
 
@@ -59,7 +61,14 @@ public class SignUpController {
             errorDisplay.setText("Przetwarzamy Twoje dane...\n Prosimy o cierpliwość.");
             addUser();
             String content = "Witaj, tu Twój bank.\n\nOto Twój kod weryfikacyjny: " + code;
-            SendEmailTLS.send(email.getText(), "Kod weryfikacyjny", content);
+
+            // inside your getSalesUserData() method
+            ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+            emailExecutor.execute(() -> SendEmailTLS.send(email.getText(), "Kod weryfikacyjny", content));
+            emailExecutor.shutdown(); // it is very important to shutdown your non-singleton ExecutorService.
+
+
+
             App.setRoot("registerVerification");
         } else {
             errorDisplay.setText("Na taki adres email zostało już utworzone konto!");

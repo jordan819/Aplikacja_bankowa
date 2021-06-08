@@ -11,6 +11,8 @@ import pl.pwsztar.Connect.SendEmailTLS;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RegisterVerificationController {
     public TextField emailInput;
@@ -59,7 +61,12 @@ public class RegisterVerificationController {
                         "Do zalogowania się wykorzystasz utworzone hasło, " +
                         "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
 
-                SendEmailTLS.send(email, "Weryfikacja zakończona", content);
+                // inside your getSalesUserData() method
+                ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+                emailExecutor.execute(() -> SendEmailTLS.send(email, "Weryfikacja zakończona", content));
+                emailExecutor.shutdown(); // it is very important to shutdown your non-singleton ExecutorService.
+
+
             } else {
                 infoDisplay.setTextFill(Paint.valueOf("red"));
                 infoDisplay.setText("Nie udało się aktywować konta.\nSpróbuj ponownie później.");
