@@ -9,23 +9,28 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za splacanie pozyczki.
+ * Wyswietla kwote jaka wciaz nalezy splacic.
+ * Przyjmuje kwote jaka uzytkownik chce wplacic w ramach jej splacania.
+ * Jezeli saldo pozwala na jej wplacenie, oraz nie jest wieksza niz wysokosc pozyczki, pieniedze zostaja wplacone.
+ * W przeciwnym razie, zostaje wyswietlony odpowiedni komunikat.
+ */
 public class PayLoanController {
 
     @FXML
-    private Label loanDisplay;
+    private Label loanDisplay, infoDisplay;
 
     @FXML
-    public Label infoDisplay;
+    private TextField amount;
 
     @FXML
-    public TextField amount;
-
-    @FXML
-    public Button payInBtn;
+    private Button payInBtn;
 
     @FXML
     private void initialize() {
-        String info = String.format("Do spłacenia pozostało:\n%.2f %s", App.loggedCustomerAccount.getLoan(), App.loggedCustomerAccount.getCurrency());
+        String info = String.format("Do spłacenia pozostało:\n%.2f %s",
+                App.loggedCustomerAccount.getLoan(), App.loggedCustomerAccount.getCurrency());
         loanDisplay.setText(info);
 
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -52,11 +57,13 @@ public class PayLoanController {
         });
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void payIn() {
+    @FXML
+    private void payIn() {
         infoDisplay.setVisible(true);
         if ( Double.parseDouble(amount.getText()) > App.loggedCustomerAccount.getBalance() ) {
             infoDisplay.setTextFill(Paint.valueOf("red"));
@@ -66,11 +73,13 @@ public class PayLoanController {
             infoDisplay.setText("Podałeś kwotę większą niż wartość Twojej pożyczki!");
         } else {
             try {
-                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), "-" + amount.getText());
+                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(),
+                        "-" + amount.getText());
                 Database.updateLoanInformation(App.loggedCustomerAccount.getAccountId(),
                         Double.parseDouble(amount.getText()));
                 infoDisplay.setTextFill(Paint.valueOf("green"));
                 infoDisplay.setText("Wpłata dokonana pomyślnie.");
+                payInBtn.setDisable(true);
             } catch (AccountNotFoundException e) {
                 e.printStackTrace();
                 infoDisplay.setTextFill(Paint.valueOf("red"));

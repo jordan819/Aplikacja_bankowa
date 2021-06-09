@@ -8,17 +8,22 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za wyplacanie pieniedzy z konta.
+ * Udostepnia mozliwosc wybrania 1 z 6 kwot, lub wpisania wlasnej.
+ * Po nacisnieciu przycisku, sprawdza, czy saldo pozwala na wyplacenie wybranej kwoty.
+ * Jezeli tak, jest ona wyplacana, w przeciwnym razie, wyswietlony zostaje komunikat o braku srodkow.
+ */
 public class PayOutController {
 
-    public TextField otherInput;
-    public Button btn10;
-    public Button btn20;
-    public Button btn50;
-    public Button btn100;
-    public Button btn200;
-    public Button btn500;
-    public Button otherButton;
-    public Label infoDisplay;
+    @FXML
+    private TextField otherInput;
+
+    @FXML
+    private Button btn10, btn20, btn50, btn100, btn200, btn500, otherButton;
+
+    @FXML
+    private Label infoDisplay;
 
     @FXML
     private void initialize() {
@@ -44,31 +49,38 @@ public class PayOutController {
 
     }
 
-    public void payOut10() {
+    @FXML
+    private void payOut10() {
         payOut("10");
     }
 
-    public void payOut20() {
+    @FXML
+    private void payOut20() {
         payOut("20");
     }
 
-    public void payOut50() {
+    @FXML
+    private void payOut50() {
         payOut("50");
     }
 
-    public void payOut100() {
+    @FXML
+    private void payOut100() {
         payOut("100");
     }
 
-    public void payOut200() {
+    @FXML
+    private void payOut200() {
         payOut("200");
     }
 
-    public void payOut500() {
+    @FXML
+    private void payOut500() {
         payOut("500");
     }
 
-    public void payOutOther() {
+    @FXML
+    private void payOutOther() {
         payOut(otherInput.getText());
     }
 
@@ -86,7 +98,8 @@ public class PayOutController {
         return App.loggedCustomerAccount.getBalance() >= amount;
     }
 
-    public void goBack() {
+    @FXML
+    private void goBack() {
         try {
             App.setRoot("accountManage");
         } catch (IOException e) {

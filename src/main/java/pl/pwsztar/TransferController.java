@@ -8,11 +8,19 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za wykonywanie przelewow.
+ * Przyjmuje od uzytkownika wprowadzane z klawiatury kwote i numer konta odbiorcy.
+ * Jesli dane sa poprawne, a stan konta pozwala na wykonywanie operacji,
+ * salda kont nadawcy i odbiorcy sa aktualizowane.
+ */
 public class TransferController {
 
-    public TextField toAccountInput;
-    public TextField amount;
-    public Label infoDisplay;
+    @FXML
+    private TextField toAccountInput, amount;
+
+    @FXML
+    private Label infoDisplay;
 
     @FXML
     private void initialize() {
@@ -47,7 +55,8 @@ public class TransferController {
         });
     }
 
-    public void makeTransfer() {
+    @FXML
+    private void makeTransfer() {
         infoDisplay.setVisible(true);
 
         if ( !inputBlank() ) {
@@ -59,7 +68,8 @@ public class TransferController {
             try {
                 Database.updateAccountBalance(toAccountInput.getText(), amount.getText(),
                         App.loggedCustomerAccount.getCurrency());
-                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), "-" + amount.getText());
+                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(),
+                        "-" + amount.getText());
                 infoDisplay.setTextFill(Paint.valueOf("green"));
                 infoDisplay.setText("Przelano pieniądze!");
             } catch (AccountNotFoundException e) {
@@ -75,7 +85,8 @@ public class TransferController {
         return toAccountInput.getText().isBlank() || amount.getText().isBlank();
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("accountManage");
     }
 }

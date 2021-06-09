@@ -5,6 +5,10 @@ import pl.pwsztar.AccountNotFoundException;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Reprezentuje konto klienta banku.
+ * Przechowuje i udostepnia informacje o koncie uzytkownika banku.
+ */
 public class Account {
 
     private final String accountId;
@@ -14,7 +18,12 @@ public class Account {
     private final Double loan;
     private final Date loanDate;
 
-
+    /**
+     * Tworzy nowy obiekt, pobierajac dane z bazy.
+     *
+     * @param accountId numer konta
+     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
+     */
     public Account(String accountId) throws AccountNotFoundException{
         List<Account> accounts = Database.fetchAccounts();
         for (Account account: accounts) {
@@ -31,7 +40,8 @@ public class Account {
         throw new AccountNotFoundException();
     }
 
-    protected Account(String accountId, String customerId, double balance, String currency, Double loan, Date loanDate) {
+    protected Account(String accountId, String customerId, double balance, String currency,
+                      Double loan, Date loanDate) {
         this.accountId = accountId;
         this.customerId = customerId;
         this.balance = balance;
@@ -40,26 +50,44 @@ public class Account {
         this.loanDate = loanDate;
     }
 
+    /**
+     * @return numer konta
+     */
     public String getAccountId() {
         return accountId;
     }
 
+    /**
+     * @return numer klienta
+     */
     public String getCustomerId() {
         return customerId;
     }
 
+    /**
+     * @return stan konta
+     */
     public double getBalance() {
         return balance;
     }
 
+    /**
+     * @return waluta konta
+     */
     public String getCurrency() {
         return currency;
     }
 
+    /**
+     * @return wartosc pozyczki do splacenia
+     */
     public Double getLoan() {
         return loan;
     }
 
+    /**
+     * @return ostateczna data splacenia pozyczki
+     */
     public Date getLoanDate() {
         return loanDate;
     }

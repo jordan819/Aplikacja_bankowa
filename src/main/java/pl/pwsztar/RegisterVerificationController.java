@@ -14,10 +14,18 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za weryfikację konta uzytkownika.
+ * Przyjmje adres email i kod wyslany mailem, jezeli dane sie zgadzaja,
+ * a konto nie zostalo jeszcze aktywowane ani dezaktywowane, nastepuje aktywacja konta.
+ */
 public class RegisterVerificationController {
-    public TextField emailInput;
-    public TextField verificationCodeInput;
-    public Label infoDisplay;
+
+    @FXML
+    private TextField emailInput, verificationCodeInput;
+
+    @FXML
+    private Label infoDisplay;
 
     private String email;
     private String verificationCode;
@@ -35,11 +43,13 @@ public class RegisterVerificationController {
         }
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("SignIn");
     }
 
-    public void verifyAccount() {
+    @FXML
+    private void verifyAccount() {
 
         infoDisplay.setVisible(true);
         infoDisplay.setTextFill(Paint.valueOf("red"));
@@ -61,10 +71,9 @@ public class RegisterVerificationController {
                         "Do zalogowania się wykorzystasz utworzone hasło, " +
                         "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
 
-                // inside your getSalesUserData() method
                 ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
                 emailExecutor.execute(() -> SendEmailTLS.send(email, "Weryfikacja zakończona", content));
-                emailExecutor.shutdown(); // it is very important to shutdown your non-singleton ExecutorService.
+                emailExecutor.shutdown();
 
 
             } else {

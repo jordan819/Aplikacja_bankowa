@@ -10,10 +10,17 @@ import pl.pwsztar.Connect.Database;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za ekran powitalny po zalogowaniu.
+ * Umozliwia nawigacje do wszystkich funkcjonalnosci konta.
+ */
 public class AccountManageController {
 
-    public Label balanceDisplay;
-    public Label infoDisplay;
+    @FXML
+    private Label balanceDisplay;
+
+    @FXML
+    private Label infoDisplay;
 
     @FXML
     private void initialize() throws IOException {
@@ -30,27 +37,33 @@ public class AccountManageController {
         }
     }
 
-    public void goToCurrencyConversion() throws IOException {
+    @FXML
+    private void goToCurrencyConversion() throws IOException {
         App.setRoot("currencyConversion");
     }
 
-    public void goToPayIn() throws IOException {
+    @FXML
+    private void goToPayIn() throws IOException {
         App.setRoot("payIn");
     }
 
-    public void goToPayOut() throws IOException {
+    @FXML
+    private void goToPayOut() throws IOException {
         App.setRoot("payOut");
     }
 
-    public void goToTransfer() throws IOException {
+    @FXML
+    private void goToTransfer() throws IOException {
         App.setRoot("transfer");
     }
 
-    public void goToDeactivate() throws IOException {
+    @FXML
+    private void goToDeactivate() throws IOException {
         App.setRoot("deactivate");
     }
 
-    public void goToTakeLoan() throws IOException {
+    @FXML
+    private void goToTakeLoan() throws IOException {
         if(App.loggedCustomerAccount.getLoan() == null)
             App.setRoot("takeLoan");
         else {
@@ -60,7 +73,8 @@ public class AccountManageController {
         }
     }
 
-    public void goToPayLoan() throws IOException {
+    @FXML
+    private void goToPayLoan() throws IOException {
         if(App.loggedCustomerAccount.getLoan() != null)
             App.setRoot("payLoan");
         else {

@@ -12,11 +12,14 @@ import pl.pwsztar.Connect.Database;
 import java.io.IOException;
 
 /**
- * JavaFX App
+ * Aplikacja bankowa.
+ * Umozliwia uzytkownikowi zalozenie konta bankowego i zarzadzanie nim.
  */
 public class App extends Application {
 
-    //numer rozliczeniowy banku, wykorzystywany do utworzenia numeru konta klienta
+    /**
+     * Numer rozliczeniowy banku, wykorzystywany do utworzenia numeru konta klienta.
+     */
     public static final String BANK_NO = "1234";
 
     static CustomerDto loggedCustomer;
@@ -30,7 +33,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-        new Database();
+        Database.makeConnection();
 
     }
 
@@ -43,6 +46,10 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
+    /**
+     * Uruchamia aplikacje
+     * @param args args
+     */
     public static void main(String[] args) {
         launch();
     }

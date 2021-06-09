@@ -18,15 +18,23 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za rejestracje uzytkownika.
+ * Sprawdza czy wszyskie pola formularza zostaly wypelnione,
+ * email i haslo wpisane dwukrotnie sie zgadzaja, oraz czy haslo ma ponad 7 znakow.
+ * Jezeli tak, sprawdza czy w bazie nie istnieje juz konto zalozone na podany adres email.
+ * W przypadku, gdy jeden z warunkow nie zostanie spelniony, odpowiedni komunikat jest wyswietlany uzytkownikowi.
+ */
 public class SignUpController {
 
-    public TextField firstName;
-    public TextField lastName;
-    public TextField email;
-    public PasswordField password;
-    public PasswordField passwordRepeat;
-    public TextField emailRepeat;
-    public Label errorDisplay;
+    @FXML
+    private TextField firstName, lastName, email, emailRepeat;
+
+    @FXML
+    private PasswordField password, passwordRepeat;
+
+    @FXML
+    private Label errorDisplay;
 
     private String code;
 
@@ -36,11 +44,13 @@ public class SignUpController {
     }
 
 
-    public void goToSignIn() throws IOException {
+    @FXML
+    private void goToSignIn() throws IOException {
         App.setRoot("signIn");
     }
 
-    public void signUp() throws IOException {
+    @FXML
+    private void signUp() throws IOException {
 
         errorDisplay.setVisible(true);
         errorDisplay.setTextFill(Paint.valueOf("red"));

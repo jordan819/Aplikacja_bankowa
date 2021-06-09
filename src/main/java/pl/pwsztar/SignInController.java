@@ -9,13 +9,23 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za logowanie sie uzytkownika.
+ * Przyjmuje email i haslo, porownuje z danymi w bazie i loguje uzytkownika, lub odmawia dostepu.
+ */
 public class SignInController {
 
+    @FXML
+    private TextField login;
 
-    public TextField login;
-    public PasswordField password;
-    public Label infoDisplay;
-    public Button signInBtn;
+    @FXML
+    private PasswordField password;
+
+    @FXML
+    private Label infoDisplay;
+
+    @FXML
+    private Button signInBtn;
 
     @FXML
     private void initialize() {
@@ -38,7 +48,8 @@ public class SignInController {
         });
     }
 
-    public void SignIn() throws IOException {
+    @FXML
+    private void SignIn() throws IOException {
 
         if (isInputBlank()) {
             infoDisplay.setVisible(true);
@@ -73,11 +84,13 @@ public class SignInController {
         }
     }
 
-    public void goToSignUp() throws IOException {
+    @FXML
+    private void goToSignUp() throws IOException {
         App.setRoot("signUp");
     }
 
-    public void goToVerification() throws IOException {
+    @FXML
+    private void goToVerification() throws IOException {
         App.setRoot("registerVerification");
     }
 

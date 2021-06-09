@@ -10,14 +10,26 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za udzielanie pozyczki klientowi.
+ * Umozliwia mu podanie dowolnej kwoty pozyczki i wybranie jednej z kilku dostepnych dlugosci trwania pozyczki.
+ * Na biezaco oblicza i przedstawia uzytkownikowi wysokosc odsetek.
+ * Po zatwierdzeniu operacji, saldo uzytkownika oraz informacje o aktualnej pozyczce sa aktualizowane.
+ */
 public class TakeLoanController {
 
 
-    public Label interestDisplay;
-    public TextField amount;
-    public ChoiceBox lengthChoice;
-    public Label infoDisplay;
-    public Button takeLoan;
+    @FXML
+    private Label interestDisplay, infoDisplay;
+
+    @FXML
+    private TextField amount;
+
+    @FXML
+    private ChoiceBox lengthChoice;
+
+    @FXML
+    private Button takeLoan;
 
     double calculatedInterest;
     double multiplier;
@@ -27,7 +39,8 @@ public class TakeLoanController {
     private void initialize() {
         interestDisplay.setText("Wysokość odsetek:\n" + 0 + " " + App.loggedCustomerAccount.getCurrency());
         lengthChoice.getItems().addAll("3 miesiące", "6 miesiący", "1 rok", "2 lata");
-        lengthChoice.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, number2) -> {
+        lengthChoice.getSelectionModel().selectedIndexProperty().
+                addListener((observableValue, number, number2) -> {
 
             switch (number2.intValue()) {
                 case 0:
@@ -91,11 +104,13 @@ public class TakeLoanController {
         }
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void takeLoan() {
+    @FXML
+    private void takeLoan() {
         infoDisplay.setVisible(true);
         if(calculatedInterest != 0.0) {
 

@@ -7,16 +7,18 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za wplacanie pieniedzy na konto.
+ * Udostepnia mozliwosc wybrania 1 z 6 kwot, lub wpisania wlasnej.
+ * Po nacisnieciu przycisku, wartosc jest wplacana.
+ */
 public class PayInController {
 
-    public TextField otherInput;
-    public Button btn10;
-    public Button btn20;
-    public Button btn50;
-    public Button btn100;
-    public Button btn200;
-    public Button btn500;
-    public Button otherButton;
+    @FXML
+    private TextField otherInput;
+
+    @FXML
+    private Button btn10, btn20, btn50, btn100, btn200, btn500, otherButton;
 
     @FXML
     private void initialize() {
@@ -42,31 +44,38 @@ public class PayInController {
 
     }
 
-    public void payIn10() {
+    @FXML
+    private void payIn10() {
         payIn("10");
     }
 
-    public void payIn20() {
+    @FXML
+    private void payIn20() {
         payIn("20");
     }
 
-    public void payIn50() {
+    @FXML
+    private void payIn50() {
         payIn("50");
     }
 
-    public void payIn100() {
+    @FXML
+    private void payIn100() {
         payIn("100");
     }
 
-    public void payIn200() {
+    @FXML
+    private void payIn200() {
         payIn("200");
     }
 
-    public void payIn500() {
+    @FXML
+    private void payIn500() {
         payIn("500");
     }
 
-    public void payInOther() {
+    @FXML
+    private void payInOther() {
         payIn(otherInput.getText());
     }
 
@@ -75,7 +84,8 @@ public class PayInController {
         goBack();
     }
 
-    public void goBack() {
+    @FXML
+    private void goBack() {
         try {
             App.setRoot("accountManage");
         } catch (IOException e) {

@@ -8,13 +8,22 @@ import pl.pwsztar.Connect.Money;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za przewalutowanie salda.
+ * Uzytkownik wyniera z listy, na jaką walutę chce wymienić pieniadze.
+ * Pobierane sa informacje o aktualnym kursie wymiany walut,
+ * obliczony i wyswietlony zostaje stan konta po przewalutowaniu.
+ * Po wcisnieciu przycisku, zmiany zostaja zapisane w bazie.
+ */
 public class CurrencyConversionController {
 
-    public ChoiceBox choiceBox;
-    public Label exchangeDisplay;
+    @FXML
+    private ChoiceBox choiceBox;
+
+    @FXML
+    private Label exchangeDisplay;
 
     private String currencyBefore, currencyAfter;
-
     private double balanceBefore, balanceAfter;
 
     @FXML
@@ -22,6 +31,7 @@ public class CurrencyConversionController {
         currencyBefore = App.loggedCustomerAccount.getCurrency();
 
         choiceBox.getItems().addAll("PLN", "USD", "GBP", "EUR");
+        choiceBox.getItems().remove(App.loggedCustomerAccount.getCurrency());
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, number2) -> {
 
             currencyAfter = (String) choiceBox.getItems().get((Integer) number2);
@@ -39,11 +49,13 @@ public class CurrencyConversionController {
         choiceBox.getSelectionModel().selectFirst();
     }
 
-    public void goToAccountManage() throws IOException {
+    @FXML
+    private void goToAccountManage() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void convert() throws IOException {
+    @FXML
+    private void convert() throws IOException {
         try {
             Database.updateAccountCurrency(App.loggedCustomerAccount.getAccountId(), currencyAfter, balanceAfter);
         } catch (AccountNotFoundException e) {

@@ -7,18 +7,19 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * Klasa umozliwiajaca wyslanie wiadomosci email do pojedynczego adresata.
- *
- * <p>
- *     Adres nadawcy jest zdefiniowany na stale,
- *     mozliwe jest podanie adresu odbiorcy, oraz tematu i tresci wiadomosci.
- * </p>
- * <p>
- *     Klasa posiada publiczna metode, pozwalajaca sprawdzic poprawnosc dowolnego adresu email.
- * </p>
+ * Umozliwia wyslanie maila, oraz sprawdzenie poprawnosci adresu email.
  */
 public abstract class SendEmailTLS {
 
+    /**
+     * Umozliwia wyslanie maila.
+     * Adres nadawcy jest zdefiniowany na stale,
+     * wymagane jest podanie adresu odbiorcy, oraz tematu i tresci wysylanej wiadomosci.
+     *
+     * @param addressee adresat wiadomosci
+     * @param subject temat wiadomosci
+     * @param text tresc wiadomosci
+     */
     public static void send(String addressee, String subject, String text){
         System.out.println("Wysyłanie wiadomości na adres " + addressee + "...");
 
@@ -50,7 +51,6 @@ public abstract class SendEmailTLS {
             message.setText(text);
 
             Transport.send(message);
-
 
             System.out.println("Wiadomość została wysłana\n");
 
