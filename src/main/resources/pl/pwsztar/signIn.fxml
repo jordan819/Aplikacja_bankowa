@@ -9,16 +9,22 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="700.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.SignInController">
    <children>
-      <Label alignment="CENTER" layoutX="179.0" layoutY="56.0" text="Witaj w naszym banku!" textAlignment="CENTER" AnchorPane.bottomAnchor="390.4" AnchorPane.leftAnchor="167.6" AnchorPane.rightAnchor="167.6" AnchorPane.topAnchor="56.0">
+      <Label alignment="CENTER" layoutX="117.0" layoutY="34.0" prefHeight="84.0" prefWidth="467.0" text="Witaj w naszym banku!" textAlignment="CENTER" AnchorPane.bottomAnchor="382.0" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="34.0">
          <font>
-            <Font size="36.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="302.0" layoutY="352.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" AnchorPane.rightAnchor="301.2" />
-      <Button fx:id="signInBtn" disable="true" layoutX="287.0" layoutY="272.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="54.0" prefWidth="126.0" text="Logowanie" AnchorPane.leftAnchor="287.0" />
-      <TextField fx:id="login" layoutX="276.0" layoutY="149.0" promptText="Numer konta" AnchorPane.leftAnchor="275.2" AnchorPane.rightAnchor="275.2" />
-      <PasswordField fx:id="password" layoutX="275.0" layoutY="213.0" promptText="Hasło" AnchorPane.leftAnchor="275.2" AnchorPane.rightAnchor="275.2" />
-      <Button layoutX="277.0" layoutY="412.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />
+      <Button layoutX="303.0" layoutY="363.0" mnemonicParsing="false" onAction="#goToSignUp" text="Rejestracja" AnchorPane.rightAnchor="300.2" />
+      <Button fx:id="signInBtn" disable="true" layoutX="285.0" layoutY="273.0" mnemonicParsing="false" onAction="#SignIn" prefHeight="46.0" prefWidth="132.0" text="Logowanie" AnchorPane.leftAnchor="285.0" />
+      <TextField fx:id="login" layoutX="264.0" layoutY="136.0" prefHeight="37.0" prefWidth="174.0" promptText="Numer konta" AnchorPane.leftAnchor="264.0" AnchorPane.rightAnchor="262.0">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <PasswordField fx:id="password" layoutX="264.0" layoutY="205.0" prefHeight="38.0" prefWidth="174.0" promptText="Hasło" AnchorPane.leftAnchor="264.0" AnchorPane.rightAnchor="262.0">
+         <font>
+            <Font size="15.0" />
+         </font></PasswordField>
+      <Button layoutX="278.0" layoutY="412.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />
       <Label fx:id="infoDisplay" alignment="CENTER" layoutX="36.0" layoutY="422.0" prefHeight="53.0" prefWidth="630.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>
