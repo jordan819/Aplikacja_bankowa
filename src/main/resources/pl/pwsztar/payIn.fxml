@@ -6,50 +6,50 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.PayInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.PayInController">
    <children>
-      <Label layoutX="185.0" layoutY="30.0" text="Wpłata środków na konto">
+      <Label layoutX="94.0" layoutY="34.0" text="Wpłata środków na konto">
          <font>
-            <Font size="29.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="461.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
-      <Button fx:id="btn10" layoutX="205.0" layoutY="106.0" mnemonicParsing="false" onAction="#payIn10" prefHeight="59.0" prefWidth="97.0" text="10">
+      <Button layoutX="553.0" layoutY="423.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Button fx:id="btn10" layoutX="205.0" layoutY="119.0" mnemonicParsing="false" onAction="#payIn10" prefHeight="59.0" prefWidth="97.0" text="10">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn20" layoutX="205.0" layoutY="186.0" mnemonicParsing="false" onAction="#payIn20" prefHeight="59.0" prefWidth="97.0" text="20">
+      <Button fx:id="btn20" layoutX="205.0" layoutY="199.0" mnemonicParsing="false" onAction="#payIn20" prefHeight="59.0" prefWidth="97.0" text="20">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn50" layoutX="205.0" layoutY="268.0" mnemonicParsing="false" onAction="#payIn50" prefHeight="59.0" prefWidth="97.0" text="50">
+      <Button fx:id="btn50" layoutX="205.0" layoutY="281.0" mnemonicParsing="false" onAction="#payIn50" prefHeight="59.0" prefWidth="97.0" text="50">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn100" layoutX="398.0" layoutY="106.0" mnemonicParsing="false" onAction="#payIn100" prefHeight="59.0" prefWidth="97.0" text="100">
+      <Button fx:id="btn100" layoutX="398.0" layoutY="119.0" mnemonicParsing="false" onAction="#payIn100" prefHeight="59.0" prefWidth="97.0" text="100">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn200" layoutX="398.0" layoutY="186.0" mnemonicParsing="false" onAction="#payIn200" prefHeight="59.0" prefWidth="97.0" text="200">
+      <Button fx:id="btn200" layoutX="398.0" layoutY="199.0" mnemonicParsing="false" onAction="#payIn200" prefHeight="59.0" prefWidth="97.0" text="200">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btn500" layoutX="398.0" layoutY="268.0" mnemonicParsing="false" onAction="#payIn500" prefHeight="59.0" prefWidth="97.0" text="500">
+      <Button fx:id="btn500" layoutX="398.0" layoutY="281.0" mnemonicParsing="false" onAction="#payIn500" prefHeight="59.0" prefWidth="97.0" text="500">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="otherInput" alignment="CENTER" layoutX="276.0" layoutY="341.0" prefHeight="43.0" prefWidth="149.0" promptText="Wprowadź kwotę">
+      <TextField fx:id="otherInput" alignment="CENTER" layoutX="275.0" layoutY="350.0" prefHeight="43.0" prefWidth="149.0" promptText="Wprowadź kwotę">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="otherButton" disable="true" layoutX="302.0" layoutY="390.0" mnemonicParsing="false" onAction="#payInOther" prefHeight="59.0" prefWidth="97.0" text="Inna kwota">
+      <Button fx:id="otherButton" disable="true" layoutX="287.0" layoutY="401.0" mnemonicParsing="false" onAction="#payInOther" prefHeight="59.0" prefWidth="126.0" text="Inna kwota">
          <font>
             <Font size="14.0" />
          </font>

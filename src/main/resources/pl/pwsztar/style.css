@@ -1,0 +1,36 @@
+.root {
+    -fx-background-image: url("bg1.jpg");
+}
+
+.button{
+
+    -fx-background-color: #2196f3;
+    -fx-background-radius: 22;
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+}
+
+.button:hover{
+
+
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-font-size: 16;
+    -fx-text-fill: #2196f3 ;
+    -fx-border-color: #2196f3;
+    -fx-border-radius: 22;
+
+}
+
+.button:pressed{
+
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-font-size: 16;
+    -fx-text-fill: #2196f3 ;
+    -fx-border-color: #2196f3;
+    -fx-border-radius: 22;
+
+
+}
+

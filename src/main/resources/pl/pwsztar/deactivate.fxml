@@ -6,16 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.DeactivateController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.DeactivateController">
    <children>
-      <Label layoutX="224.0" layoutY="30.0" text="Dezaktywacja konta">
+      <Label layoutX="154.0" layoutY="37.0" text="Dezaktywacja konta" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="153.2">
          <font>
-            <Font size="29.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="428.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
-      <Label fx:id="infoDisplay" layoutX="224.0" layoutY="82.0" prefHeight="121.0" prefWidth="253.0" text="Jeżeli dezaktywujesz swoje konto, nie będziesz mógł wykonywać na nim żadnych operacji. Jeśli jesteś pewien, przepisz poniższy tekst:" textAlignment="CENTER" wrapText="true" />
-      <Button layoutX="302.0" layoutY="301.0" mnemonicParsing="false" onAction="#deactivate" text="Jestem pewien!" />
-      <TextField fx:id="textInput" layoutX="247.0" layoutY="217.0" prefHeight="33.0" prefWidth="196.0" />
+      <Button layoutX="315.0" layoutY="416.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Label fx:id="infoDisplay" layoutX="181.0" layoutY="103.0" prefHeight="122.0" prefWidth="365.0" text="Jeżeli dezaktywujesz swoje konto, nie będziesz mógł wykonywać na nim żadnych operacji. Jeśli jesteś pewien, przepisz poniższy tekst:" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="153.2">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Button layoutX="279.0" layoutY="305.0" mnemonicParsing="false" onAction="#deactivate" prefHeight="37.0" prefWidth="143.0" text="Jestem pewien!" AnchorPane.leftAnchor="279.0" AnchorPane.rightAnchor="278.0" />
+      <TextField fx:id="textInput" layoutX="252.0" layoutY="250.0" prefHeight="33.0" prefWidth="196.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="252.0" />
    </children>
 </AnchorPane>
