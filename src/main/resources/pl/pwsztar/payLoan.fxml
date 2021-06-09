@@ -6,17 +6,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.PayLoanController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.PayLoanController">
    <children>
-      <Label layoutX="253.0" layoutY="26.0" text="Spłać pożyczkę">
+      <Label layoutX="200.0" layoutY="34.0" text="Spłać pożyczkę">
          <font>
-            <Font size="29.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="398.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
-      <Label fx:id="loanDisplay" alignment="CENTER" layoutX="263.0" layoutY="82.0" prefHeight="52.0" prefWidth="174.0" text="Do spłacenia pozostało:" textAlignment="CENTER" />
-      <Button fx:id="payInBtn" disable="true" layoutX="325.0" layoutY="264.0" mnemonicParsing="false" onAction="#payIn" text="Wpłać" />
-      <TextField fx:id="amount" layoutX="276.0" layoutY="213.0" promptText="Kwota" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="126.0" layoutY="435.0" prefHeight="43.0" prefWidth="448.0" text="Label" textAlignment="CENTER" visible="false" />
+      <Button layoutX="313.0" layoutY="394.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Label fx:id="loanDisplay" alignment="CENTER" layoutX="226.0" layoutY="152.0" prefHeight="52.0" prefWidth="247.0" text="Do spłacenia pozostało:" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Button fx:id="payInBtn" disable="true" layoutX="289.0" layoutY="299.0" mnemonicParsing="false" onAction="#payIn" prefHeight="43.0" prefWidth="122.0" text="Wpłać" />
+      <TextField fx:id="amount" layoutX="266.0" layoutY="228.0" prefHeight="43.0" prefWidth="167.0" promptText="Kwota">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="126.0" layoutY="435.0" prefHeight="35.0" prefWidth="448.0" text="Label" textAlignment="CENTER" visible="false" />
    </children>
 </AnchorPane>

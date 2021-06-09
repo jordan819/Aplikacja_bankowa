@@ -7,18 +7,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.TakeLoanController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.TakeLoanController">
    <children>
-      <Label layoutX="260.0" layoutY="36.0" text="Weź pożyczkę">
+      <Label layoutX="220.0" layoutY="37.0" text="Weź pożyczkę">
          <font>
-            <Font size="29.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="325.0" layoutY="391.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
-      <Label fx:id="interestDisplay" alignment="CENTER" layoutX="268.0" layoutY="182.0" prefHeight="102.0" prefWidth="168.0" text="Wysokość odsetek:" textAlignment="CENTER" />
-      <TextField fx:id="amount" layoutX="186.0" layoutY="138.0" promptText="Kwota" />
-      <Button fx:id="takeLoan" layoutX="319.0" layoutY="316.0" mnemonicParsing="false" onAction="#takeLoan" text="Akceptuj" />
-      <ChoiceBox fx:id="lengthChoice" layoutX="377.0" layoutY="138.0" prefWidth="150.0" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="106.0" layoutY="424.0" prefHeight="62.0" prefWidth="493.0" text="Info Display" textAlignment="CENTER" visible="false" wrapText="true" />
+      <Button layoutX="316.0" layoutY="405.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Label fx:id="interestDisplay" alignment="CENTER" layoutX="268.0" layoutY="199.0" prefHeight="102.0" prefWidth="168.0" text="Wysokość odsetek:" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <TextField fx:id="amount" layoutX="180.0" layoutY="132.0" prefHeight="37.0" prefWidth="150.0" promptText="Kwota">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <Button fx:id="takeLoan" layoutX="310.0" layoutY="313.0" mnemonicParsing="false" onAction="#takeLoan" text="Akceptuj" />
+      <ChoiceBox fx:id="lengthChoice" layoutX="374.0" layoutY="132.0" prefHeight="38.0" prefWidth="150.0" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="106.0" layoutY="444.0" prefHeight="25.0" prefWidth="493.0" text="Info Display" textAlignment="CENTER" visible="false" wrapText="true" />
    </children>
 </AnchorPane>

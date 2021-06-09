@@ -6,17 +6,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.TransferController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.TransferController">
    <children>
-      <Label layoutX="222.0" layoutY="33.0" text="Robienie przelewów">
+      <Label layoutX="172.0" layoutY="29.0" text="Zlecenie przelewu">
          <font>
-            <Font size="29.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="398.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
-      <TextField fx:id="toAccountInput" layoutX="174.0" layoutY="182.0" promptText="Numer konta odbiorcy" />
-      <TextField fx:id="amount" layoutX="389.0" layoutY="182.0" promptText="Kwota" />
-      <Button layoutX="302.0" layoutY="265.0" mnemonicParsing="false" onAction="#makeTransfer" prefHeight="60.0" prefWidth="97.0" text="Wykonaj" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="98.0" layoutY="442.0" prefHeight="51.0" prefWidth="506.0" text="Label" textAlignment="CENTER" textFill="RED" />
+      <Button layoutX="314.0" layoutY="388.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <TextField fx:id="toAccountInput" layoutX="153.0" layoutY="147.0" prefHeight="44.0" prefWidth="174.0" promptText="Numer konta odbiorcy">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <TextField fx:id="amount" layoutX="393.0" layoutY="147.0" prefHeight="44.0" prefWidth="158.0" promptText="Kwota">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <Button layoutX="285.0" layoutY="228.0" mnemonicParsing="false" onAction="#makeTransfer" prefHeight="60.0" prefWidth="130.0" text="Wykonaj" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="97.0" layoutY="435.0" prefHeight="35.0" prefWidth="506.0" text="Label" textAlignment="CENTER" textFill="RED" />
    </children>
 </AnchorPane>

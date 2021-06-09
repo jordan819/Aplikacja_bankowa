@@ -6,17 +6,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.RegisterVerificationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.RegisterVerificationController">
    <children>
-      <Label layoutX="212.0" layoutY="27.0" text="Weryfikacja rejestracji">
+      <Label layoutX="145.0" layoutY="27.0" text="Weryfikacja rejestracji">
          <font>
-            <Font size="29.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="324.0" layoutY="399.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
-      <TextField fx:id="emailInput" layoutX="276.0" layoutY="169.0" promptText="e-mail" />
-      <TextField fx:id="verificationCodeInput" layoutX="276.0" layoutY="238.0" promptText="kod weryfikacyjny" />
-      <Button layoutX="315.0" layoutY="310.0" mnemonicParsing="false" onAction="#verifyAccount" text="Zweryfikuj" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="21.0" layoutY="443.0" prefHeight="43.0" prefWidth="651.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
+      <Button layoutX="324.0" layoutY="390.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <TextField fx:id="emailInput" layoutX="274.0" layoutY="141.0" prefHeight="43.0" prefWidth="172.0" promptText="e-mail">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <TextField fx:id="verificationCodeInput" layoutX="274.0" layoutY="222.0" prefHeight="43.0" prefWidth="172.0" promptText="kod weryfikacyjny">
+         <font>
+            <Font size="15.0" />
+         </font></TextField>
+      <Button layoutX="310.0" layoutY="298.0" mnemonicParsing="false" onAction="#verifyAccount" prefHeight="43.0" prefWidth="99.0" text="Zweryfikuj" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="73.0" layoutY="443.0" prefHeight="27.0" prefWidth="567.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>
