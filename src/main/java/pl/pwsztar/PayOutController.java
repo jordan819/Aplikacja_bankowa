@@ -10,15 +10,14 @@ import java.io.IOException;
 
 public class PayOutController {
 
-    public TextField otherInput;
-    public Button btn10;
-    public Button btn20;
-    public Button btn50;
-    public Button btn100;
-    public Button btn200;
-    public Button btn500;
-    public Button otherButton;
-    public Label infoDisplay;
+    @FXML
+    private TextField otherInput;
+
+    @FXML
+    private Button btn10, btn20, btn50, btn100, btn200, btn500, otherButton;
+
+    @FXML
+    private Label infoDisplay;
 
     @FXML
     private void initialize() {

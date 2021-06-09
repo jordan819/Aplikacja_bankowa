@@ -20,13 +20,14 @@ import java.util.concurrent.Executors;
 
 public class SignUpController {
 
-    public TextField firstName;
-    public TextField lastName;
-    public TextField email;
-    public PasswordField password;
-    public PasswordField passwordRepeat;
-    public TextField emailRepeat;
-    public Label errorDisplay;
+    @FXML
+    private TextField firstName, lastName, email, emailRepeat;
+
+    @FXML
+    private PasswordField password, passwordRepeat;
+
+    @FXML
+    private Label errorDisplay;
 
     private String code;
 

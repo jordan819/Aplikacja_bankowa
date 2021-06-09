@@ -76,19 +76,13 @@ public class Database {
 
 
     public static List<String[]> getTableContent(String tableName) throws SQLException {
-        DatabaseMetaData md = connection.getMetaData();
-        ResultSet rs = md.getColumns(null, "%", tableName, null);
-
-        // znalezienie nazwy schematu, w którym jest tabela
-        rs.next();
         String schemaName = "bank";
 
         String query = "SELECT * FROM " + schemaName + "." + tableName;
         Statement stmt = connection.createStatement();
-        rs = stmt.executeQuery(query);
+        ResultSet rs = stmt.executeQuery(query);
 
         List<String> columns = getColumnNames(tableName);
-
 
         int width = columns.size();
 
@@ -232,12 +226,10 @@ public class Database {
     public static void updateAccountBalance(String accountNo, String value, String currency) throws AccountNotFoundException {
 
         List<Account> accounts = fetchAccounts();
-        //Account targetAccount;
         String targetCurrency = null;
 
         for (Account account: accounts) {
             if (account.getAccountId().equals(accountNo)) {
-                //targetAccount = account;
                 targetCurrency = account.getCurrency();
                 break;
             }

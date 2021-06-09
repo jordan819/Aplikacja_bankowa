@@ -12,10 +12,7 @@ import java.io.IOException;
 public class PayLoanController {
 
     @FXML
-    private Label loanDisplay;
-
-    @FXML
-    public Label infoDisplay;
+    private Label loanDisplay, infoDisplay;
 
     @FXML
     public TextField amount;
@@ -25,7 +22,8 @@ public class PayLoanController {
 
     @FXML
     private void initialize() {
-        String info = String.format("Do spłacenia pozostało:\n%.2f %s", App.loggedCustomerAccount.getLoan(), App.loggedCustomerAccount.getCurrency());
+        String info = String.format("Do spłacenia pozostało:\n%.2f %s",
+                App.loggedCustomerAccount.getLoan(), App.loggedCustomerAccount.getCurrency());
         loanDisplay.setText(info);
 
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -66,7 +64,8 @@ public class PayLoanController {
             infoDisplay.setText("Podałeś kwotę większą niż wartość Twojej pożyczki!");
         } else {
             try {
-                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), "-" + amount.getText());
+                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(),
+                        "-" + amount.getText());
                 Database.updateLoanInformation(App.loggedCustomerAccount.getAccountId(),
                         Double.parseDouble(amount.getText()));
                 infoDisplay.setTextFill(Paint.valueOf("green"));

@@ -43,9 +43,9 @@ public abstract class Money {
             request.connect();
 
 
-            JsonParser jp = new JsonParser(); //from gson
-            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-            JsonObject jsonObject = root.getAsJsonObject(); //May be an array, may be an object.
+            JsonParser jp = new JsonParser();
+            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+            JsonObject jsonObject = root.getAsJsonObject();
             exchangeRate = jsonObject.get("rates").getAsJsonArray().get(0).getAsJsonObject().get("mid").getAsDouble();
         } catch (IOException e) {
             e.printStackTrace();

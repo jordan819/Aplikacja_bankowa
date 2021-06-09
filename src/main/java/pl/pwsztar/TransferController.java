@@ -10,9 +10,11 @@ import java.io.IOException;
 
 public class TransferController {
 
-    public TextField toAccountInput;
-    public TextField amount;
-    public Label infoDisplay;
+    @FXML
+    private TextField toAccountInput, amount;
+
+    @FXML
+    private Label infoDisplay;
 
     @FXML
     private void initialize() {

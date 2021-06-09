@@ -15,9 +15,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RegisterVerificationController {
-    public TextField emailInput;
-    public TextField verificationCodeInput;
-    public Label infoDisplay;
+
+    @FXML
+    private TextField emailInput, verificationCodeInput;
+
+    @FXML
+    private Label infoDisplay;
 
     private String email;
     private String verificationCode;

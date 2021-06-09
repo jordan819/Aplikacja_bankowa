@@ -13,11 +13,17 @@ import java.io.IOException;
 public class TakeLoanController {
 
 
-    public Label interestDisplay;
-    public TextField amount;
-    public ChoiceBox lengthChoice;
-    public Label infoDisplay;
-    public Button takeLoan;
+    @FXML
+    private Label interestDisplay, infoDisplay;
+
+    @FXML
+    private TextField amount;
+
+    @FXML
+    private ChoiceBox lengthChoice;
+
+    @FXML
+    private Button takeLoan;
 
     double calculatedInterest;
     double multiplier;

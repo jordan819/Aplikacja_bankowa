@@ -10,8 +10,11 @@ import java.io.IOException;
 
 public class CurrencyConversionController {
 
-    public ChoiceBox choiceBox;
-    public Label exchangeDisplay;
+    @FXML
+    private ChoiceBox choiceBox;
+
+    @FXML
+    private Label exchangeDisplay;
 
     private String currencyBefore, currencyAfter;
 

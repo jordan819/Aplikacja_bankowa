@@ -12,10 +12,17 @@ import java.util.List;
 public class SignInController {
 
 
-    public TextField login;
-    public PasswordField password;
-    public Label infoDisplay;
-    public Button signInBtn;
+    @FXML
+    private TextField login;
+
+    @FXML
+    private PasswordField password;
+
+    @FXML
+    private Label infoDisplay;
+
+    @FXML
+    private Button signInBtn;
 
     @FXML
     private void initialize() {
