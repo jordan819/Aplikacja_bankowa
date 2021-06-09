@@ -10,6 +10,12 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za udzielanie pozyczki klientowi.
+ * Umozliwia mu podanie dowolnej kwoty pozyczki i wybranie jednej z kilku dostepnych dlugosci trwania pozyczki.
+ * Na biezaco oblicza i przedstawia uzytkownikowi wysokosc odsetek.
+ * Po zatwierdzeniu operacji, saldo uzytkownika oraz informacje o aktualnej pozyczce sa aktualizowane.
+ */
 public class TakeLoanController {
 
 

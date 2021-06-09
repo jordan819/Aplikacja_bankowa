@@ -7,6 +7,10 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za dezaktywacje konta uzytkownika.
+ * Po wprowadzeniu przez niego potwierdzenia, baza danych jest aktualizowana, a uzytkownik wylogowany.
+ */
 public class DeactivateController {
 
     @FXML

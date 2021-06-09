@@ -10,6 +10,10 @@ import pl.pwsztar.Connect.Database;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za ekran powitalny po zalogowaniu.
+ * Umozliwia nawigacje do wszystkich funkcjonalnosci konta.
+ */
 public class AccountManageController {
 
     @FXML

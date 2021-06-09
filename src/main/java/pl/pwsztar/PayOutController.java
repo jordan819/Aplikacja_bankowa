@@ -8,6 +8,12 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za wyplacanie pieniedzy z konta.
+ * Udostepnia mozliwosc wybrania 1 z 6 kwot, lub wpisania wlasnej.
+ * Po nacisnieciu przycisku, sprawdza, czy saldo pozwala na wyplacenie wybranej kwoty.
+ * Jezeli tak, jest ona wyplacana, w przeciwnym razie, wyswietlony zostaje komunikat o braku srodkow.
+ */
 public class PayOutController {
 
     @FXML

@@ -1,3 +1,6 @@
+/**
+ * Glowny modul aplikacji
+ */
 module pl.pwsztar {
     requires javafx.controls;
     requires javafx.fxml;

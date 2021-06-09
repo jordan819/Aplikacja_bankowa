@@ -9,6 +9,13 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za splacanie pozyczki.
+ * Wyswietla kwote jaka wciaz nalezy splacic.
+ * Przyjmuje kwote jaka uzytkownik chce wplacic w ramach jej splacania.
+ * Jezeli saldo pozwala na jej wplacenie, oraz nie jest wieksza niz wysokosc pozyczki, pieniedze zostaja wplacone.
+ * W przeciwnym razie, zostaje wyswietlony odpowiedni komunikat.
+ */
 public class PayLoanController {
 
     @FXML

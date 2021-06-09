@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za logowanie sie uzytkownika.
+ * Przyjmuje email i haslo, porownuje z danymi w bazie i loguje uzytkownika, lub odmawia dostepu.
+ */
 public class SignInController {
-
 
     @FXML
     private TextField login;

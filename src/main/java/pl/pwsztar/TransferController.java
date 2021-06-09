@@ -8,6 +8,12 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za wykonywanie przelewow.
+ * Przyjmuje od uzytkownika wprowadzane z klawiatury kwote i numer konta odbiorcy.
+ * Jesli dane sa poprawne, a stan konta pozwala na wykonywanie operacji,
+ * salda kont nadawcy i odbiorcy sa aktualizowane.
+ */
 public class TransferController {
 
     @FXML

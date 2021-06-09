@@ -7,6 +7,11 @@ import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za wplacanie pieniedzy na konto.
+ * Udostepnia mozliwosc wybrania 1 z 6 kwot, lub wpisania wlasnej.
+ * Po nacisnieciu przycisku, wartosc jest wplacana.
+ */
 public class PayInController {
 
     @FXML

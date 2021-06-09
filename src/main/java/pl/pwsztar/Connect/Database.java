@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Umozliwia operacje na podlaczonej bazie danych.
+ * Pozwala odczytywac, dodawac, oraz modyfikowac dane, znajdujace sie w zdefiniowanej na stale bazie.
+ */
 public abstract class Database {
 
     private static Connection connection;
@@ -14,8 +18,15 @@ public abstract class Database {
     private static final String user = "2021_zaucha_patryk";
     private static final String pass = "1234";
     private static String url = "jdbc:postgresql://%s:%d/%s";
+
+    /**
+     * Status polaczenia z baza, true jesli jest nawiazane.
+     */
     public static boolean status;
 
+    /**
+     * Pozwala na nawiazanie polaczenia z baza danych.
+     */
     public static void makeConnection() {
         String host = "195.150.230.210";
         String database = "2021_zaucha_patryk";
@@ -44,6 +55,12 @@ public abstract class Database {
         System.out.println("connection status:" + status);
     }
 
+    /**
+     * Pobiera dane o klientach.
+     *
+     * @return liste klientow
+     * @throws SQLException gdy polaczenie zostanie odrzucone
+     */
     public static List<CustomerDto> fetchCustomers() throws SQLException {
 
         boolean isVerified;
@@ -72,7 +89,7 @@ public abstract class Database {
     }
 
 
-    public static List<String[]> getTableContent(String tableName) throws SQLException {
+    private static List<String[]> getTableContent(String tableName) throws SQLException {
         String schemaName = "bank";
 
         String query = "SELECT * FROM " + schemaName + "." + tableName;
@@ -100,7 +117,7 @@ public abstract class Database {
     }
 
 
-    public static List<String> getColumnNames(String tableName) throws SQLException {
+    private static List<String> getColumnNames(String tableName) throws SQLException {
 
         DatabaseMetaData md = connection.getMetaData();
         ResultSet rs = md.getColumns(null, null, tableName, "%");
@@ -112,6 +129,11 @@ public abstract class Database {
         return columns;
     }
 
+    /**
+     * Dodaje dane o nowym uzytkowniku do bazy danych.
+     *
+     * @param customer uzytkownik, ktory zostanie dodany
+     */
     public static void addCustomer(Customer customer) {
 
         Thread thread = new Thread(() -> {
@@ -138,6 +160,11 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Ustawia w bazie danych konto podanego uzytkownika jak zweryfikowane.
+     *
+     * @param customer uzytkownik, ktorego konto ma zostac zweryfikowane
+     */
     public static void verifyCustomer(CustomerDto customer) {
 
         Thread thread = new Thread(() -> {
@@ -158,6 +185,12 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Ustawia nowy numer konta dla uzytkownika poslugujacego sie podanym adresem email.
+     *
+     * @param email adres email uzytkownika
+     * @param accountNo nowy numer konta
+     */
     public static void setAccountNo(String email, String accountNo) {
 
         Thread thread = new Thread(() -> {
@@ -178,6 +211,12 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Dodaje nowe konto bankowe uzytkownika.
+     *
+     * @param accountNo nowy numer konta
+     * @param customerId nowy numer klienta
+     */
     public static void addAccount(String accountNo, String customerId) {
 
         Thread thread = new Thread(() -> {
@@ -199,6 +238,12 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Modyfikuje aktualny stan konta.
+     *
+     * @param accountNo numer konta ktore ma zostac zmodyfikowane
+     * @param value wartosc, o jaka stan konta zostanie zmieniony
+     */
     public static void updateAccountBalance(String accountNo, String value) {
 
         Thread thread = new Thread(() -> {
@@ -219,7 +264,14 @@ public abstract class Database {
         }
     }
 
-
+    /**
+     * Modyfikuje aktualny stan konta z uwzglednieniem jego waluty, oraz podanej jako argument.
+     *
+     * @param accountNo numer konta ktore ma zostac zmodyfikowane
+     * @param value wartosc, o jaka stan konta zostanie zmieniony
+     * @param currency waluta jaka zostaje wplacana
+     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
+     */
     public static void updateAccountBalance(String accountNo, String value, String currency)
             throws AccountNotFoundException {
 
@@ -258,6 +310,12 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Pobiera liste kont bankowych.
+     *
+     * @return lista kont
+     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
+     */
     public static List<Account> fetchAccounts() throws AccountNotFoundException {
 
         try {
@@ -294,6 +352,14 @@ public abstract class Database {
         throw new AccountNotFoundException();
     }
 
+    /**
+     * Modyfikuje walute, w jakiej przechowywane sa pieniadze na koncie.
+     *
+     * @param accountNo numer konta ktore ma zostac zmodyfikowane
+     * @param value wartosc, o jaka stan konta zostanie zmieniony
+     * @param currency waluta jaka zostaje wplacana
+     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
+     */
     public static void updateAccountCurrency(String accountNo, String currency, double value)
             throws AccountNotFoundException {
 
@@ -323,6 +389,14 @@ public abstract class Database {
 
     }
 
+    /**
+     * Tworzy informacje o nowej pozyczce.
+     *
+     * @param accountNo numer konta ktore ma zostac zmodyfikowane
+     * @param loanValue wartosc pozyczki
+     * @param duration czas trwania pozyczki
+     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
+     */
     public static void createLoanInformation(String accountNo, double loanValue, int duration)
             throws AccountNotFoundException {
         new Account(accountNo);
@@ -350,6 +424,13 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Modyfikuje kwote pozyczki, jaka pozostala do splacenia.
+     *
+     * @param accountId numer konta, o ktorym informacja zostaje zmieniona
+     * @param amount wartosc, o jaka zostaje zmeiniona wartosc pozyczki
+     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
+     */
     public static void updateLoanInformation(String accountId, Double amount) throws AccountNotFoundException {
         Account account = new Account(accountId);
         Thread thread = new Thread(() -> {
@@ -376,6 +457,11 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Dezaktywuje konto uzytkownika.
+     *
+     * @param accountId numer konta, ktore ma zostac zdezaktywowane
+     */
     public static void deactivateAccount(String accountId) {
         Thread thread = new Thread(() -> {
             String query = "UPDATE bank.customers " +

@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za weryfikację konta uzytkownika.
+ * Przyjmje adres email i kod wyslany mailem, jezeli dane sie zgadzaja,
+ * a konto nie zostalo jeszcze aktywowane ani dezaktywowane, nastepuje aktywacja konta.
+ */
 public class RegisterVerificationController {
 
     @FXML

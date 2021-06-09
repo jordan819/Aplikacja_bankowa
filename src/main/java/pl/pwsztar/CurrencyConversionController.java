@@ -8,6 +8,13 @@ import pl.pwsztar.Connect.Money;
 
 import java.io.IOException;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za przewalutowanie salda.
+ * Uzytkownik wyniera z listy, na jaką walutę chce wymienić pieniadze.
+ * Pobierane sa informacje o aktualnym kursie wymiany walut,
+ * obliczony i wyswietlony zostaje stan konta po przewalutowaniu.
+ * Po wcisnieciu przycisku, zmiany zostaja zapisane w bazie.
+ */
 public class CurrencyConversionController {
 
     @FXML

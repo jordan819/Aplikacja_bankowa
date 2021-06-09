@@ -18,6 +18,13 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Obsluguje logike okna odpowiedzialnego za rejestracje uzytkownika.
+ * Sprawdza czy wszyskie pola formularza zostaly wypelnione,
+ * email i haslo wpisane dwukrotnie sie zgadzaja, oraz czy haslo ma ponad 7 znakow.
+ * Jezeli tak, sprawdza czy w bazie nie istnieje juz konto zalozone na podany adres email.
+ * W przypadku, gdy jeden z warunkow nie zostanie spelniony, odpowiedni komunikat jest wyswietlany uzytkownikowi.
+ */
 public class SignUpController {
 
     @FXML
