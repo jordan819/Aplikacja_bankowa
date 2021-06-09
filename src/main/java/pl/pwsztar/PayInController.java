@@ -39,31 +39,38 @@ public class PayInController {
 
     }
 
-    public void payIn10() {
+    @FXML
+    private void payIn10() {
         payIn("10");
     }
 
-    public void payIn20() {
+    @FXML
+    private void payIn20() {
         payIn("20");
     }
 
-    public void payIn50() {
+    @FXML
+    private void payIn50() {
         payIn("50");
     }
 
-    public void payIn100() {
+    @FXML
+    private void payIn100() {
         payIn("100");
     }
 
-    public void payIn200() {
+    @FXML
+    private void payIn200() {
         payIn("200");
     }
 
-    public void payIn500() {
+    @FXML
+    private void payIn500() {
         payIn("500");
     }
 
-    public void payInOther() {
+    @FXML
+    private void payInOther() {
         payIn(otherInput.getText());
     }
 
@@ -72,7 +79,8 @@ public class PayInController {
         goBack();
     }
 
-    public void goBack() {
+    @FXML
+    private void goBack() {
         try {
             App.setRoot("accountManage");
         } catch (IOException e) {

@@ -33,7 +33,8 @@ public class TakeLoanController {
     private void initialize() {
         interestDisplay.setText("Wysokość odsetek:\n" + 0 + " " + App.loggedCustomerAccount.getCurrency());
         lengthChoice.getItems().addAll("3 miesiące", "6 miesiący", "1 rok", "2 lata");
-        lengthChoice.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, number2) -> {
+        lengthChoice.getSelectionModel().selectedIndexProperty().
+                addListener((observableValue, number, number2) -> {
 
             switch (number2.intValue()) {
                 case 0:
@@ -97,11 +98,13 @@ public class TakeLoanController {
         }
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void takeLoan() {
+    @FXML
+    private void takeLoan() {
         infoDisplay.setVisible(true);
         if(calculatedInterest != 0.0) {
 

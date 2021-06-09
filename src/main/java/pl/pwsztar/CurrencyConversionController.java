@@ -17,7 +17,6 @@ public class CurrencyConversionController {
     private Label exchangeDisplay;
 
     private String currencyBefore, currencyAfter;
-
     private double balanceBefore, balanceAfter;
 
     @FXML
@@ -25,6 +24,7 @@ public class CurrencyConversionController {
         currencyBefore = App.loggedCustomerAccount.getCurrency();
 
         choiceBox.getItems().addAll("PLN", "USD", "GBP", "EUR");
+        choiceBox.getItems().remove(App.loggedCustomerAccount.getCurrency());
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, number2) -> {
 
             currencyAfter = (String) choiceBox.getItems().get((Integer) number2);
@@ -42,11 +42,13 @@ public class CurrencyConversionController {
         choiceBox.getSelectionModel().selectFirst();
     }
 
-    public void goToAccountManage() throws IOException {
+    @FXML
+    private void goToAccountManage() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void convert() throws IOException {
+    @FXML
+    private void convert() throws IOException {
         try {
             Database.updateAccountCurrency(App.loggedCustomerAccount.getAccountId(), currencyAfter, balanceAfter);
         } catch (AccountNotFoundException e) {

@@ -15,10 +15,10 @@ public class PayLoanController {
     private Label loanDisplay, infoDisplay;
 
     @FXML
-    public TextField amount;
+    private TextField amount;
 
     @FXML
-    public Button payInBtn;
+    private Button payInBtn;
 
     @FXML
     private void initialize() {
@@ -50,11 +50,13 @@ public class PayLoanController {
         });
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void payIn() {
+    @FXML
+    private void payIn() {
         infoDisplay.setVisible(true);
         if ( Double.parseDouble(amount.getText()) > App.loggedCustomerAccount.getBalance() ) {
             infoDisplay.setTextFill(Paint.valueOf("red"));
@@ -70,6 +72,7 @@ public class PayLoanController {
                         Double.parseDouble(amount.getText()));
                 infoDisplay.setTextFill(Paint.valueOf("green"));
                 infoDisplay.setText("Wpłata dokonana pomyślnie.");
+                payInBtn.setDisable(true);
             } catch (AccountNotFoundException e) {
                 e.printStackTrace();
                 infoDisplay.setTextFill(Paint.valueOf("red"));

@@ -46,7 +46,8 @@ public abstract class Money {
             JsonParser jp = new JsonParser();
             JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
             JsonObject jsonObject = root.getAsJsonObject();
-            exchangeRate = jsonObject.get("rates").getAsJsonArray().get(0).getAsJsonObject().get("mid").getAsDouble();
+            exchangeRate = jsonObject.get("rates").getAsJsonArray().get(0).
+                    getAsJsonObject().get("mid").getAsDouble();
         } catch (IOException e) {
             e.printStackTrace();
         }

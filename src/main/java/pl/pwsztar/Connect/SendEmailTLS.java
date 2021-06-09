@@ -51,7 +51,6 @@ public abstract class SendEmailTLS {
 
             Transport.send(message);
 
-
             System.out.println("Wiadomość została wysłana\n");
 
         } catch (MessagingException e) {

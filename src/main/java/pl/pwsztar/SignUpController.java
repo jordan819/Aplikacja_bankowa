@@ -37,11 +37,13 @@ public class SignUpController {
     }
 
 
-    public void goToSignIn() throws IOException {
+    @FXML
+    private void goToSignIn() throws IOException {
         App.setRoot("signIn");
     }
 
-    public void signUp() throws IOException {
+    @FXML
+    private void signUp() throws IOException {
 
         errorDisplay.setVisible(true);
         errorDisplay.setTextFill(Paint.valueOf("red"));

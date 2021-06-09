@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.AccountManageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.AccountManageController">
    <children>
       <Label alignment="CENTER" layoutX="290.0" layoutY="39.0" prefHeight="66.0" prefWidth="121.0" text="Menu" textAlignment="CENTER" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="289.0">
          <font>
@@ -20,7 +20,7 @@
       <Button layoutX="266.0" layoutY="372.0" mnemonicParsing="false" onAction="#goToDeactivate" text="Dezaktywacja konta" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="265.2" />
       <Button layoutX="294.0" layoutY="295.0" mnemonicParsing="false" onAction="#goToTakeLoan" text="Weź pożyczkę" />
       <Button layoutX="486.0" layoutY="295.0" mnemonicParsing="false" onAction="#goToPayLoan" text="Spłać pożyczkę" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="88.0" layoutY="441.0" prefHeight="51.0" prefWidth="525.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="88.0" layoutY="432.0" prefHeight="35.0" prefWidth="525.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
       <VBox alignment="CENTER" layoutX="59.0" layoutY="99.0" prefHeight="79.0" prefWidth="579.0">
          <children>
             <Label fx:id="balanceDisplay" prefHeight="60.0" text="Saldo">

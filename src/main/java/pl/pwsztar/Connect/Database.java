@@ -7,25 +7,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Database {
+public abstract class Database {
 
     private static Connection connection;
 
-    private final String user = "2021_zaucha_patryk";
-    private final String pass = "1234";
-    private String url = "jdbc:postgresql://%s:%d/%s";
+    private static final String user = "2021_zaucha_patryk";
+    private static final String pass = "1234";
+    private static String url = "jdbc:postgresql://%s:%d/%s";
     public static boolean status;
 
-    public Database() {
+    public static void makeConnection() {
         String host = "195.150.230.210";
         String database = "2021_zaucha_patryk";
         int port = 5434;
-        this.url = String.format(this.url, host, port, database);
-        connect();
-        System.out.println("connection status:" + status);
-    }
+        url = String.format(url, host, port, database);
 
-    private void connect() {
         Thread thread = new Thread(() -> {
             try {
                 Class.forName("org.postgresql.Driver");
@@ -45,6 +41,7 @@ public class Database {
             e.printStackTrace();
             status = false;
         }
+        System.out.println("connection status:" + status);
     }
 
     public static List<CustomerDto> fetchCustomers() throws SQLException {
@@ -223,7 +220,8 @@ public class Database {
     }
 
 
-    public static void updateAccountBalance(String accountNo, String value, String currency) throws AccountNotFoundException {
+    public static void updateAccountBalance(String accountNo, String value, String currency)
+            throws AccountNotFoundException {
 
         List<Account> accounts = fetchAccounts();
         String targetCurrency = null;
@@ -296,7 +294,8 @@ public class Database {
         throw new AccountNotFoundException();
     }
 
-    public static void updateAccountCurrency(String accountNo, String currency, double value) throws AccountNotFoundException {
+    public static void updateAccountCurrency(String accountNo, String currency, double value)
+            throws AccountNotFoundException {
 
         Account account = new Account(accountNo);
         Double actualLoan = account.getLoan();
@@ -324,7 +323,8 @@ public class Database {
 
     }
 
-    public static void createLoanInformation(String accountNo, double loanValue, int duration) throws AccountNotFoundException {
+    public static void createLoanInformation(String accountNo, double loanValue, int duration)
+            throws AccountNotFoundException {
         new Account(accountNo);
 
         Calendar c = Calendar.getInstance();

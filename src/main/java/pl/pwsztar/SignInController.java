@@ -45,7 +45,8 @@ public class SignInController {
         });
     }
 
-    public void SignIn() throws IOException {
+    @FXML
+    private void SignIn() throws IOException {
 
         if (isInputBlank()) {
             infoDisplay.setVisible(true);
@@ -80,11 +81,13 @@ public class SignInController {
         }
     }
 
-    public void goToSignUp() throws IOException {
+    @FXML
+    private void goToSignUp() throws IOException {
         App.setRoot("signUp");
     }
 
-    public void goToVerification() throws IOException {
+    @FXML
+    private void goToVerification() throws IOException {
         App.setRoot("registerVerification");
     }
 

@@ -24,11 +24,13 @@ public class DeactivateController {
                 "Jeśli jesteś pewien, przepisz poniższy tekst:\n" + CODE);
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("accountManage");
     }
 
-    public void deactivate() {
+    @FXML
+    private void deactivate() {
         if (textInput.getText().equals(CODE)) {
             Database.deactivateAccount(App.loggedCustomerAccount.getAccountId());
             try {

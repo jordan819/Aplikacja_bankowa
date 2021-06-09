@@ -38,11 +38,13 @@ public class RegisterVerificationController {
         }
     }
 
-    public void goBack() throws IOException {
+    @FXML
+    private void goBack() throws IOException {
         App.setRoot("SignIn");
     }
 
-    public void verifyAccount() {
+    @FXML
+    private void verifyAccount() {
 
         infoDisplay.setVisible(true);
         infoDisplay.setTextFill(Paint.valueOf("red"));
@@ -64,10 +66,9 @@ public class RegisterVerificationController {
                         "Do zalogowania się wykorzystasz utworzone hasło, " +
                         "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
 
-                // inside your getSalesUserData() method
                 ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
                 emailExecutor.execute(() -> SendEmailTLS.send(email, "Weryfikacja zakończona", content));
-                emailExecutor.shutdown(); // it is very important to shutdown your non-singleton ExecutorService.
+                emailExecutor.shutdown();
 
 
             } else {

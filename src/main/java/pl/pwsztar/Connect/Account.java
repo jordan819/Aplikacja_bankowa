@@ -31,7 +31,8 @@ public class Account {
         throw new AccountNotFoundException();
     }
 
-    protected Account(String accountId, String customerId, double balance, String currency, Double loan, Date loanDate) {
+    protected Account(String accountId, String customerId, double balance, String currency,
+                      Double loan, Date loanDate) {
         this.accountId = accountId;
         this.customerId = customerId;
         this.balance = balance;

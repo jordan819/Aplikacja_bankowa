@@ -43,31 +43,38 @@ public class PayOutController {
 
     }
 
-    public void payOut10() {
+    @FXML
+    private void payOut10() {
         payOut("10");
     }
 
-    public void payOut20() {
+    @FXML
+    private void payOut20() {
         payOut("20");
     }
 
-    public void payOut50() {
+    @FXML
+    private void payOut50() {
         payOut("50");
     }
 
-    public void payOut100() {
+    @FXML
+    private void payOut100() {
         payOut("100");
     }
 
-    public void payOut200() {
+    @FXML
+    private void payOut200() {
         payOut("200");
     }
 
-    public void payOut500() {
+    @FXML
+    private void payOut500() {
         payOut("500");
     }
 
-    public void payOutOther() {
+    @FXML
+    private void payOutOther() {
         payOut(otherInput.getText());
     }
 
@@ -85,7 +92,8 @@ public class PayOutController {
         return App.loggedCustomerAccount.getBalance() >= amount;
     }
 
-    public void goBack() {
+    @FXML
+    private void goBack() {
         try {
             App.setRoot("accountManage");
         } catch (IOException e) {
