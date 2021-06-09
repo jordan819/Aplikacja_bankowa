@@ -37,7 +37,7 @@ public class PayInController {
             if (!otherInput.getText().equals("") && newValue.charAt(0) == '0')
                 otherInput.setText(newValue.substring(1));
             if (!otherInput.getText().equals(""))
-                otherButton.disableProperty().set(!(Integer.parseInt(otherInput.getText())%10==0));
+                otherButton.disableProperty().set(!(Long.parseLong(otherInput.getText())%10==0));
         });
 
     }
@@ -51,7 +51,7 @@ public class PayInController {
     }
 
     public void payIn50() {
-        payIn("10");
+        payIn("50");
     }
 
     public void payIn100() {

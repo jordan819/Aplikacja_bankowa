@@ -112,6 +112,7 @@ public class TakeLoanController {
 
             infoDisplay.setTextFill(Paint.valueOf("green"));
             infoDisplay.setText("Kredyt został udzielony!");
+            takeLoan.setDisable(true);
         } else {
             infoDisplay.setTextFill(Paint.valueOf("red"));
             infoDisplay.setText("Wprowadź kwotę!");

@@ -62,12 +62,10 @@ public class SignUpController {
             addUser();
             String content = "Witaj, tu Twój bank.\n\nOto Twój kod weryfikacyjny: " + code;
 
-            // inside your getSalesUserData() method
+
             ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
             emailExecutor.execute(() -> SendEmailTLS.send(email.getText(), "Kod weryfikacyjny", content));
-            emailExecutor.shutdown(); // it is very important to shutdown your non-singleton ExecutorService.
-
-
+            emailExecutor.shutdown();
 
             App.setRoot("registerVerification");
         } else {
