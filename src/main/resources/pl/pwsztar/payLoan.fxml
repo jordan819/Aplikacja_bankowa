@@ -13,7 +13,7 @@
             <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="314.0" layoutY="406.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Button layoutX="313.0" layoutY="394.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
       <Label fx:id="loanDisplay" alignment="CENTER" layoutX="226.0" layoutY="152.0" prefHeight="52.0" prefWidth="247.0" text="Do spłacenia pozostało:" textAlignment="CENTER">
          <font>
             <Font size="18.0" />
@@ -23,6 +23,6 @@
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="126.0" layoutY="435.0" prefHeight="43.0" prefWidth="448.0" text="Label" textAlignment="CENTER" visible="false" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="126.0" layoutY="435.0" prefHeight="35.0" prefWidth="448.0" text="Label" textAlignment="CENTER" visible="false" />
    </children>
 </AnchorPane>

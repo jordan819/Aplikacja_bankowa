@@ -25,6 +25,6 @@
          </font></TextField>
       <Button fx:id="takeLoan" layoutX="310.0" layoutY="313.0" mnemonicParsing="false" onAction="#takeLoan" text="Akceptuj" />
       <ChoiceBox fx:id="lengthChoice" layoutX="374.0" layoutY="132.0" prefHeight="38.0" prefWidth="150.0" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="106.0" layoutY="424.0" prefHeight="62.0" prefWidth="493.0" text="Info Display" textAlignment="CENTER" visible="false" wrapText="true" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="106.0" layoutY="444.0" prefHeight="25.0" prefWidth="493.0" text="Info Display" textAlignment="CENTER" visible="false" wrapText="true" />
    </children>
 </AnchorPane>

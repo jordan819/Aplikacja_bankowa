@@ -14,32 +14,32 @@
             <Font size="45.0" />
          </font>
       </Label>
-      <TextField fx:id="firstName" layoutX="268.0" layoutY="113.0" prefHeight="37.0" prefWidth="158.0" promptText="Imię">
+      <TextField fx:id="firstName" layoutX="268.0" layoutY="97.0" prefHeight="37.0" prefWidth="158.0" promptText="Imię">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <TextField fx:id="lastName" layoutX="269.0" layoutY="166.0" prefHeight="38.0" prefWidth="158.0" promptText="Nazwisko">
+      <TextField fx:id="lastName" layoutX="269.0" layoutY="150.0" prefHeight="38.0" prefWidth="158.0" promptText="Nazwisko">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <TextField fx:id="email" layoutX="268.0" layoutY="218.0" prefHeight="38.0" prefWidth="158.0" promptText="e-mail">
+      <TextField fx:id="email" layoutX="268.0" layoutY="202.0" prefHeight="38.0" prefWidth="158.0" promptText="e-mail">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <TextField fx:id="emailRepeat" layoutX="269.0" layoutY="271.0" prefHeight="38.0" prefWidth="158.0" promptText="powtórz e-mail">
+      <TextField fx:id="emailRepeat" layoutX="269.0" layoutY="255.0" prefHeight="38.0" prefWidth="158.0" promptText="powtórz e-mail">
          <font>
             <Font size="15.0" />
          </font></TextField>
-      <Button layoutX="279.0" layoutY="425.0" mnemonicParsing="false" onAction="#signUp" text="Zarejestruj mnie" />
-      <Button layoutX="556.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToSignIn" text="Powrót" />
-      <PasswordField fx:id="password" layoutX="269.0" layoutY="321.0" prefHeight="38.0" prefWidth="158.0" promptText="hasło">
+      <Button layoutX="280.0" layoutY="408.0" mnemonicParsing="false" onAction="#signUp" text="Zarejestruj mnie" />
+      <Button layoutX="558.0" layoutY="408.0" mnemonicParsing="false" onAction="#goToSignIn" text="Powrót" />
+      <PasswordField fx:id="password" layoutX="269.0" layoutY="305.0" prefHeight="38.0" prefWidth="158.0" promptText="hasło">
          <font>
             <Font size="15.0" />
          </font></PasswordField>
-      <PasswordField fx:id="passwordRepeat" layoutX="269.0" layoutY="372.0" prefHeight="38.0" prefWidth="158.0" promptText="powtórz hasło">
+      <PasswordField fx:id="passwordRepeat" layoutX="269.0" layoutY="356.0" prefHeight="38.0" prefWidth="158.0" promptText="powtórz hasło">
          <font>
             <Font size="15.0" />
          </font></PasswordField>
-      <Label fx:id="errorDisplay" alignment="CENTER" layoutX="101.0" layoutY="439.0" prefHeight="46.0" prefWidth="501.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" />
+      <Label fx:id="errorDisplay" alignment="CENTER" layoutX="101.0" layoutY="446.0" prefHeight="28.0" prefWidth="501.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" />
    </children>
 </AnchorPane>

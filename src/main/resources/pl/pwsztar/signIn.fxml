@@ -25,6 +25,6 @@
             <Font size="15.0" />
          </font></PasswordField>
       <Button layoutX="278.0" layoutY="412.0" mnemonicParsing="false" onAction="#goToVerification" text="Weryfikacja konta" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="36.0" layoutY="422.0" prefHeight="53.0" prefWidth="630.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="36.0" layoutY="448.0" prefHeight="20.0" prefWidth="630.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

@@ -23,6 +23,6 @@
             <Font size="15.0" />
          </font></TextField>
       <Button layoutX="310.0" layoutY="298.0" mnemonicParsing="false" onAction="#verifyAccount" prefHeight="43.0" prefWidth="99.0" text="Zweryfikuj" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="21.0" layoutY="443.0" prefHeight="43.0" prefWidth="651.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="73.0" layoutY="443.0" prefHeight="27.0" prefWidth="567.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

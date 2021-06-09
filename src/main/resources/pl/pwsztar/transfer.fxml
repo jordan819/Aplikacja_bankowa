@@ -13,7 +13,7 @@
             <Font size="45.0" />
          </font>
       </Label>
-      <Button layoutX="315.0" layoutY="395.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
+      <Button layoutX="314.0" layoutY="388.0" mnemonicParsing="false" onAction="#goBack" text="Powrót" />
       <TextField fx:id="toAccountInput" layoutX="153.0" layoutY="147.0" prefHeight="44.0" prefWidth="174.0" promptText="Numer konta odbiorcy">
          <font>
             <Font size="15.0" />
@@ -23,6 +23,6 @@
             <Font size="15.0" />
          </font></TextField>
       <Button layoutX="285.0" layoutY="228.0" mnemonicParsing="false" onAction="#makeTransfer" prefHeight="60.0" prefWidth="130.0" text="Wykonaj" />
-      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="98.0" layoutY="442.0" prefHeight="51.0" prefWidth="506.0" text="Label" textAlignment="CENTER" textFill="RED" />
+      <Label fx:id="infoDisplay" alignment="CENTER" layoutX="97.0" layoutY="435.0" prefHeight="35.0" prefWidth="506.0" text="Label" textAlignment="CENTER" textFill="RED" />
    </children>
 </AnchorPane>

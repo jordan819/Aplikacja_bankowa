@@ -49,12 +49,13 @@ public class TransferController {
 
     public void makeTransfer() {
         infoDisplay.setVisible(true);
-        if (Double.parseDouble(amount.getText()) > App.loggedCustomerAccount.getBalance() ) {
-            infoDisplay.setTextFill(Paint.valueOf("red"));
-            infoDisplay.setText("Brak środków na koncie");
-            return;
-        }
+
         if ( !inputBlank() ) {
+            if (Double.parseDouble(amount.getText()) > App.loggedCustomerAccount.getBalance() ) {
+                infoDisplay.setTextFill(Paint.valueOf("red"));
+                infoDisplay.setText("Brak środków na koncie");
+                return;
+            }
             try {
                 Database.updateAccountBalance(toAccountInput.getText(), amount.getText(),
                         App.loggedCustomerAccount.getCurrency());
@@ -63,8 +64,6 @@ public class TransferController {
                 infoDisplay.setText("Przelano pieniądze!");
             } catch (AccountNotFoundException e) {
                 infoDisplay.setText("Konto o podanym numerze nie istnieje!");
-                e.printStackTrace();
-                System.out.println(e.getMessage());
             }
         } else {
             infoDisplay.setTextFill(Paint.valueOf("red"));
