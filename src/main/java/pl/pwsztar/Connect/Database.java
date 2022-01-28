@@ -480,4 +480,25 @@ public abstract class Database {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Waliduje dane logowania pracownika.
+     *
+     * @param login 3-znakowy login pracownika
+     * @param password co najmniej 8-znakowe hasło pracownika
+     * @return true, kiedy dane są poprawne
+     */
+    public static boolean validateEmployee(String login, String password) {
+        try{
+            String query = "SELECT * FROM bank.employee WHERE login = '" + login + "' AND pass = '" + password + "'";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
