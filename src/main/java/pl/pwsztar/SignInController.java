@@ -36,7 +36,7 @@ public class SignInController {
                     login.setText(newValue.replaceAll("[^[\\d]]", ""));
                 }
 
-            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+            signInBtn.setDisable((login.getText().length() < 7) || (password.getText().length() <= 7));
 
         });
 
@@ -44,7 +44,7 @@ public class SignInController {
             if (newValue.length() > 28)
                 password.setText(oldValue);
 
-            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+            signInBtn.setDisable((login.getText().length() < 7) || (password.getText().length() <= 7));
         });
     }
 
