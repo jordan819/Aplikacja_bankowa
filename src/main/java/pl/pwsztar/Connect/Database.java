@@ -89,7 +89,7 @@ public abstract class Database {
     }
 
 
-    private static List<String[]> getTableContent(String tableName) throws SQLException {
+    public static List<String[]> getTableContent(String tableName) throws SQLException {
         String schemaName = "bank";
 
         String query = "SELECT * FROM " + schemaName + "." + tableName;
@@ -117,10 +117,10 @@ public abstract class Database {
     }
 
 
-    private static List<String> getColumnNames(String tableName) throws SQLException {
+    public static List<String> getColumnNames(String tableName) throws SQLException {
 
         DatabaseMetaData md = connection.getMetaData();
-        ResultSet rs = md.getColumns(null, null, tableName, "%");
+        ResultSet rs = md.getColumns(null, "bank", tableName, "%");
         List<String> columns = new ArrayList<>();
         while (rs.next()) {
             columns.add(rs.getString(4));

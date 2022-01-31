@@ -59,9 +59,12 @@ public class SignInController {
             // sprawdzenie czy osoba logująca się to potencjalny pracownik (numer konta ma dokładnie 3 znaki)
             if (login.getText().length() == 3) {
                 if (Database.validateEmployee(login.getText(), password.getText())) {
-                    // przeniesienie na ekran pracownika
+                    System.out.println("Logowanie");
+                    App.setRoot("employeePanel");
                 } else {
-                    // info o błednych danych
+                    System.out.println("Niepoprawne");
+                    infoDisplay.setVisible(true);
+                    infoDisplay.setText("Dane niepoprawne!");
                 }
                 return;
             }
