@@ -500,5 +500,15 @@ public abstract class Database {
         }
     }
 
+    public static void changeAccountStatus(String id, boolean value) {
+        try {
+            String query = "UPDATE bank.customers SET is_verified = " + value + " WHERE id_customer = " + id;
+            connection.createStatement().execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

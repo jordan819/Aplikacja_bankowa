@@ -13,11 +13,9 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import pl.pwsztar.Connect.Database;
 
-import java.lang.reflect.Array;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class EmployeePanelController {
 
@@ -25,33 +23,32 @@ public class EmployeePanelController {
     private Label infoDisplay;
 
     @FXML
-    private TableView table;
+    private TableView<String[]> table;
 
     @FXML
     private ListView unselectedMailsDisplay;
 
     @FXML
     private void initialize() throws SQLException {
-        // List<String> names = Arrays.asList("kol1", "kol2", "kol3", "kol4", "kol5");
-        // List<String[]> content = new ArrayList<>();
-        // String[] s1 = {"opis1", "opis2", "opis3"};
-        // content.add(s1);
-        // content.add(s1);
-
-        List<String> names = Database.getColumnNames("customer");
-        List<String[]> content = Database.getTableContent("customer");
-
-
-        populateTable(names, content);
+        refreshTable();
     }
 
-    public void goToPayIn(ActionEvent actionEvent) {
+    public void goToPayIn() {
     }
 
-    public void goToDeactivate(ActionEvent actionEvent) {
+    public void goToTakeLoan() {
     }
 
-    public void goToTakeLoan(ActionEvent actionEvent) {
+    @FXML
+    private void changeStatus() throws SQLException {
+        String[] selectedRow = table.getSelectionModel().getSelectedItem();
+
+        if (Objects.equals(selectedRow[7], "t")) {
+            Database.changeAccountStatus(selectedRow[0], false);
+        } else {
+            Database.changeAccountStatus(selectedRow[0], true);
+        }
+        refreshTable();
     }
 
     private void populateTable(List<String> columnNames, List<String[]> tableContent) {
@@ -66,11 +63,15 @@ public class EmployeePanelController {
             tc.setCellValueFactory((Callback<TableColumn.CellDataFeatures<String[], String>,
                     ObservableValue<String>>) stringCellDataFeatures ->
                     new SimpleStringProperty((stringCellDataFeatures.getValue()[colNum])));
-
             table.getColumns().add(tc);
-
         }
-
         table.setItems(data);
     }
+
+    private void refreshTable() throws SQLException {
+        List<String> names = Database.getColumnNames("customers");
+        List<String[]> content = Database.getTableContent("customers");
+        populateTable(names, content);
+    }
+
 }

@@ -9,7 +9,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pwsztar.EmployeePanelController">
    <children>
       <Button layoutX="501.0" layoutY="324.0" mnemonicParsing="false" onAction="#goToPayIn" text="Wpłata środków" />
-      <Button layoutX="468.0" layoutY="414.0" mnemonicParsing="false" onAction="#goToDeactivate" text="Dezaktywacja konta" AnchorPane.leftAnchor="468.0" AnchorPane.rightAnchor="63.200000000000045" />
+      <Button layoutX="468.0" layoutY="414.0" mnemonicParsing="false" onAction="#changeStatus" text="Aktywacja/Dezaktywacja konta" AnchorPane.leftAnchor="468.0" AnchorPane.rightAnchor="63.200000000000045" />
       <Button layoutX="509.0" layoutY="370.0" mnemonicParsing="false" onAction="#goToTakeLoan" text="Weź pożyczkę" />
       <Label fx:id="infoDisplay" alignment="CENTER" layoutX="88.0" layoutY="432.0" prefHeight="35.0" prefWidth="525.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false" />
       <TableView fx:id="table" layoutX="59.0" layoutY="53.0" prefHeight="235.0" prefWidth="577.0" />
