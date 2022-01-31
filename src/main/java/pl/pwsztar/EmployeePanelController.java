@@ -4,10 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
@@ -26,17 +24,8 @@ public class EmployeePanelController {
     private TableView<String[]> table;
 
     @FXML
-    private ListView unselectedMailsDisplay;
-
-    @FXML
     private void initialize() throws SQLException {
         refreshTable();
-    }
-
-    public void goToPayIn() {
-    }
-
-    public void goToTakeLoan() {
     }
 
     @FXML
@@ -45,10 +34,13 @@ public class EmployeePanelController {
 
         if (Objects.equals(selectedRow[7], "t")) {
             Database.changeAccountStatus(selectedRow[0], false);
+            infoDisplay.setText("Konto zostało dezaktywowane pomyślnie");
         } else {
             Database.changeAccountStatus(selectedRow[0], true);
+            infoDisplay.setText("Konto zostało aktywowane pomyślnie");
         }
         refreshTable();
+        infoDisplay.setVisible(true);
     }
 
     private void populateTable(List<String> columnNames, List<String[]> tableContent) {
