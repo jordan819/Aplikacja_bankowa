@@ -89,7 +89,7 @@ public abstract class Database {
     }
 
 
-    private static List<String[]> getTableContent(String tableName) throws SQLException {
+    public static List<String[]> getTableContent(String tableName) throws SQLException {
         String schemaName = "bank";
 
         String query = "SELECT * FROM " + schemaName + "." + tableName;
@@ -117,10 +117,10 @@ public abstract class Database {
     }
 
 
-    private static List<String> getColumnNames(String tableName) throws SQLException {
+    public static List<String> getColumnNames(String tableName) throws SQLException {
 
         DatabaseMetaData md = connection.getMetaData();
-        ResultSet rs = md.getColumns(null, null, tableName, "%");
+        ResultSet rs = md.getColumns(null, "bank", tableName, "%");
         List<String> columns = new ArrayList<>();
         while (rs.next()) {
             columns.add(rs.getString(4));
@@ -480,4 +480,33 @@ public abstract class Database {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Waliduje dane logowania pracownika.
+     *
+     * @param login 3-znakowy login pracownika
+     * @param password co najmniej 8-znakowe hasło pracownika
+     * @return true, kiedy dane są poprawne
+     */
+    public static boolean validateEmployee(String login, String password) {
+        try{
+            String query = "SELECT * FROM bank.employee WHERE login = '" + login + "' AND pass = '" + password + "'";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void changeAccountStatus(String id, boolean value) {
+        try {
+            String query = "UPDATE bank.customers SET is_verified = " + value + " WHERE id_customer = " + id;
+            connection.createStatement().execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

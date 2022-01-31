@@ -36,7 +36,7 @@ public class SignInController {
                     login.setText(newValue.replaceAll("[^[\\d]]", ""));
                 }
 
-            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+            signInBtn.setDisable((login.getText().length() < 7) || (password.getText().length() <= 7));
 
         });
 
@@ -44,7 +44,7 @@ public class SignInController {
             if (newValue.length() > 28)
                 password.setText(oldValue);
 
-            signInBtn.setDisable((login.getText().length() <= 7) || (password.getText().length() <= 7));
+            signInBtn.setDisable((login.getText().length() < 3) || (password.getText().length() <= 7));
         });
     }
 
@@ -55,6 +55,19 @@ public class SignInController {
             infoDisplay.setVisible(true);
             infoDisplay.setText("Wprowadź dane!");
         } else {
+
+            // sprawdzenie czy osoba logująca się to potencjalny pracownik (numer konta ma dokładnie 3 znaki)
+            if (login.getText().length() == 3) {
+                if (Database.validateEmployee(login.getText(), password.getText())) {
+                    System.out.println("Logowanie");
+                    App.setRoot("employeePanel");
+                } else {
+                    System.out.println("Niepoprawne");
+                    infoDisplay.setVisible(true);
+                    infoDisplay.setText("Dane niepoprawne!");
+                }
+                return;
+            }
 
             try {
                 List<CustomerDto> customers = Database.fetchCustomers();
