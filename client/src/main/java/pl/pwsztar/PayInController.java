@@ -3,7 +3,9 @@ package pl.pwsztar;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
@@ -80,8 +82,17 @@ public class PayInController {
     }
 
     private void payIn(String value) {
-        Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), value);
-        goBack();
+
+        try {
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/payIn/"
+                    + App.loggedCustomerAccount.getAccountId() + "/"
+                    + value);
+            client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+            goBack();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

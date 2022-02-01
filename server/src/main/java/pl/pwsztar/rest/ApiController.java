@@ -160,6 +160,14 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "account/payIn/{id}/{amount}")
+    public ResponseEntity<Void> payMoneyIn(@PathVariable("id") String id,
+                                             @PathVariable("amount") String amount) {
+        LOGGER.info("Działa metoda payMoneyIn z parametrami id: {}, amount: {}", id, amount);
+        Database.updateAccountBalance(id, amount);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     // dezaktywowanie konta
     @DeleteMapping(value = "account/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable("id") String id) {
