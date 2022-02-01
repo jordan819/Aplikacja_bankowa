@@ -44,26 +44,29 @@ public class ApiController {
     @GetMapping(value = "loginCustomer/{id}/{pass}")
     public ResponseEntity<CustomerDto> loginCustomer(@PathVariable("id") String id,
                                                                         @PathVariable("pass") String pass) {
-
+        LOGGER.info("Działa metoda loginCustomer z parametrami id: {}, pass: {}", id, pass);
         try {
             List<CustomerDto> customers = Database.fetchCustomers();
 
             if (customers == null){
+                LOGGER.info("Nie znaleziono klienta o podanym id");
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
             for (CustomerDto customer : customers) {
                 if (customer.getIdAccount().equals(id)) {
                     if (customer.getPassword().equals(pass) && customer.isVerified()) {
+                        LOGGER.info("Dane logowania należą do klienta");
                         return new ResponseEntity<>(customer, HttpStatus.OK);
                     }
+                    LOGGER.info("Hasło niepoprawne lub konto nieaktywne");
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        LOGGER.info("Wystąpił nieoczekiwany błąd");
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 

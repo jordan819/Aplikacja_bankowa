@@ -114,7 +114,7 @@ public class SignInController {
             System.out.println("Odczytano JSON'a:");
             System.out.println(json);
 
-            // zamiana Stringa na obiekt QuestionData
+            // zamiana Stringa na obiekt CustomerDto
             final Gson gson = new Gson();
             final Type type = new TypeToken<CustomerDto>(){}.getType();
             App.loggedCustomer = gson.fromJson(json, type);
