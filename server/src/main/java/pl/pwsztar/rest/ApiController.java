@@ -1,5 +1,8 @@
 package pl.pwsztar.rest;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,11 @@ import pl.pwsztar.rest.connect.Account;
 import pl.pwsztar.rest.connect.Database;
 import pl.pwsztar.Connect.CustomerDto;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -29,7 +37,7 @@ public class ApiController {
 
     @GetMapping(value = "loginEmployee/{id}/{pass}")
     public ResponseEntity<Void> loginEmployee(@PathVariable("id") String id,
-                                          @PathVariable("pass") String pass) {
+                                              @PathVariable("pass") String pass) {
         LOGGER.info("Działa metoda loginUser z parametrami id: {}, pass: {}", id, pass);
         if (Database.validateEmployee(id, pass)) {
             LOGGER.info("Dane logowania należą do pracownika");
@@ -42,7 +50,7 @@ public class ApiController {
 
     @GetMapping(value = "loginCustomer/{id}/{pass}")
     public ResponseEntity<CustomerDto> loginCustomer(@PathVariable("id") String id,
-                                                                        @PathVariable("pass") String pass) {
+                                                     @PathVariable("pass") String pass) {
         LOGGER.info("Działa metoda loginCustomer z parametrami id: {}, pass: {}", id, pass);
         try {
             List<CustomerDto> customers = Database.fetchCustomers();
@@ -71,7 +79,7 @@ public class ApiController {
 
     @GetMapping(value = "account/{id}")
     public ResponseEntity<Account> getAccountInfo(@PathVariable("id") String id) {
-
+        LOGGER.info("Działa metoda getAccountInfo z parametrem id: {}", id);
         try {
             Account account = Database.fetchAccount(id);
             return new ResponseEntity<>(account, HttpStatus.OK);
@@ -79,6 +87,28 @@ public class ApiController {
             LOGGER.info("Konto nie zostało znalezione");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping(value = "exchange/{currency}")
+    public ResponseEntity<Double> getExchangeRate(@PathVariable("currency") String currency) {
+        LOGGER.info("Działa metoda getExchangeRate z parametrem currency: {}", currency);
+        final String sURL = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency + "/?format=json";
+        double exchangeRate = -1.0;
+        try {
+            URL url = new URL(sURL);
+            URLConnection request = url.openConnection();
+            request.connect();
+
+            JsonParser jp = new JsonParser();
+            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+            JsonObject jsonObject = root.getAsJsonObject();
+            exchangeRate = jsonObject.get("rates").getAsJsonArray().get(0).
+                    getAsJsonObject().get("mid").getAsDouble();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LOGGER.info("Udostępniam kurs dla waluty: {}, wynoszący: {}", currency, exchangeRate);
+        return new ResponseEntity<>(exchangeRate, HttpStatus.OK);
     }
 
 }

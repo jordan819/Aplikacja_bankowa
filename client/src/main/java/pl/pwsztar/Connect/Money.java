@@ -1,12 +1,16 @@
 package pl.pwsztar.Connect;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import java.lang.reflect.Type;
 
 /**
  * Umozliwia sprawdzenie pobieranego na biezaco kursu walut, a takze przewalutowanie.
@@ -53,24 +57,43 @@ public abstract class Money {
     }
 
     private static double fetchExchangeRate(String currency) {
-        String sURL = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency + "/?format=json";
-        double exchangeRate = -1.0;
         try {
-            URL url = new URL(sURL);
-            URLConnection request = url.openConnection();
-            request.connect();
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/exchange/" + currency);
+            int statusCode = client.execute(request).getStatusLine().getStatusCode();
 
+            /*
+            if (statusCode == 200) {
+                App.setRoot("employeePanel");
+            } else if (statusCode == 403){
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Dane niepoprawne!");
+            } else {
+                System.out.println("status code: " + statusCode);
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Wystąpił nieoczekiwany błąd");
+            }
+            */
 
-            JsonParser jp = new JsonParser();
-            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
-            JsonObject jsonObject = root.getAsJsonObject();
-            exchangeRate = jsonObject.get("rates").getAsJsonArray().get(0).
-                    getAsJsonObject().get("mid").getAsDouble();
+            final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+            final HttpEntity entity = response.getEntity();
+
+            final String json = EntityUtils.toString(entity);   // Na tym etapie odczytujemy JSON'a, ale jako String.
+
+            // Wyswietlamy zawartosc JSON'a na standardowe wyjscie.
+            System.out.println("Odczytano kurs walut: " + json);
+
+            // zamiana Stringa na double
+            final Gson gson = new Gson();
+            final Type type = new TypeToken<Double>(){}.getType();
+            return gson.fromJson(json, type);
+
         } catch (IOException e) {
             e.printStackTrace();
+            return -1.0;
         }
-
-        return exchangeRate;
     }
+
+
 
 }

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class CurrencyConversionController {
 
     @FXML
-    private ChoiceBox choiceBox;
+    private ChoiceBox<String> choiceBox;
 
     @FXML
     private Label exchangeDisplay;
