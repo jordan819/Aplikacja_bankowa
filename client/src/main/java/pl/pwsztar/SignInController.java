@@ -1,16 +1,20 @@
 package pl.pwsztar;
 
+import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import pl.pwsztar.Connect.CustomerDto;
-import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import java.lang.reflect.Type;
+
+import com.google.gson.Gson;
 
 /**
  * Obsluguje logike okna odpowiedzialnego za logowanie sie uzytkownika.
@@ -59,11 +63,13 @@ public class SignInController {
             infoDisplay.setText("Wprowadź dane!");
         } else {
 
+            final HttpClient client = HttpClientBuilder.create().build();
+
             // sprawdzenie czy osoba logująca się to potencjalny pracownik (numer konta ma dokładnie 3 znaki)
             if (login.getText().length() == 3) {
 
                 // zapytanie do serwera
-                final HttpClient client = HttpClientBuilder.create().build();
+
                 final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/loginEmployee/"
                                                     + login.getText() + "/" + password.getText());
 
@@ -84,31 +90,36 @@ public class SignInController {
 
             }
 
-            try {
-                List<CustomerDto> customers = Database.fetchCustomers();
+            final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/loginCustomer/"
+                                                    + login.getText() + "/" + password.getText());
+            int statusCode = client.execute(request).getStatusLine().getStatusCode();
 
-                if (customers == null){
-                    infoDisplay.setVisible(true);
-                    infoDisplay.setText("Dane niepoprawne!");
-                    return;
-                }
-
-                for (CustomerDto customer : customers) {
-                    if (customer.getIdAccount().equals(login.getText())) {
-                        if (customer.getPassword().equals(password.getText()) && customer.isVerified()) {
-                            App.loggedCustomer = customer;
-                            App.setRoot("accountManage");
-                        } else
-                            infoDisplay.setVisible(true);
-                            infoDisplay.setText("Dane niepoprawne!");
-                            return;
-                    }
-                }
+            if (statusCode == 403){
                 infoDisplay.setVisible(true);
                 infoDisplay.setText("Dane niepoprawne!");
-            } catch (SQLException e) {
-                e.printStackTrace();
+                return;
+            } else if (statusCode != 200){
+                System.out.println("status code: " + statusCode);
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Wystąpił nieoczekiwany błąd");
+                return;
             }
+
+            final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+            final HttpEntity entity = response.getEntity();
+
+            final String json = EntityUtils.toString(entity);   // Na tym etapie odczytujemy JSON'a, ale jako String.
+
+            // Wyswietlamy zawartosc JSON'a na standardowe wyjscie.
+            System.out.println("Odczytano JSON'a:");
+            System.out.println(json);
+
+            // zamiana Stringa na obiekt QuestionData
+            final Gson gson = new Gson();
+            final Type type = new TypeToken<CustomerDto>(){}.getType();
+            App.loggedCustomer = gson.fromJson(json, type);
+            App.setRoot("accountManage");
+
         }
     }
 

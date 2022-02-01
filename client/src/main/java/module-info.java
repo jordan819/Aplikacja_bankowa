@@ -13,5 +13,6 @@ module pl.pwsztar {
     requires httpcore;
 
     opens pl.pwsztar to javafx.fxml;
+    opens pl.pwsztar.Connect to com.google.gson;
     exports pl.pwsztar;
 }

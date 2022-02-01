@@ -1,5 +1,6 @@
 package pl.pwsztar.rest;
 
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.pwsztar.AccountNotFoundException;
 import pl.pwsztar.rest.connect.Account;
 import pl.pwsztar.rest.connect.Database;
+import pl.pwsztar.Connect.CustomerDto;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -36,6 +39,32 @@ public class ApiController {
             LOGGER.info("Dane logowania nie należą do żadnego pracownika");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping(value = "loginCustomer/{id}/{pass}")
+    public ResponseEntity<CustomerDto> loginCustomer(@PathVariable("id") String id,
+                                                                        @PathVariable("pass") String pass) {
+
+        try {
+            List<CustomerDto> customers = Database.fetchCustomers();
+
+            if (customers == null){
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+
+            for (CustomerDto customer : customers) {
+                if (customer.getIdAccount().equals(id)) {
+                    if (customer.getPassword().equals(pass) && customer.isVerified()) {
+                        return new ResponseEntity<>(customer, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 }
