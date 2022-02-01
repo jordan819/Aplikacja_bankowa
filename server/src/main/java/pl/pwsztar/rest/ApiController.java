@@ -12,6 +12,7 @@ import pl.pwsztar.AccountNotFoundException;
 import pl.pwsztar.rest.connect.Account;
 import pl.pwsztar.rest.connect.Database;
 import pl.pwsztar.Connect.CustomerDto;
+import pl.pwsztar.rest.connect.Money;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/bank")
@@ -108,6 +110,24 @@ public class ApiController {
         return new ResponseEntity<>(exchangeRate, HttpStatus.OK);
     }
 
+    @PutMapping(value = "exchange/{id}/{currency}")
+    public ResponseEntity<Void> changeAccountCurrency(@PathVariable("id") String id,
+                                                      @PathVariable("currency") String currency) {
+        LOGGER.info("Działa metoda changeAccountCurrency z parametrami id: {}, currency: {}", id, currency);
+        try {
+            Account account = getAccountInfo(id).getBody();
+            assert account != null;
+            double balanceAfter = Money.exchange(account.getBalance(), account.getCurrency(), currency);
+            Database.updateAccountCurrency(id, currency, balanceAfter);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (AccountNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+    }
+
+    // dezaktywowanie konta
     @DeleteMapping(value = "account/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable("id") String id) {
         LOGGER.info("Działa metoda deleteAccount z parametrem id: {}", id);

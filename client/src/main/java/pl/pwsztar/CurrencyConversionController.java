@@ -3,7 +3,9 @@ package pl.pwsztar;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
 import pl.pwsztar.Connect.Money;
 
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class CurrencyConversionController {
         choiceBox.getItems().remove(App.loggedCustomerAccount.getCurrency());
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, number2) -> {
 
-            currencyAfter = (String) choiceBox.getItems().get((Integer) number2);
+            currencyAfter = choiceBox.getItems().get((Integer) number2);
 
             balanceBefore = App.loggedCustomerAccount.getBalance();
             balanceAfter = Money.exchange(balanceBefore, currencyBefore, currencyAfter);
@@ -56,12 +58,13 @@ public class CurrencyConversionController {
 
     @FXML
     private void convert() throws IOException {
-        try {
-            Database.updateAccountCurrency(App.loggedCustomerAccount.getAccountId(), currencyAfter, balanceAfter);
-        } catch (AccountNotFoundException e) {
-            e.printStackTrace();
-            goToAccountManage();
-        }
+        final HttpClient client = HttpClientBuilder.create().build();
+        final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/exchange/"
+                + App.loggedCustomerAccount.getAccountId() + "/" + currencyAfter);
+        client.execute(request);
         goToAccountManage();
     }
+
+
+
 }
