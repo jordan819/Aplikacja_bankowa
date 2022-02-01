@@ -1,6 +1,5 @@
 package pl.pwsztar.rest;
 
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -68,6 +67,18 @@ public class ApiController {
         }
         LOGGER.info("Wystąpił nieoczekiwany błąd");
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping(value = "account/{id}")
+    public ResponseEntity<Account> getAccountInfo(@PathVariable("id") String id) {
+
+        try {
+            Account account = Database.fetchAccount(id);
+            return new ResponseEntity<>(account, HttpStatus.OK);
+        } catch (AccountNotFoundException e) {
+            LOGGER.info("Konto nie zostało znalezione");
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
 }

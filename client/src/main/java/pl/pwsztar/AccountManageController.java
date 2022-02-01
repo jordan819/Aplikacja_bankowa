@@ -1,14 +1,20 @@
 package pl.pwsztar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import pl.pwsztar.Connect.Account;
-import pl.pwsztar.Connect.CustomerDto;
-import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
-import java.util.List;
+import java.lang.reflect.Type;
 
 /**
  * Obsluguje logike okna odpowiedzialnego za ekran powitalny po zalogowaniu.
@@ -26,8 +32,39 @@ public class AccountManageController {
     private void initialize() throws IOException {
 
         try {
-            App.loggedCustomerAccount = setAccount(App.loggedCustomer);
+            // pobranie danych o koncie zalogowanego użytkownika z serwera
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/account/"
+                    + App.loggedCustomer.getIdAccount());
 
+            int statusCode = client.execute(request).getStatusLine().getStatusCode();
+
+            if (statusCode == 403){
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Dane niepoprawne!");
+                throw new AccountNotFoundException();
+            } else if (statusCode != 200){
+                System.out.println("status code: " + statusCode);
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Wystąpił nieoczekiwany błąd");
+                throw new AccountNotFoundException();
+            }
+
+            final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+            final HttpEntity entity = response.getEntity();
+
+            final String json = EntityUtils.toString(entity);   // Na tym etapie odczytujemy JSON'a, ale jako String.
+
+            // Wyswietlamy zawartosc JSON'a na standardowe wyjscie.
+            System.out.println("Odczytano JSON'a:");
+            System.out.println(json);
+
+            // zamiana Stringa na obiekt Account
+            final Gson gson = new Gson();
+            final Type type = new TypeToken<Account>(){}.getType();
+
+            // ustawienie pobranego konta użytkownika
+            App.loggedCustomerAccount = gson.fromJson(json, type);
             String balance = String.format("%.2f ", App.loggedCustomerAccount.getBalance());
             balance += App.loggedCustomerAccount.getCurrency();
             balanceDisplay.setText(balance);
@@ -84,13 +121,4 @@ public class AccountManageController {
         }
     }
 
-    private Account setAccount(CustomerDto customer) throws AccountNotFoundException{
-        List<Account> accounts = Database.fetchAccounts();
-        for (Account account: accounts) {
-            if (account.getAccountId().equals(customer.getIdAccount())) {
-                return account;
-            }
-        }
-        throw new AccountNotFoundException();
-    }
 }

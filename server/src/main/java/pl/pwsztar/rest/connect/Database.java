@@ -513,4 +513,24 @@ public abstract class Database {
         }
     }
 
+    public static Account fetchAccount(String id) throws AccountNotFoundException {
+        try{
+            String query = "SELECT * FROM bank.accounts WHERE id_account = " + id;
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            String id_customer = rs.getString("id_customer");
+            double balance = rs.getDouble("balance");
+            String currency = rs.getString("currency");
+            double loan = rs.getDouble("loan");
+            Date loan_date = rs.getDate("loan_date");
+            Account account = new Account(id, id_customer, balance, currency, loan, loan_date);
+            return account;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new AccountNotFoundException();
+    }
+
 }
