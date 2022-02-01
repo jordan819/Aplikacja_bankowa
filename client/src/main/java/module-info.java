@@ -9,6 +9,8 @@ module pl.pwsztar {
     requires java.sql;
     requires com.google.gson;
     requires org.postgresql.jdbc;
+    requires httpclient;
+    requires httpcore;
 
     opens pl.pwsztar to javafx.fxml;
     exports pl.pwsztar;

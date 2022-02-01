@@ -2,6 +2,9 @@ package pl.pwsztar;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.Connect.Database;
 
@@ -58,15 +61,27 @@ public class SignInController {
 
             // sprawdzenie czy osoba logująca się to potencjalny pracownik (numer konta ma dokładnie 3 znaki)
             if (login.getText().length() == 3) {
-                if (Database.validateEmployee(login.getText(), password.getText())) {
-                    System.out.println("Logowanie");
+
+                // zapytanie do serwera
+                final HttpClient client = HttpClientBuilder.create().build();
+                final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/loginEmployee/"
+                                                    + login.getText() + "/" + password.getText());
+
+                int statusCode = client.execute(request).getStatusLine().getStatusCode();
+
+                if (statusCode == 200) {
                     App.setRoot("employeePanel");
-                } else {
-                    System.out.println("Niepoprawne");
+                } else if (statusCode == 403){
                     infoDisplay.setVisible(true);
                     infoDisplay.setText("Dane niepoprawne!");
+                } else {
+                    System.out.println("status code: " + statusCode);
+                    infoDisplay.setVisible(true);
+                    infoDisplay.setText("Wystąpił nieoczekiwany błąd");
                 }
+
                 return;
+
             }
 
             try {
