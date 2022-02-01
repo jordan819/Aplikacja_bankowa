@@ -3,7 +3,10 @@ package pl.pwsztar;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
@@ -36,8 +39,11 @@ public class DeactivateController {
     @FXML
     private void deactivate() {
         if (textInput.getText().equals(CODE)) {
-            Database.deactivateAccount(App.loggedCustomerAccount.getAccountId());
             try {
+                final HttpClient client = HttpClientBuilder.create().build();
+                final HttpDelete request = new HttpDelete("http://127.0.0.1:8080/bank/account/"
+                        + App.loggedCustomerAccount.getAccountId());
+                client.execute(request);  // Otrzymujemy odpowiedz od serwera.
                 App.setRoot("signIn");
             } catch (IOException e) {
                 e.printStackTrace();

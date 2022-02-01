@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.pwsztar.AccountNotFoundException;
 import pl.pwsztar.rest.connect.Account;
 import pl.pwsztar.rest.connect.Database;
@@ -109,6 +106,13 @@ public class ApiController {
         }
         LOGGER.info("Udostępniam kurs dla waluty: {}, wynoszący: {}", currency, exchangeRate);
         return new ResponseEntity<>(exchangeRate, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "account/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable("id") String id) {
+        LOGGER.info("Działa metoda deleteAccount z parametrem id: {}", id);
+        Database.deactivateAccount(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
