@@ -1,5 +1,7 @@
 package pl.pwsztar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,9 +11,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
-import java.sql.SQLException;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,19 +33,20 @@ public class EmployeePanelController {
     private TableView<String[]> table;
 
     @FXML
-    private void initialize() throws SQLException {
+    private void initialize() {
         refreshTable();
     }
 
     @FXML
-    private void changeStatus() throws SQLException {
+    private void changeStatus() {
         String[] selectedRow = table.getSelectionModel().getSelectedItem();
 
         if (Objects.equals(selectedRow[7], "t")) {
-            Database.changeAccountStatus(selectedRow[0], false);
+            changeAccountStatus(selectedRow[0], false);
+
             infoDisplay.setText("Konto zostało dezaktywowane pomyślnie");
         } else {
-            Database.changeAccountStatus(selectedRow[0], true);
+            changeAccountStatus(selectedRow[0], true);
             infoDisplay.setText("Konto zostało aktywowane pomyślnie");
         }
         refreshTable();
@@ -60,10 +70,57 @@ public class EmployeePanelController {
         table.setItems(data);
     }
 
-    private void refreshTable() throws SQLException {
-        List<String> names = Database.getColumnNames("customers");
-        List<String[]> content = Database.getTableContent("customers");
+    private void changeAccountStatus(String id, boolean status) {
+        try{
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/"
+                    + id + "/" + status);
+            client.execute(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void refreshTable() {
+        List<String> names = null;
+        List<String[]> content = null;
+        try {
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/employee/table/content");
+
+            final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+            final HttpEntity entity = response.getEntity();
+
+            final String json = EntityUtils.toString(entity);   // Na tym etapie odczytujemy JSON'a, ale jako String.
+
+            // zamiana Stringa na List<String[]>
+            final Gson gson = new Gson();
+            final Type type = new TypeToken<List<String[]>>(){}.getType();
+            content = gson.fromJson(json, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/employee/table/headers");
+
+            final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+            final HttpEntity entity = response.getEntity();
+
+            final String json = EntityUtils.toString(entity);   // Na tym etapie odczytujemy JSON'a, ale jako String.
+
+            // zamiana Stringa na List<String>
+            final Gson gson = new Gson();
+            final Type type = new TypeToken<List<String>>(){}.getType();
+            names = gson.fromJson(json, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         populateTable(names, content);
+
     }
 
 }

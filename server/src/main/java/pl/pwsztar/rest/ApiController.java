@@ -21,7 +21,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/bank")
@@ -110,6 +109,32 @@ public class ApiController {
         return new ResponseEntity<>(exchangeRate, HttpStatus.OK);
     }
 
+
+    @GetMapping(value = "employee/table/headers")
+    public ResponseEntity<List<String>> getHeadersForTable() {
+        LOGGER.info("Działa metoda getHeadersForTable");
+        try{
+            List<String> names = Database.getColumnNames("customers");
+            return new ResponseEntity<>(names, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping(value = "employee/table/content")
+    public ResponseEntity<List<String[]>> getContentForTable() {
+        LOGGER.info("Działa metoda getContentForTable");
+        try {
+            List<String[]> content = Database.getTableContent("customers");
+            return new ResponseEntity<>(content, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping(value = "exchange/{id}/{currency}")
     public ResponseEntity<Void> changeAccountCurrency(@PathVariable("id") String id,
                                                       @PathVariable("currency") String currency) {
@@ -125,6 +150,14 @@ public class ApiController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
+    }
+
+    @PutMapping(value = "account/{id}/{status}")
+    public ResponseEntity<Boolean> changeAccountStatus(@PathVariable("id") String id,
+                                                       @PathVariable("status") boolean status){
+        LOGGER.info("Działa metoda changeAccountCurrency z parametrami id: {}, status: {}", id, status);
+        Database.changeAccountStatus(id, status);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // dezaktywowanie konta
