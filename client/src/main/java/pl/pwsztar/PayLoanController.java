@@ -5,11 +5,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.HttpClientBuilder;
-import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
@@ -82,14 +80,6 @@ public class PayLoanController {
                                                         + App.loggedCustomerAccount.getAccountId() + "/"
                                                         + amount.getText());
                 client.execute(request);  // Otrzymujemy odpowiedz od serwera.
-
-
-                /*
-                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(),
-                        "-" + amount.getText());
-                Database.updateLoanInformation(App.loggedCustomerAccount.getAccountId(),
-                        Double.parseDouble(amount.getText()));
-                 */
 
                 infoDisplay.setTextFill(Paint.valueOf("green"));
                 infoDisplay.setText("Wpłata dokonana pomyślnie.");

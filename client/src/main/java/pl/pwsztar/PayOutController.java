@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
@@ -85,13 +87,21 @@ public class PayOutController {
     }
 
     private void payOut(String value) {
-        if (balanceSufficient(Double.parseDouble(value))) {
-            Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), "-" + value);
-            goBack();
-        } else {
-            infoDisplay.setVisible(true);
-            infoDisplay.setText("Brak środków na koncie!");
+        try {
+            if (balanceSufficient(Double.parseDouble(value))) {
+                final HttpClient client = HttpClientBuilder.create().build();
+                final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/payInOut/"
+                        + App.loggedCustomerAccount.getAccountId() + "/-" + value);
+                client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+                goBack();
+            } else {
+                infoDisplay.setVisible(true);
+                infoDisplay.setText("Brak środków na koncie!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     private boolean balanceSufficient(double amount) {

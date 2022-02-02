@@ -160,10 +160,10 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "account/payIn/{id}/{amount}")
-    public ResponseEntity<Void> payMoneyIn(@PathVariable("id") String id,
+    @PutMapping(value = "account/payInOut/{id}/{amount}")
+    public ResponseEntity<Void> payMoneyInOut(@PathVariable("id") String id,
                                              @PathVariable("amount") String amount) {
-        LOGGER.info("Działa metoda payMoneyIn z parametrami id: {}, amount: {}", id, amount);
+        LOGGER.info("Działa metoda payMoneyInOut z parametrami id: {}, amount: {}", id, amount);
         Database.updateAccountBalance(id, amount);
         return new ResponseEntity<>(HttpStatus.OK);
     }

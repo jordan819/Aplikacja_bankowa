@@ -85,7 +85,7 @@ public class PayInController {
 
         try {
             final HttpClient client = HttpClientBuilder.create().build();
-            final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/payIn/"
+            final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/payInOut/"
                     + App.loggedCustomerAccount.getAccountId() + "/"
                     + value);
             client.execute(request);  // Otrzymujemy odpowiedz od serwera.
