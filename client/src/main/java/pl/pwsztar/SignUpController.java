@@ -9,8 +9,9 @@ import javafx.scene.paint.Paint;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
-import pl.pwsztar.Connect.SendEmailTLS;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 
 /**
@@ -120,7 +121,14 @@ public class SignUpController {
     }
 
     private boolean emailIncorrect() {
-        return !SendEmailTLS.isEmailAddressValid(email.getText());
+        boolean result = false;
+        try {
+            InternetAddress InternetAddress = new InternetAddress(email.getText());
+            InternetAddress.validate();
+        } catch (AddressException | NullPointerException ex ) {
+            result = true;
+        }
+        return result;
     }
 
     private boolean passwordsDifferent() {

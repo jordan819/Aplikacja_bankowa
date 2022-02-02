@@ -1,8 +1,5 @@
 package pl.pwsztar.rest.connect;
 
-import pl.pwsztar.AccountNotFoundException;
-import pl.pwsztar.rest.connect.Database;
-
 import java.sql.Date;
 import java.util.List;
 

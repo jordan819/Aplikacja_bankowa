@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import pl.pwsztar.Connect.Account;
 import pl.pwsztar.Connect.CustomerDto;
-import pl.pwsztar.Connect.Database;
 
 import java.io.IOException;
 
@@ -16,11 +15,6 @@ import java.io.IOException;
  * Umozliwia uzytkownikowi zalozenie konta bankowego i zarzadzanie nim.
  */
 public class App extends Application {
-
-    /**
-     * Numer rozliczeniowy banku, wykorzystywany do utworzenia numeru konta klienta.
-     */
-    public static final String BANK_NO = "1234";
 
     static CustomerDto loggedCustomer;
     static Account loggedCustomerAccount;
@@ -32,8 +26,6 @@ public class App extends Application {
         scene = new Scene(loadFXML("signIn"), 700, 500);
         stage.setScene(scene);
         stage.show();
-
-        Database.makeConnection();
 
     }
 

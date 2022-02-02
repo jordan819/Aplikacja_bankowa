@@ -60,20 +60,6 @@ public abstract class Money {
         try {
             final HttpClient client = HttpClientBuilder.create().build();
             final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/exchange/" + currency);
-            int statusCode = client.execute(request).getStatusLine().getStatusCode();
-
-            /*
-            if (statusCode == 200) {
-                App.setRoot("employeePanel");
-            } else if (statusCode == 403){
-                infoDisplay.setVisible(true);
-                infoDisplay.setText("Dane niepoprawne!");
-            } else {
-                System.out.println("status code: " + statusCode);
-                infoDisplay.setVisible(true);
-                infoDisplay.setText("Wystąpił nieoczekiwany błąd");
-            }
-            */
 
             final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
             final HttpEntity entity = response.getEntity();

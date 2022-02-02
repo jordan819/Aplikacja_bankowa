@@ -1,4 +1,4 @@
-package pl.pwsztar;
+package pl.pwsztar.rest.connect;
 
 /**
  * Rzucany, gdy w bazie danych nie zostanie znalezione szukane konto.

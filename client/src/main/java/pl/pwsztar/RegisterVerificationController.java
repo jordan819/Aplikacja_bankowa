@@ -7,8 +7,9 @@ import javafx.scene.paint.Paint;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.HttpClientBuilder;
-import pl.pwsztar.Connect.SendEmailTLS;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 
 /**
@@ -56,6 +57,7 @@ public class RegisterVerificationController {
                     infoDisplay.setText("Konto zostało aktywowane.\nWysłany został email z dalszymi instrukcjami.");
                 } else if (statusCode == 403){
                     infoDisplay.setVisible(true);
+                    infoDisplay.setTextFill(Paint.valueOf("red"));
                     infoDisplay.setText("Dane niepoprawne!");
                 } else {
                     System.out.println("status code: " + statusCode);
@@ -74,7 +76,14 @@ public class RegisterVerificationController {
     }
 
     private boolean emailIncorrect() {
-        return !SendEmailTLS.isEmailAddressValid(emailInput.getText());
+        boolean result = false;
+        try {
+            InternetAddress InternetAddress = new InternetAddress(emailInput.getText());
+            InternetAddress.validate();
+        } catch (AddressException | NullPointerException ex ) {
+            result = true;
+        }
+        return result;
     }
 
 }

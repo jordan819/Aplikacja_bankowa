@@ -1,21 +1,20 @@
 package pl.pwsztar.rest.connect;
 
-import pl.pwsztar.AccountNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import pl.pwsztar.Connect.CustomerDto;
-import pl.pwsztar.Connect.Customer;
-import pl.pwsztar.rest.connect.Account;
-
 /**
  * Umozliwia operacje na podlaczonej bazie danych.
  * Pozwala odczytywac, dodawac, oraz modyfikowac dane, znajdujace sie w zdefiniowanej na stale bazie.
  */
 public abstract class Database {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Database.class);
 
     private static Connection connection;
 
@@ -45,7 +44,7 @@ public abstract class Database {
 
             } catch (Exception e) {
                 status = false;
-                System.out.print(e.getMessage());
+                LOGGER.error(e.getMessage());
                 e.printStackTrace();
             }
         });
@@ -56,7 +55,7 @@ public abstract class Database {
             e.printStackTrace();
             status = false;
         }
-        System.out.println("connection status:" + status);
+        LOGGER.info("Stan połączenia z bazą: {}", status);
     }
 
     /**
@@ -85,7 +84,7 @@ public abstract class Database {
 
         } catch (Exception e) {
             status = false;
-            System.out.print(e.getMessage());
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
 
@@ -349,7 +348,7 @@ public abstract class Database {
 
         } catch (SQLException e) {
             status = false;
-            System.out.print(e.getMessage());
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
 
@@ -524,8 +523,7 @@ public abstract class Database {
             String currency = rs.getString("currency");
             double loan = rs.getDouble("loan");
             Date loan_date = rs.getDate("loan_date");
-            Account account = new Account(id, id_customer, balance, currency, loan, loan_date);
-            return account;
+            return new Account(id, id_customer, balance, currency, loan, loan_date);
 
         } catch (SQLException e) {
             e.printStackTrace();

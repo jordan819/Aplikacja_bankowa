@@ -1,9 +1,6 @@
 package pl.pwsztar.Connect;
 
-import pl.pwsztar.AccountNotFoundException;
-
 import java.sql.Date;
-import java.util.List;
 
 /**
  * Reprezentuje konto klienta banku.
@@ -17,28 +14,6 @@ public class Account {
     private final String currency;
     private final Double loan;
     private final Date loanDate;
-
-    /**
-     * Tworzy nowy obiekt, pobierajac dane z bazy.
-     *
-     * @param accountId numer konta
-     * @throws AccountNotFoundException gdy konto nie zostanie znalezione
-     */
-    public Account(String accountId) throws AccountNotFoundException{
-        List<Account> accounts = Database.fetchAccounts();
-        for (Account account: accounts) {
-            if (account.getAccountId().equals(accountId)) {
-                this.accountId = accountId;
-                this.customerId = account.getCustomerId();
-                this.balance = account.getBalance();
-                this.currency = account.getCurrency();
-                this.loan = account.getLoan();
-                this.loanDate = account.getLoanDate();
-                return;
-            }
-        }
-        throw new AccountNotFoundException();
-    }
 
     protected Account(String accountId, String customerId, double balance, String currency,
                       Double loan, Date loanDate) {

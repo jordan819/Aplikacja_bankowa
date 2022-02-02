@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.pwsztar.AccountNotFoundException;
+import pl.pwsztar.rest.connect.AccountNotFoundException;
 
-import pl.pwsztar.Connect.Customer;
+import pl.pwsztar.rest.connect.Customer;
 import pl.pwsztar.rest.connect.Account;
 import pl.pwsztar.rest.connect.Database;
-import pl.pwsztar.Connect.CustomerDto;
+import pl.pwsztar.rest.connect.CustomerDto;
 import pl.pwsztar.rest.connect.Money;
 import pl.pwsztar.rest.connect.SendEmailTLS;
 
@@ -77,7 +77,7 @@ public class ApiController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        LOGGER.info("Wystąpił nieoczekiwany błąd");
+        LOGGER.info("Hasło niepoprawne lub konto nieaktywne");
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 

@@ -1,4 +1,4 @@
-package pl.pwsztar.Connect;
+package pl.pwsztar.rest.connect;
 
 /**
  * Reprezentuje klienta banku.

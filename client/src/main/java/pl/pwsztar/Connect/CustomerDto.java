@@ -2,7 +2,7 @@ package pl.pwsztar.Connect;
 
 /**
  * Reprezentuje klienta banku.
- * Przechowuje i udostepnia informacje o uzytkowniku pobrane z bazy danych.
+ * Przechowuje i udostepnia informacje o uzytkowniku pobrane z serwera.
  */
 public class CustomerDto {
 

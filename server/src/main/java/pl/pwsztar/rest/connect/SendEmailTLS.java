@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -61,26 +60,5 @@ public abstract class SendEmailTLS {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Metoda pozwalajaca sprawdzic, czy podany adres email zawiera poprawna skladnie.
-     *
-     * <p>
-     *     Nie jest sprawdzane czy adres istnieje, jedynie czy jego zapis jest poprawny.
-     * </p>
-     *
-     * @param email adres email, ktorego poprawnosc jest sprawdzana
-     * @return true, jesli adres jest poprawny, false w przeciwnym razie
-     */
-    public static boolean isEmailAddressValid(String email) {
-        boolean result = true;
-        try {
-            InternetAddress InternetAddress = new InternetAddress(email);
-            InternetAddress.validate();
-        } catch (AddressException | NullPointerException ex ) {
-            result = false;
-        }
-        return result;
     }
 }

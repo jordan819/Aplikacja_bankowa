@@ -83,6 +83,8 @@ public class EmployeePanelController {
     }
 
     private void refreshTable() {
+        table.getItems().clear();
+        table.getColumns().clear();
         List<String> names = null;
         List<String[]> content = null;
         try {
