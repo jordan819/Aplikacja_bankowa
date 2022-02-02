@@ -1,14 +1,23 @@
 package pl.pwsztar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 /**
  * Obsluguje logike okna odpowiedzialnego za udzielanie pozyczki klientowi.
@@ -26,7 +35,7 @@ public class TakeLoanController {
     private TextField amount;
 
     @FXML
-    private ChoiceBox lengthChoice;
+    private ChoiceBox<String> lengthChoice;
 
     @FXML
     private Button takeLoan;
@@ -45,21 +54,42 @@ public class TakeLoanController {
             switch (number2.intValue()) {
                 case 0:
                     duration = 3;
-                    multiplier = 0.10;
                     break;
                 case 1:
                     duration = 6;
-                    multiplier = 0.15;
                     break;
                 case 2:
                     duration = 12;
-                    multiplier = 0.20;
                     break;
                 case 3:
                     duration = 24;
-                    multiplier = 0.40;
                     break;
             }
+            // pobranie przelicznika odsetek z serwera
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpGet request = new HttpGet("http://127.0.0.1:8080/bank/account/loan/getMultiplier/"
+                    + duration);
+
+            String json = "";
+
+            try {
+                final HttpResponse response = client.execute(request);  // Otrzymujemy odpowiedz od serwera.
+                final HttpEntity entity = response.getEntity();
+
+                json = EntityUtils.toString(entity);   // Na tym etapie odczytujemy JSON'a, ale jako String.
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            // Wyswietlamy zawartosc JSON'a na standardowe wyjscie.
+            System.out.println("Pobrano oprocentowanie z serwera: " + json);
+
+            // zamiana Stringa na obiekt Account
+            final Gson gson = new Gson();
+            final Type type = new TypeToken<Double>(){}.getType();
+            multiplier = gson.fromJson(json, type);
+
             calculateInterest();
 
         });
@@ -115,14 +145,14 @@ public class TakeLoanController {
         if(calculatedInterest != 0.0) {
 
             try {
-                Database.createLoanInformation(App.loggedCustomerAccount.getAccountId(),
-                        Double.parseDouble(amount.getText()) + calculatedInterest, duration);
-                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(), amount.getText());
-            } catch (AccountNotFoundException e) {
+
+                final HttpClient client = HttpClientBuilder.create().build();
+                final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/loan/takeLoan/"
+                        + App.loggedCustomerAccount.getAccountId() + "/" + amount.getText() + "/" + duration);
+                client.execute(request);
+
+            } catch (IOException e) {
                 e.printStackTrace();
-                infoDisplay.setTextFill(Paint.valueOf("red"));
-                infoDisplay.setText("Wprowadź kwotę!");
-                return;
             }
 
             infoDisplay.setTextFill(Paint.valueOf("green"));

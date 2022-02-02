@@ -168,6 +168,43 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "account/loan/getMultiplier/{duration}")
+    public ResponseEntity<Double> getLoanMultiplier(@PathVariable("duration") int duration) {
+        LOGGER.info("Działa metoda getLoanMultiplier z parametrem duration: {}", duration);
+        double multiplier = 0;
+
+        if (duration <= 3)
+            multiplier = 0.1;
+        else if (duration <= 6)
+            multiplier = 0.15;
+        else if (duration <= 12)
+            multiplier = 0.2;
+        else
+            multiplier = 0.4;
+
+        return new ResponseEntity<>(multiplier, HttpStatus.OK);
+
+    }
+
+
+    @PutMapping(value = "account/loan/takeLoan/{id}/{amount}/{duration}")
+    public ResponseEntity<Void> takeLoan(@PathVariable("id") String id,
+                                         @PathVariable("amount") String amount,
+                                         @PathVariable("duration") int duration) {
+        try {
+            double multiplier = getLoanMultiplier(duration).getBody();
+            double calculatedInterest = Double.parseDouble(amount) * multiplier;
+            Database.createLoanInformation(id, Double.parseDouble(amount) + calculatedInterest, duration);
+            Database.updateAccountBalance(id, amount);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (AccountNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
     @PutMapping(value = "account/payLoan/{id}/{amount}")
     public ResponseEntity<Void> payLoan(@PathVariable("id") String id,
                                            @PathVariable("amount") String amount) {
