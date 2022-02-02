@@ -204,6 +204,20 @@ public class ApiController {
 
     }
 
+    @PutMapping(value = "account/transfer/{fromAccountId}/{toAccountId}/{amount}")
+    public ResponseEntity<Void> transferMoney(@PathVariable("fromAccountId") String fromAccountId,
+                                              @PathVariable("toAccountId") String toAccountId,
+                                              @PathVariable("amount") String amount) throws AccountNotFoundException {
+        LOGGER.info("Działa metoda transferMoney z parametrami fromAccountId: {}, toAccountId: {}, amount: {}",
+                fromAccountId, toAccountId, amount);
+
+        Account fromAccount = getAccountInfo(fromAccountId).getBody();
+        Database.updateAccountBalance(fromAccountId, '-' + amount);
+        assert fromAccount != null;
+        Database.updateAccountBalance(toAccountId, amount, fromAccount.getCurrency());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @PutMapping(value = "account/payLoan/{id}/{amount}")
     public ResponseEntity<Void> payLoan(@PathVariable("id") String id,

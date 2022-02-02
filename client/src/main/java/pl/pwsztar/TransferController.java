@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
@@ -66,14 +68,19 @@ public class TransferController {
                 return;
             }
             try {
-                Database.updateAccountBalance(toAccountInput.getText(), amount.getText(),
-                        App.loggedCustomerAccount.getCurrency());
-                Database.updateAccountBalance(App.loggedCustomerAccount.getAccountId(),
-                        "-" + amount.getText());
+
+                final HttpClient client = HttpClientBuilder.create().build();
+                final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/transfer/"
+                        + App.loggedCustomerAccount.getAccountId() + "/"
+                        + toAccountInput.getText() + "/"
+                        + amount.getText());
+
+                client.execute(request);
+
                 infoDisplay.setTextFill(Paint.valueOf("green"));
                 infoDisplay.setText("Przelano pieniądze!");
-            } catch (AccountNotFoundException e) {
-                infoDisplay.setText("Konto o podanym numerze nie istnieje!");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             infoDisplay.setTextFill(Paint.valueOf("red"));
