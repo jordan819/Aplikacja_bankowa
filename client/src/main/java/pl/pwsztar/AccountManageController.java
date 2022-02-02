@@ -1,6 +1,7 @@
 package pl.pwsztar;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -60,10 +61,11 @@ public class AccountManageController {
             System.out.println(json);
 
             // zamiana Stringa na obiekt Account
-            final Gson gson = new Gson();
+            final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             final Type type = new TypeToken<Account>(){}.getType();
 
             // ustawienie pobranego konta użytkownika
+
             App.loggedCustomerAccount = gson.fromJson(json, type);
             String balance = String.format("%.2f ", App.loggedCustomerAccount.getBalance());
             balance += App.loggedCustomerAccount.getCurrency();
@@ -101,7 +103,7 @@ public class AccountManageController {
 
     @FXML
     private void goToTakeLoan() throws IOException {
-        if(App.loggedCustomerAccount.getLoan() == null)
+        if(App.loggedCustomerAccount.getLoanDate() == null)
             App.setRoot("takeLoan");
         else {
             infoDisplay.setVisible(true);

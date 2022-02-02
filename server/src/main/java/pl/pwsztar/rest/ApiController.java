@@ -168,6 +168,20 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "account/payLoan/{id}/{amount}")
+    public ResponseEntity<Void> payLoan(@PathVariable("id") String id,
+                                           @PathVariable("amount") String amount) {
+        LOGGER.info("Działa metoda payLoan z parametrami id: {}, amount: {}", id, amount);
+        try {
+            Database.updateAccountBalance(id,"-" + amount);
+            Database.updateLoanInformation(id, Double.parseDouble(amount));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (AccountNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // dezaktywowanie konta
     @DeleteMapping(value = "account/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable("id") String id) {
