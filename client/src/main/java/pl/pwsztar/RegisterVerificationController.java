@@ -4,15 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
-import pl.pwsztar.Connect.CustomerDto;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.HttpClientBuilder;
 import pl.pwsztar.Connect.SendEmailTLS;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Obsluguje logike okna odpowiedzialnego za weryfikację konta uzytkownika.
@@ -26,22 +23,6 @@ public class RegisterVerificationController {
 
     @FXML
     private Label infoDisplay;
-
-    private String email;
-    private String verificationCode;
-
-    List<CustomerDto> customers;
-    CustomerDto customerDto;
-
-    @FXML
-    private void initialize() throws IOException {
-        try {
-            customers = Database.fetchCustomers();
-        } catch (SQLException e){
-            e.printStackTrace();
-            App.setRoot("signIn");
-        }
-    }
 
     @FXML
     private void goBack() throws IOException {
@@ -59,30 +40,33 @@ public class RegisterVerificationController {
         } else if ( emailIncorrect() ) {
             infoDisplay.setText("Adres email niepoprawny!");
         } else {
-            email = emailInput.getText();
-            verificationCode = verificationCodeInput.getText();
             infoDisplay.setTextFill(Paint.valueOf("green"));
             infoDisplay.setText("Przetwarzamy Twoje dane...\nProsimy o cierpliwość.");
 
-            if ( validateCode() ) {
-                infoDisplay.setText("Konto zostało aktywowane.\nWysłany został email z dalszymi instrukcjami.");
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/account/verify/"
+                    + emailInput.getText() + "/"
+                    + verificationCodeInput.getText());
 
-                String content = "Weryfikacja Twojego konta przebiegła pomyślnie. " +
-                        "Do zalogowania się wykorzystasz utworzone hasło, " +
-                        "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
+            try {
+                int statusCode = client.execute(request).getStatusLine().getStatusCode();
 
-                ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
-                emailExecutor.execute(() -> SendEmailTLS.send(email, "Weryfikacja zakończona", content));
-                emailExecutor.shutdown();
-
-
-            } else {
-                infoDisplay.setTextFill(Paint.valueOf("red"));
-                infoDisplay.setText("Nie udało się aktywować konta.\nSpróbuj ponownie później.");
+                if (statusCode == 200) {
+                    infoDisplay.setTextFill(Paint.valueOf("green"));
+                    infoDisplay.setText("Konto zostało aktywowane.\nWysłany został email z dalszymi instrukcjami.");
+                } else if (statusCode == 403){
+                    infoDisplay.setVisible(true);
+                    infoDisplay.setText("Dane niepoprawne!");
+                } else {
+                    System.out.println("status code: " + statusCode);
+                    infoDisplay.setVisible(true);
+                    infoDisplay.setTextFill(Paint.valueOf("red"));
+                    infoDisplay.setText("Wystąpił nieoczekiwany błąd");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
         }
-
     }
 
     private boolean isInputBlank() {
@@ -93,20 +77,4 @@ public class RegisterVerificationController {
         return !SendEmailTLS.isEmailAddressValid(emailInput.getText());
     }
 
-    private boolean validateCode() {
-        for (CustomerDto customer: customers) {
-            if (customer.getEmail().equals(email)) {
-                if (!customer.isVerified()) {
-                    if (customer.getVerificationCode().equals(verificationCode)) {
-                        Database.verifyCustomer(customer);
-                        Database.updateAccountBalance(customer.getIdAccount(), "1000");
-                        customerDto = customer;
-                        return true;
-                    }
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
 }

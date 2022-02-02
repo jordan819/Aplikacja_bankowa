@@ -197,6 +197,7 @@ public class ApiController {
     public ResponseEntity<Void> takeLoan(@PathVariable("id") String id,
                                          @PathVariable("amount") String amount,
                                          @PathVariable("duration") int duration) {
+        LOGGER.info("Działa metoda takeLoan z parametrami id: {}, amount: {}, duration: {}", id, amount, duration);
         try {
             double multiplier = getLoanMultiplier(duration).getBody();
             double calculatedInterest = Double.parseDouble(amount) * multiplier;
@@ -301,7 +302,6 @@ public class ApiController {
             return null;
         }
 
-
         Database.setAccountNo(email, accountNo);
 
         // wysłanie maila z kodem weryfikacyjnym
@@ -311,6 +311,38 @@ public class ApiController {
         emailExecutor.shutdown();
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "account/verify/{email}/{code}")
+    public ResponseEntity<Void> verifyAccount(@PathVariable("email") String email,
+                                              @PathVariable("code") String code) throws SQLException {
+        LOGGER.info("Działa metoda verifyAccount z parametrami email: {}, code: {}", email, code);
+
+        List<CustomerDto> customers = Database.fetchCustomers();
+        for (CustomerDto customer: customers) {
+            if (customer.getEmail().equals(email)) {
+                if (!customer.isVerified()) {
+                    if (customer.getVerificationCode().equals(code)) {
+                        Database.verifyCustomer(customer);
+                        Database.updateAccountBalance(customer.getIdAccount(), "1000");
+                        CustomerDto customerDto = customer;
+
+                        String content = "Weryfikacja Twojego konta przebiegła pomyślnie. " +
+                                "Do zalogowania się wykorzystasz utworzone hasło, " +
+                                "oraz numer Twojego rachunku: " + customerDto.getIdAccount();
+
+                        ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+                        emailExecutor.execute(() -> SendEmailTLS.send(email, "Weryfikacja zakończona", content));
+                        emailExecutor.shutdown();
+                        return new ResponseEntity<>(HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+
     }
 
     // dezaktywowanie konta
