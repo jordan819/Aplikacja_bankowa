@@ -1,4 +1,7 @@
-package pl.pwsztar.Connect;
+package pl.pwsztar.rest.connect;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -11,6 +14,8 @@ import java.util.Properties;
  */
 public abstract class SendEmailTLS {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SendEmailTLS.class);
+
     /**
      * Umozliwia wyslanie maila.
      * Adres nadawcy jest zdefiniowany na stale,
@@ -21,7 +26,7 @@ public abstract class SendEmailTLS {
      * @param text tresc wiadomosci
      */
     public static void send(String addressee, String subject, String text){
-        System.out.println("Wysyłanie wiadomości na adres " + addressee + "...");
+        LOGGER.info("Wysyłanie wiadomości na adres {}...", addressee);
 
         final String sender = "twoj.kochany.bank@gmail.com";
         final String password = "ujzkgjdamtqpfzqa";
@@ -51,8 +56,7 @@ public abstract class SendEmailTLS {
             message.setText(text);
 
             Transport.send(message);
-
-            System.out.println("Wiadomość została wysłana\n");
+            LOGGER.info("Wiadomość została wysłana");
 
         } catch (MessagingException e) {
             e.printStackTrace();

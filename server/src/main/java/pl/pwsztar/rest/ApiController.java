@@ -3,16 +3,20 @@ package pl.pwsztar.rest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pwsztar.AccountNotFoundException;
+
+import pl.pwsztar.Connect.Customer;
 import pl.pwsztar.rest.connect.Account;
 import pl.pwsztar.rest.connect.Database;
 import pl.pwsztar.Connect.CustomerDto;
 import pl.pwsztar.rest.connect.Money;
+import pl.pwsztar.rest.connect.SendEmailTLS;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +25,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/bank")
@@ -231,6 +237,80 @@ public class ApiController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping(value = "account/create/{name}/{surname}/{email}/{pass}")
+    public ResponseEntity<Void> createAccount(@PathVariable("name") String name,
+                                              @PathVariable("surname") String surname,
+                                              @PathVariable("email") String email,
+                                              @PathVariable("pass") String pass) {
+        LOGGER.info("Działa metoda createAccount z parametrami name: {}, surname: {}, email: {}, pass: {}",
+                name, surname, email, pass);
+
+        final String BANK_NO = "1234";
+
+        try {
+            List<CustomerDto> customers = Database.fetchCustomers();
+            assert customers != null;
+            for (CustomerDto customer: customers) {
+                if (customer.getEmail().equals(email)) {
+                    // zostało już założone konto na podany email
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // generowanie kodu weryfikacyjnego
+        final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        final String code = RandomStringUtils.random( 16, characters );
+
+        LOGGER.info("Tworzenie konta użytkownika");
+        Database.addCustomer(new Customer(name, surname, email, pass, "123456789", code, false));
+
+        String accountNo;
+        String customerId = null;
+
+        try {
+            List<CustomerDto> customers = Database.fetchCustomers();
+
+            if (customers == null)
+                return  null;
+
+            for (CustomerDto customer: customers) {
+                if ( customer.getEmail().equals(email) ) {
+                    customerId = customer.getIdCustomer();
+                    break;
+                }
+            }
+
+            if (customerId == null)
+                return  null;
+
+            int checksumAsInteger = Integer.parseInt(customerId) * Integer.parseInt(BANK_NO) % 100;
+            String checksum = String.valueOf(checksumAsInteger);
+
+            accountNo = checksum + BANK_NO + customerId;
+
+            Database.addAccount(accountNo, customerId);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+        Database.setAccountNo(email, accountNo);
+
+        // wysłanie maila z kodem weryfikacyjnym
+        String content = "Witaj, tu Twój bank.\n\nOto Twój kod weryfikacyjny: " + code;
+        ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
+        emailExecutor.execute(() -> SendEmailTLS.send(email, "Kod weryfikacyjny", content));
+        emailExecutor.shutdown();
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // dezaktywowanie konta

@@ -6,17 +6,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.paint.Paint;
-import org.apache.commons.lang3.RandomStringUtils;
-import pl.pwsztar.Connect.Customer;
-import pl.pwsztar.Connect.CustomerDto;
-import pl.pwsztar.Connect.Database;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
 import pl.pwsztar.Connect.SendEmailTLS;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Obsluguje logike okna odpowiedzialnego za rejestracje uzytkownika.
@@ -35,8 +30,6 @@ public class SignUpController {
 
     @FXML
     private Label errorDisplay;
-
-    private String code;
 
     @FXML
     private void initialize() {
@@ -65,23 +58,34 @@ public class SignUpController {
             errorDisplay.setText("Hasło musi składać się z conajmniej 8 znaków!");
         } else if( passwordsDifferent() ) {
             errorDisplay.setText("Hasła nie mogą się różnić!");
-        } else if ( isEmailUnique() ){
-            errorDisplay.setTextFill(Paint.valueOf("green"));
-            String code = generateVerificationCode();
-            errorDisplay.setText("Przetwarzamy Twoje dane...\n Prosimy o cierpliwość.");
-            addUser();
-            String content = "Witaj, tu Twój bank.\n\nOto Twój kod weryfikacyjny: " + code;
-
-
-            ExecutorService emailExecutor = Executors.newSingleThreadExecutor();
-            emailExecutor.execute(() -> SendEmailTLS.send(email.getText(), "Kod weryfikacyjny", content));
-            emailExecutor.shutdown();
-
-            App.setRoot("registerVerification");
         } else {
-            errorDisplay.setText("Na taki adres email zostało już utworzone konto!");
-        }
 
+            errorDisplay.setText("Przetwarzamy Twoje dane...\n Prosimy o cierpliwość.");
+
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpPost request = new HttpPost("http://127.0.0.1:8080/bank/account/create/"
+                    + firstName.getText() + "/"
+                    + lastName.getText() + "/"
+                    + email.getText() + "/"
+                    + password.getText());
+            int statusCode = client.execute(request).getStatusLine().getStatusCode();
+
+            // zostało już założone konto na podany email
+            if (statusCode == 409){
+                errorDisplay.setVisible(true);
+                errorDisplay.setText("Na taki adres email zostało już utworzone konto!");
+                return;
+            } else if (statusCode != 200){
+                System.out.println("status code: " + statusCode);
+                errorDisplay.setVisible(true);
+                errorDisplay.setText("Wystąpił nieoczekiwany błąd");
+                return;
+            }
+
+
+            errorDisplay.setTextFill(Paint.valueOf("green"));
+            App.setRoot("registerVerification");
+        }
     }
 
     private boolean isInputBlank() {
@@ -123,73 +127,4 @@ public class SignUpController {
         return !password.getText().equals(passwordRepeat.getText());
     }
 
-    private String generateVerificationCode() {
-
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        code = RandomStringUtils.random( 16, characters );
-
-        return code;
-    }
-
-    private void addUser() {
-        Customer customer = new Customer(firstName.getText(), lastName.getText(), email.getText(),
-                password.getText(), "123456789", code, false);
-        Database.addCustomer(customer);
-
-        String accountNo = generateAccountNo();
-        Database.setAccountNo(customer.getEmail(), accountNo);
-    }
-
-    private void addAccount(String accountNo, String customerId) {
-        Database.addAccount(accountNo, customerId);
-    }
-
-    private String generateAccountNo() {
-        String customerId = null;
-
-        try {
-            List<CustomerDto> customers = Database.fetchCustomers();
-
-            if (customers == null)
-                return  null;
-
-            for (CustomerDto customer: customers) {
-                if ( customer.getEmail().equals(email.getText()) ) {
-                    customerId = customer.getIdCustomer();
-                    break;
-                }
-            }
-
-            if (customerId == null)
-                return  null;
-
-            int checksumAsInteger = Integer.parseInt(customerId) * Integer.parseInt(App.BANK_NO) % 100;
-            String checksum = String.valueOf(checksumAsInteger);
-
-            String accountNo = checksum + App.BANK_NO + customerId;
-
-            addAccount(accountNo, customerId);
-
-            return accountNo;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
-    private boolean isEmailUnique() {
-        try {
-            List<CustomerDto> customers = Database.fetchCustomers();
-            for (CustomerDto customer: customers) {
-                if (customer.getEmail().equals(email.getText()))
-                    return false;
-            }
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 }
