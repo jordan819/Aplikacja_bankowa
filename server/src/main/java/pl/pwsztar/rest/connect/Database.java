@@ -91,7 +91,13 @@ public abstract class Database {
         return null;
     }
 
-
+    /**
+     * Pozwala na pobranie rekordow z wybranej tabeli z bazy danych.
+     *
+     * @param tableName     nazwa tabeli
+     * @return              wszystkie rekordy tabeli
+     * @throws SQLException dla nieoczekiwanego bledu z bazy
+     */
     public static List<String[]> getTableContent(String tableName) throws SQLException {
         String schemaName = "bank";
 
@@ -119,7 +125,13 @@ public abstract class Database {
         return data;
     }
 
-
+    /**
+     * Pozwala na pobranie nazw naglowkow z wybranej tabeli w bazie.
+     *
+     * @param tableName     nazwa tabeli
+     * @return              nazwy kolumn
+     * @throws SQLException dla nieoczekiwanego bledu z bazy
+     */
     public static List<String> getColumnNames(String tableName) throws SQLException {
 
         DatabaseMetaData md = connection.getMetaData();
@@ -503,6 +515,12 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Pozwala na zmiane statusu konta z aktywne na nieaktywne i na odwrot.
+     *
+     * @param id    numer konta
+     * @param value docelowy stan konta
+     */
     public static void changeAccountStatus(String id, boolean value) {
         try {
             String query = "UPDATE bank.customers SET is_verified = " + value + " WHERE id_customer = " + id;
@@ -512,6 +530,13 @@ public abstract class Database {
         }
     }
 
+    /**
+     * Umozliwia pobranie konta uzytkownika
+     *
+     * @param id                        numer konta
+     * @return                          konto uzytkownika
+     * @throws AccountNotFoundException gdy nie znaleziono konta
+     */
     public static Account fetchAccount(String id) throws AccountNotFoundException {
         try{
             String query = "SELECT * FROM bank.accounts WHERE id_account = " + id;

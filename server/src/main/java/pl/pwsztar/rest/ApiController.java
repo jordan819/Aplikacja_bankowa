@@ -28,17 +28,32 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Obsluguje wszystkie zapytania od desktopowej aplikacji bankowej.
+ */
 @RestController
 @RequestMapping("/bank")
 public class ApiController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiController.class);
 
+    /**
+     * pozwala na sprawdzenie, czy serwer dziala poprawnie.
+     *
+     * @return OK, kiedy serwer dziala
+     */
     @GetMapping(value = "test")
     public ResponseEntity<Void> testServer() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Pozwala pracownikowi na zaloowanie sie.
+     *
+     * @param id    numer pracownika
+     * @param pass  haslo pracownika
+     * @return      OK, kiedy dane są poprawne, FORBIDDEN w przeciwnym razie
+     */
     @GetMapping(value = "loginEmployee/{id}/{pass}")
     public ResponseEntity<Void> loginEmployee(@PathVariable("id") String id,
                                               @PathVariable("pass") String pass) {
@@ -52,6 +67,13 @@ public class ApiController {
         }
     }
 
+    /**
+     * Pozwala klientowi na zaloowanie sie.
+     *
+     * @param id    numer klienta
+     * @param pass  haslo klienta
+     * @return      OK, kiedy dane są poprawne, FORBIDDEN w przeciwnym razie
+     */
     @GetMapping(value = "loginCustomer/{id}/{pass}")
     public ResponseEntity<CustomerDto> loginCustomer(@PathVariable("id") String id,
                                                      @PathVariable("pass") String pass) {
@@ -81,6 +103,12 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Zwraca wszystkie informacje o koncie bankowym.
+     *
+     * @param id    numer konta
+     * @return      OK, kiedy dane są poprawne, FORBIDDEN w przeciwnym razie
+     */
     @GetMapping(value = "account/{id}")
     public ResponseEntity<Account> getAccountInfo(@PathVariable("id") String id) {
         LOGGER.info("Działa metoda getAccountInfo z parametrem id: {}", id);
@@ -93,6 +121,12 @@ public class ApiController {
         }
     }
 
+    /**
+     * Zwraca kurs podanej waluty wzgledem PLN.
+     *
+     * @param currency  waluta, dla ktorej kurs zostanie zwrocony
+     * @return          OK, kiedy uda sie sprawdzic kurs, INTERNAL_SERVER_ERROR w przeciwnym razie
+     */
     @GetMapping(value = "exchange/{currency}")
     public ResponseEntity<Double> getExchangeRate(@PathVariable("currency") String currency) {
         LOGGER.info("Działa metoda getExchangeRate z parametrem currency: {}", currency);
@@ -110,12 +144,17 @@ public class ApiController {
                     getAsJsonObject().get("mid").getAsDouble();
         } catch (IOException e) {
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         LOGGER.info("Udostępniam kurs dla waluty: {}, wynoszący: {}", currency, exchangeRate);
         return new ResponseEntity<>(exchangeRate, HttpStatus.OK);
     }
 
-
+    /**
+     * Zwraca naglowki z tabeli customers w bazie danych.
+     *
+     * @return  OK, kiedy uda sie pobrac naglowki, INTERNAL_SERVER_ERROR w przeciwnym razie
+     */
     @GetMapping(value = "employee/table/headers")
     public ResponseEntity<List<String>> getHeadersForTable() {
         LOGGER.info("Działa metoda getHeadersForTable");
@@ -129,6 +168,11 @@ public class ApiController {
 
     }
 
+    /**
+     * Zwraca zawartocsc tabeli customers w bazie danych.
+     *
+     * @return  OK, kiedy uda sie pobrac zawartosc, INTERNAL_SERVER_ERROR w przeciwnym razie
+     */
     @GetMapping(value = "employee/table/content")
     public ResponseEntity<List<String[]>> getContentForTable() {
         LOGGER.info("Działa metoda getContentForTable");
@@ -141,6 +185,13 @@ public class ApiController {
         }
     }
 
+    /**
+     * Pozwala na zmiane waluty, w jakiej uzytkownik przechowuje pieniadze.
+     *
+     * @param id        numer konta bankowego
+     * @param currency  waluta
+     * @return          OK, kiedy uda sie zmienc walute, FORBIDDEN w przeciwnym razie
+     */
     @PutMapping(value = "exchange/{id}/{currency}")
     public ResponseEntity<Void> changeAccountCurrency(@PathVariable("id") String id,
                                                       @PathVariable("currency") String currency) {
@@ -158,6 +209,13 @@ public class ApiController {
 
     }
 
+    /**
+     * Pozwala na zmiane statusu konta bankowego.
+     *
+     * @param id        numer konta bankowego
+     * @param status    docelowy status konta
+     * @return          OK, kiedy uda sie zmienic status
+     */
     @PutMapping(value = "account/{id}/{status}")
     public ResponseEntity<Boolean> changeAccountStatus(@PathVariable("id") String id,
                                                        @PathVariable("status") boolean status){
@@ -166,6 +224,13 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Pozwala na wplate lub wyplate pieniedzy z konta.
+     *
+     * @param id        numer konta bankowego
+     * @param amount    ilosc pieniedzy do wplaty/wyplaty
+     * @return          OK, kiedy operacja sie powiedzie
+     */
     @PutMapping(value = "account/payInOut/{id}/{amount}")
     public ResponseEntity<Void> payMoneyInOut(@PathVariable("id") String id,
                                              @PathVariable("amount") String amount) {
@@ -174,6 +239,12 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Pozwala na sprawdzenie oprocentowania kredytu dla podanego czasu jej trwania.
+     *
+     * @param duration  czas trwania pozyczki w miesiacach
+     * @return          OK, kiedy uda sie zwrocic oprocentowanie
+     */
     @GetMapping(value = "account/loan/getMultiplier/{duration}")
     public ResponseEntity<Double> getLoanMultiplier(@PathVariable("duration") int duration) {
         LOGGER.info("Działa metoda getLoanMultiplier z parametrem duration: {}", duration);
@@ -192,7 +263,14 @@ public class ApiController {
 
     }
 
-
+    /**
+     * Pozwala na udzielenie kredytu.
+     *
+     * @param id        numer konta bankowego
+     * @param amount    wysokosc kredytu
+     * @param duration  czas trwania kredytu
+     * @return          OK, kiedy uda sie udzielic kredytu, INTERNAL_SERVER_ERROR w przeciwnym razie
+     */
     @PutMapping(value = "account/loan/takeLoan/{id}/{amount}/{duration}")
     public ResponseEntity<Void> takeLoan(@PathVariable("id") String id,
                                          @PathVariable("amount") String amount,
@@ -211,6 +289,15 @@ public class ApiController {
 
     }
 
+    /**
+     * Pozwala na transfer pieniedzy pomiedzy kontami uzytkownikow.
+     *
+     * @param fromAccountId numer konta z ktorego pieniadze zostana pobrane
+     * @param toAccountId   numer konta na ktore pieniadze trafia
+     * @param amount        wysokosc transferu
+     * @return              OK, kiedy uda sie dokonac transferu
+     * @throws AccountNotFoundException jesli konto nie zostanie znalezione
+     */
     @PutMapping(value = "account/transfer/{fromAccountId}/{toAccountId}/{amount}")
     public ResponseEntity<Void> transferMoney(@PathVariable("fromAccountId") String fromAccountId,
                                               @PathVariable("toAccountId") String toAccountId,
@@ -226,6 +313,13 @@ public class ApiController {
     }
 
 
+    /**
+     * Pozwala na splate kredytu.
+     *
+     * @param id        numer konta bankowego
+     * @param amount    wysokosc wplaty
+     * @return          OK, kiedy uda sie wplacic pieniadze, INTERNAL_SERVER_ERROR w przeciwnym razie
+     */
     @PutMapping(value = "account/payLoan/{id}/{amount}")
     public ResponseEntity<Void> payLoan(@PathVariable("id") String id,
                                            @PathVariable("amount") String amount) {
@@ -240,6 +334,11 @@ public class ApiController {
         }
     }
 
+    /**
+     * Pozwala na wymuszenie calkowitej i natychmiastowej splaty kredytu.
+     * @param id    numer konta bankowego
+     * @return      OK, kiedy uda sie udzielic kredytu, INTERNAL_SERVER_ERROR w przeciwnym razie
+     */
     @PutMapping(value = "employee/forceLoanPay/{id}")
     public ResponseEntity<Void> forceLoanPay(@PathVariable("id") String id) {
         LOGGER.info("Działa metoda forceLoanPay z parametrem id: {}", id);
@@ -251,6 +350,16 @@ public class ApiController {
 
     }
 
+    /**
+     * Pozwala na utworzenie nowego konta uzytkownika.
+     *
+     * @param name      imie
+     * @param surname   nazwisko
+     * @param email     adres email
+     * @param pass      haslo
+     * @return          OK, kiedy uda sie utworzyc konto, CONFLICT kiedy konto na podany email juz zostalo zalozone
+     *                  INTERNAL_SERVER_ERROR w innych wypadkach
+     */
     @PostMapping(value = "account/create/{name}/{surname}/{email}/{pass}")
     public ResponseEntity<Void> createAccount(@PathVariable("name") String name,
                                               @PathVariable("surname") String surname,
@@ -324,6 +433,14 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Pozwala na aktywacje konta uzytkownika.
+     *
+     * @param email         adres email
+     * @param code          kod weryfikacyjny
+     * @return              OK, kiedy uda sie zweryfikowac konto, FORBIDDEN w przeciwnym razie
+     * @throws SQLException dla nieoczekiwanego bledu z bazy danych
+     */
     @PutMapping(value = "account/verify/{email}/{code}")
     public ResponseEntity<Void> verifyAccount(@PathVariable("email") String email,
                                               @PathVariable("code") String code) throws SQLException {
@@ -354,7 +471,12 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    // dezaktywowanie konta
+    /**
+     * Pozwala na dezaktywacje konta przez uzytkownika.
+     *
+     * @param id    numer konta
+     * @return      OK, kiedy uda sie dezaktywowac konto
+     */
     @DeleteMapping(value = "account/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable("id") String id) {
         LOGGER.info("Działa metoda deleteAccount z parametrem id: {}", id);
