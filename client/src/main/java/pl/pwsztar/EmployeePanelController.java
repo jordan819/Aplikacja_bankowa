@@ -79,7 +79,6 @@ public class EmployeePanelController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void refreshTable() {
@@ -120,9 +119,21 @@ public class EmployeePanelController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         populateTable(names, content);
-
     }
 
+    public void forceLoanPay() {
+
+        String[] selectedRow = table.getSelectionModel().getSelectedItem();
+
+        try{
+            final HttpClient client = HttpClientBuilder.create().build();
+            final HttpPut request = new HttpPut("http://127.0.0.1:8080/bank/employee/forceLoanPay/"
+                                                    + selectedRow[5]);
+            client.execute(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -240,6 +240,17 @@ public class ApiController {
         }
     }
 
+    @PutMapping(value = "employee/forceLoanPay/{id}")
+    public ResponseEntity<Void> forceLoanPay(@PathVariable("id") String id) {
+        LOGGER.info("Działa metoda forceLoanPay z parametrem id: {}", id);
+
+        Account account = getAccountInfo(id).getBody();
+        assert account != null;
+        double currentLoan = account.getLoan();
+        return payLoan(id, String.valueOf(currentLoan));
+
+    }
+
     @PostMapping(value = "account/create/{name}/{surname}/{email}/{pass}")
     public ResponseEntity<Void> createAccount(@PathVariable("name") String name,
                                               @PathVariable("surname") String surname,
@@ -341,8 +352,6 @@ public class ApiController {
             }
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-
     }
 
     // dezaktywowanie konta
