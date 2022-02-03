@@ -24,6 +24,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Obsluguje logike okna zwiazana z dzialaniami pracownika.
+ * Wyswietla klientow, pozwala na aktywacje/dezaktywacje ich kont,
+ * oraz wymuszenie natychmiastowej splaty kredytu.
+ */
 public class EmployeePanelController {
 
     @FXML
@@ -122,7 +127,8 @@ public class EmployeePanelController {
         populateTable(names, content);
     }
 
-    public void forceLoanPay() {
+    @FXML
+    private void forceLoanPay() {
 
         String[] selectedRow = table.getSelectionModel().getSelectedItem();
 

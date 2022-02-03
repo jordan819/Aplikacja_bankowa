@@ -15,7 +15,17 @@ public class Account {
     private final Double loan;
     private final Date loanDate;
 
-    protected Account(String accountId, String customerId, double balance, String currency,
+    /**
+     * Przechowuje dane o koncie uzytkownika
+     *
+     * @param accountId     numer konta
+     * @param customerId    numer klienta
+     * @param balance       stan konta
+     * @param currency      waluta
+     * @param loan          wartosc pozyczki
+     * @param loanDate      koncowa data splaty pozyczki
+     */
+    public Account(String accountId, String customerId, double balance, String currency,
                       Double loan, Date loanDate) {
         this.accountId = accountId;
         this.customerId = customerId;

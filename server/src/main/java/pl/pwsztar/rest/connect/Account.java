@@ -38,6 +38,16 @@ public class Account {
         throw new AccountNotFoundException();
     }
 
+    /**
+     * Tworzy nowy obiekt z podanych danych.
+     *
+     * @param accountId     numer konta
+     * @param customerId    numer uzytkownika
+     * @param balance       stan konta
+     * @param currency      waluta
+     * @param loan          wartosc pozyczki
+     * @param loanDate      koncowadata splaty pozyczki
+     */
     public Account(String accountId, String customerId, double balance, String currency,
                    Double loan, Date loanDate) {
         this.accountId = accountId;
